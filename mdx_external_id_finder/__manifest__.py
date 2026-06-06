@@ -13,8 +13,8 @@
         "views/mdx_external_id_finder_views.xml",
     ],
     "images": [
-        "static/description/banner.gif",
         "static/description/banner.png",
+        "static/description/banner.gif",
         "static/description/screenshots/01_xml_id_search.png",
         "static/description/screenshots/02_record_search.png",
         "static/description/screenshots/03_create_xml_id_result.png",
