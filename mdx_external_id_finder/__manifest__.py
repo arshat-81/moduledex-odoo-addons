@@ -1,0 +1,26 @@
+{
+    "name": "External ID Finder",
+    "summary": "Find, inspect, and create XML IDs from one technical screen",
+    "version": "19.0.1.0.0",
+    "category": "Technical",
+    "author": "ModuleDex",
+    "website": "https://apps.odoo.com/apps/modules/browse?author=ModuleDex",
+    "support": "moduledex@gmail.com",
+    "license": "LGPL-3",
+    "depends": ["base"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/mdx_external_id_finder_views.xml",
+    ],
+    "images": [
+        "static/description/banner.png",
+        "static/description/banner.gif",
+        "static/description/screenshots/01_xml_id_search.png",
+        "static/description/screenshots/02_record_search.png",
+        "static/description/screenshots/03_create_xml_id_result.png",
+        "static/description/screenshots/04_custom_external_id_form.png",
+        "static/description/screenshots/05_native_external_id_form.png",
+    ],
+    "installable": True,
+    "application": False,
+}
