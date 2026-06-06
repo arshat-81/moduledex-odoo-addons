@@ -4,7 +4,8 @@
     "version": "17.0.1.0.0",
     "category": "Technical",
     "author": "ModuleDex",
-    "website": "https://moduledex.com",
+    "website": "https://apps.odoo.com/apps/modules/browse?author=ModuleDex",
+    "support": "moduledex@gmail.com",
     "license": "LGPL-3",
     "depends": ["base"],
     "data": [
