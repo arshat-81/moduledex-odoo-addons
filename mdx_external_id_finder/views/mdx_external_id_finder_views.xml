@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mdx_external_id_finder_form" model="ir.ui.view">
+        <field name="name">mdx.external.id.finder.form</field>
+        <field name="model">mdx.external.id.finder</field>
+        <field name="arch" type="xml">
+            <form string="External ID Finder">
+                <header>
+                    <button name="action_find" string="Find" type="object" class="oe_highlight" data-hotkey="q"/>
+                    <button name="action_create_external_id" string="Create XML ID" type="object" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Search">
+                            <field name="search_mode" widget="radio"/>
+                            <field name="xml_id" placeholder="base.main_company" invisible="search_mode != 'xmlid'" required="search_mode == 'xmlid'"/>
+                            <field name="text_query" placeholder="main_company, res.partner, menu..." invisible="search_mode != 'text'" required="search_mode == 'text'"/>
+                            <field name="model_id" invisible="search_mode != 'record'" required="search_mode == 'record'" options="{'no_create': True}"/>
+                            <field name="model" invisible="1"/>
+                            <field name="res_id" invisible="search_mode != 'record'" required="search_mode == 'record'"/>
+                        </group>
+                        <group string="Create Missing XML ID">
+                            <field name="create_module"/>
+                            <field name="create_name" placeholder="my_record_external_id"/>
+                            <field name="create_noupdate"/>
+                            <field name="state_message" invisible="not state_message"/>
+                            <field name="line_count" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Results" name="results">
+                            <field name="line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <list create="0" delete="0" decoration-muted="not record_exists">
+                                    <field name="xml_id"/>
+                                    <field name="record_name"/>
+                                    <field name="model"/>
+                                    <field name="res_id"/>
+                                    <field name="record_ref" optional="hide" options="{'no_create': True}"/>
+                                    <field name="noupdate"/>
+                                    <field name="record_exists"/>
+                                    <button name="action_open_record" type="object" icon="fa-external-link" title="Open Record" invisible="not record_exists"/>
+                                    <button name="action_open_external_id" type="object" icon="fa-database" title="Open External Identifier"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mdx_external_id_finder" model="ir.actions.act_window">
+        <field name="name">External ID Finder</field>
+        <field name="res_model">mdx.external.id.finder</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_mdx_external_id_finder_form"/>
+        <field name="target">current</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem
+        id="menu_mdx_external_id_finder"
+        name="External ID Finder"
+        parent="base.next_id_5"
+        action="action_mdx_external_id_finder"
+        groups="base.group_no_one"
+        sequence="5"/>
+</odoo>

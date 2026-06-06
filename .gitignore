@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+
+# Local/raw marketplace design sources.
+mdx_external_id_finder/static/description/banner_art.png
+mdx_external_id_finder/static/description/banner_frame_*.png
+mdx_external_id_finder/static/description/banner_src/
+mdx_external_id_finder/static/description/screenshots/Screenshot *.png
+mdx_external_id_finder/static/description/screenshots/.gitkeep
