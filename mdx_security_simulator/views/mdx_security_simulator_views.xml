@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mdx_security_simulator_tree" model="ir.ui.view">
+        <field name="name">mdx.security.simulator.tree</field>
+        <field name="model">mdx.security.simulator</field>
+        <field name="arch" type="xml">
+            <tree string="Security Simulations"
+                  decoration-success="last_run_at"
+                  decoration-muted="not last_run_at">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="model_id"/>
+                <field name="record_id" optional="show"/>
+                <field name="summary_allowed" string="Allowed" optional="show"/>
+                <field name="summary_blocked" string="Blocked / Conditional" optional="show"/>
+                <field name="last_run_at"/>
+                <field name="create_uid" optional="hide"/>
+                <field name="write_date" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_mdx_security_simulator_search" model="ir.ui.view">
+        <field name="name">mdx.security.simulator.search</field>
+        <field name="model">mdx.security.simulator</field>
+        <field name="arch" type="xml">
+            <search string="Security Simulations">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="model_id"/>
+                <filter name="has_results" string="With Results" domain="[('last_run_at', '!=', False)]"/>
+                <filter name="no_results" string="Not Simulated" domain="[('last_run_at', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_model" string="Model" context="{'group_by': 'model_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_mdx_security_simulator_form" model="ir.ui.view">
+        <field name="name">mdx.security.simulator.form</field>
+        <field name="model">mdx.security.simulator</field>
+        <field name="arch" type="xml">
+            <form string="Security Simulation">
+                <header>
+                    <button name="action_simulate" string="Simulate Access" type="object" class="oe_highlight" data-hotkey="q"/>
+                    <button name="action_clear" string="Clear Results" type="object" class="btn-secondary"/>
+                    <button name="action_open_user" string="Open User" type="object" invisible="not user_id"/>
+                    <button name="action_open_model" string="Open Model" type="object" invisible="not model_id"/>
+                    <button name="action_open_record" string="Open Record" type="object" invisible="not record_id"/>
+                </header>
+                <sheet>
+                    <field name="name" invisible="1"/>
+                    <group>
+                        <group string="Simulation Target">
+                            <field name="user_id" options="{'no_create': True}"/>
+                            <field name="company_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="model_id" options="{'no_create': True}"/>
+                            <field name="model" invisible="1"/>
+                            <field name="record_id" placeholder="Optional database ID"/>
+                            <field name="target_record" readonly="1" invisible="not target_record"/>
+                        </group>
+                        <group string="Scope">
+                            <field name="active_test"/>
+                            <field name="sample_limit"/>
+                            <field name="domain_text" placeholder="[]"/>
+                            <field name="last_run_at"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-success" role="status" invisible="not state_message">
+                        <field name="state_message" nolabel="1" readonly="1"/>
+                    </div>
+                    <notebook>
+                        <page string="Overview" name="overview">
+                            <field name="summary" invisible="1"/>
+                            <div class="row mb-3">
+                                <div class="col-12 col-xl-8">
+                                    <separator string="Simulation Summary"/>
+                                    <group col="4">
+                                        <field name="summary_user" string="User"/>
+                                        <field name="summary_model" string="Model"/>
+                                        <field name="summary_companies" string="Companies"/>
+                                        <field name="summary_allowed" string="Allowed Operations"/>
+                                        <field name="summary_blocked" string="Blocked / Conditional"/>
+                                        <field name="summary_acl_count" string="ACL Rows"/>
+                                        <field name="summary_rule_count" string="Record Rules"/>
+                                    </group>
+                                </div>
+                                <div class="col-12 col-xl-4">
+                                    <separator string="Shortcuts"/>
+                                    <div class="d-flex flex-wrap gap-2 pt-2">
+                                        <button name="action_open_native_access" string="Access Rights" type="object" icon="fa-key" class="btn-secondary oe_inline"/>
+                                        <button name="action_open_native_rules" string="Record Rules" type="object" icon="fa-filter" class="btn-secondary oe_inline"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <separator string="Operation Matrix"/>
+                            <field name="operation_line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <tree create="0" delete="0"
+                                      decoration-success="status == 'allowed'"
+                                      decoration-danger="status in ('blocked_acl', 'blocked_rule', 'error')"
+                                      decoration-warning="status in ('conditional', 'missing_record')">
+                                    <field name="operation"/>
+                                    <field name="status"/>
+                                    <field name="final_allowed"/>
+                                    <field name="acl_allowed"/>
+                                    <field name="record_rule_allowed"/>
+                                    <field name="record_checked"/>
+                                    <field name="total_count" optional="show"/>
+                                    <field name="visible_count" optional="show"/>
+                                    <field name="sample_size" optional="show"/>
+                                    <field name="sample_allowed_count" optional="show"/>
+                                    <field name="sample_allowed_ids" optional="hide"/>
+                                    <field name="message" optional="show"/>
+                                    <field name="rule_domain" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Access Rights" name="access_rights">
+                            <field name="access_line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <tree create="0" delete="0"
+                                      decoration-success="applies_to_user and active"
+                                      decoration-muted="not active"
+                                      decoration-warning="global_access and active">
+                                    <field name="name"/>
+                                    <field name="active"/>
+                                    <field name="global_access"/>
+                                    <field name="applies_to_user"/>
+                                    <field name="group_id"/>
+                                    <field name="grant_summary"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                    <button name="action_open_access" type="object" icon="fa-external-link" title="Open Access Right"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Record Rules" name="record_rules">
+                            <field name="rule_line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <tree create="0" delete="0"
+                                      decoration-success="applies_to_user and active"
+                                      decoration-muted="not active"
+                                      decoration-info="global_rule and active">
+                                    <field name="name"/>
+                                    <field name="active"/>
+                                    <field name="global_rule"/>
+                                    <field name="applies_to_user"/>
+                                    <field name="group_names"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                    <field name="result_read"/>
+                                    <field name="result_write"/>
+                                    <field name="result_create"/>
+                                    <field name="result_unlink"/>
+                                    <field name="domain_force" optional="show"/>
+                                    <button name="action_open_rule" type="object" icon="fa-external-link" title="Open Record Rule"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="User Groups" name="groups">
+                            <field name="group_line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <tree create="0" delete="0"
+                                      decoration-success="used_by_acl or used_by_rule">
+                                    <field name="group_id"/>
+                                    <field name="category"/>
+                                    <field name="technical_name"/>
+                                    <field name="used_by_acl"/>
+                                    <field name="used_by_rule"/>
+                                    <button name="action_open_group" type="object" icon="fa-external-link" title="Open Group"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Restricted Fields" name="fields">
+                            <field name="field_line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <tree create="0" delete="0"
+                                      decoration-success="accessible"
+                                      decoration-danger="not accessible">
+                                    <field name="name"/>
+                                    <field name="field_description"/>
+                                    <field name="ttype"/>
+                                    <field name="group_names"/>
+                                    <field name="accessible"/>
+                                    <button name="action_open_field" type="object" icon="fa-external-link" title="Open Field"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Menus and Actions" name="menus_actions">
+                            <field name="action_line_ids" nolabel="1" options="{'no_create': True, 'no_open': True}">
+                                <tree create="0" delete="0"
+                                      decoration-success="accessible"
+                                      decoration-danger="not accessible">
+                                    <field name="name"/>
+                                    <field name="view_mode"/>
+                                    <field name="group_names"/>
+                                    <field name="accessible"/>
+                                    <field name="menu_count"/>
+                                    <field name="menu_names" optional="show"/>
+                                    <button name="action_open_action" type="object" icon="fa-external-link" title="Open Action"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mdx_security_simulator" model="ir.actions.act_window">
+        <field name="name">Security Simulations</field>
+        <field name="res_model">mdx.security.simulator</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_mdx_security_simulator_tree"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_mdx_security_simulator_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_mdx_security_simulator_form')})]"/>
+        <field name="search_view_id" ref="view_mdx_security_simulator_search"/>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem
+        id="menu_mdx_security_simulator"
+        name="Security Simulator"
+        parent="base.menu_security"
+        action="action_mdx_security_simulator"
+        groups="base.group_no_one"
+        sequence="20"/>
+</odoo>

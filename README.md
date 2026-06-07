@@ -20,6 +20,22 @@ Use it to:
 - Create a missing XML ID for an existing record.
 - Open the linked Odoo record or native external identifier record.
 
+### Security Simulator
+
+Technical helper for Odoo 17 administrators and implementers.
+
+It adds a saved simulation screen under:
+
+`Settings > Technical > Security > Security Simulator`
+
+Use it to:
+
+- Simulate access for a selected user, company scope, model, optional record, and domain.
+- Review read, write, create, and delete results.
+- Inspect matching access rights and record rules.
+- Check user groups, restricted fields, menus, and actions.
+- Reopen saved simulations for later comparison or documentation.
+
 ## Compatibility
 
 - Odoo 17 Community
