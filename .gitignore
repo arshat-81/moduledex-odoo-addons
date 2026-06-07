@@ -10,3 +10,6 @@ mdx_external_id_finder/static/description/banner_frame_*.png
 mdx_external_id_finder/static/description/banner_src/
 mdx_external_id_finder/static/description/screenshots/Screenshot *.png
 mdx_external_id_finder/static/description/screenshots/.gitkeep
+mdx_security_simulator/static/description/banner_src/
+mdx_security_simulator/static/description/screenshots/Screenshot *.png
+mdx_security_simulator/static/description/screenshots/.gitkeep
