@@ -12,6 +12,15 @@
         "security/ir.model.access.csv",
         "views/mdx_security_simulator_views.xml",
     ],
+    "images": [
+        "static/description/banner.png",
+        "static/description/screenshots/01_security_simulations_list.png",
+        "static/description/screenshots/02_simulation_overview.png",
+        "static/description/screenshots/03_access_rights.png",
+        "static/description/screenshots/04_record_rules.png",
+        "static/description/screenshots/05_user_groups.png",
+        "static/description/screenshots/06_menus_actions.png",
+    ],
     "installable": True,
     "application": False,
 }
