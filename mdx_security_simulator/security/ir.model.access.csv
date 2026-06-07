@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mdx_security_simulator,access.mdx.security.simulator,model_mdx_security_simulator,base.group_system,1,1,1,1
+access_mdx_security_simulator_operation_line,access.mdx.security.simulator.operation.line,model_mdx_security_simulator_operation_line,base.group_system,1,1,1,1
+access_mdx_security_simulator_access_line,access.mdx.security.simulator.access.line,model_mdx_security_simulator_access_line,base.group_system,1,1,1,1
+access_mdx_security_simulator_rule_line,access.mdx.security.simulator.rule.line,model_mdx_security_simulator_rule_line,base.group_system,1,1,1,1
+access_mdx_security_simulator_group_line,access.mdx.security.simulator.group.line,model_mdx_security_simulator_group_line,base.group_system,1,1,1,1
+access_mdx_security_simulator_field_line,access.mdx.security.simulator.field.line,model_mdx_security_simulator_field_line,base.group_system,1,1,1,1
+access_mdx_security_simulator_action_line,access.mdx.security.simulator.action.line,model_mdx_security_simulator_action_line,base.group_system,1,1,1,1
