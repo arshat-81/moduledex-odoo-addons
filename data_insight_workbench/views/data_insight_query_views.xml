@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_data_insight_query_tree" model="ir.ui.view">
+        <field name="name">data.insight.query.tree</field>
+        <field name="model">data.insight.query</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'approved'" decoration-muted="not active" decoration-danger="last_status == 'error'">
+                <field name="active" column_invisible="1"/>
+                <field name="name"/>
+                <field name="state"/>
+                <field name="category"/>
+                <field name="owner_id"/>
+                <field name="default_limit" string="Rows"/>
+                <field name="timeout_ms" string="Timeout"/>
+                <field name="execution_count"/>
+                <field name="last_status"/>
+                <field name="last_row_count"/>
+                <field name="last_duration_ms"/>
+                <field name="last_executed_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_data_insight_query_tutorial_tree" model="ir.ui.view">
+        <field name="name">data.insight.query.tutorial.tree</field>
+        <field name="model">data.insight.query</field>
+        <field name="arch" type="xml">
+            <tree default_order="name asc" decoration-success="state == 'approved'" decoration-danger="last_status == 'error'">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="state"/>
+                <field name="last_status"/>
+                <field name="last_row_count"/>
+                <field name="last_duration_ms"/>
+                <field name="last_executed_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_data_insight_query_form" model="ir.ui.view">
+        <field name="name">data.insight.query.form</field>
+        <field name="model">data.insight.query</field>
+        <field name="arch" type="xml">
+            <form string="Data Insight Query">
+                <header>
+                    <button name="action_validate_query" type="object" string="Validate" class="btn-secondary" icon="fa-check-circle"/>
+                    <button name="action_open_runner" type="object" string="Run" class="oe_highlight" icon="fa-play" groups="data_insight_workbench.group_data_insight_executor" invisible="state == 'archived'"/>
+                    <button name="action_mark_reviewed" type="object" string="Mark Reviewed" icon="fa-eye" groups="data_insight_workbench.group_data_insight_designer" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" icon="fa-thumbs-up" groups="data_insight_workbench.group_data_insight_admin" invisible="state == 'approved' or state == 'archived'"/>
+                    <button name="action_archive_query" type="object" string="Archive" icon="fa-archive" groups="data_insight_workbench.group_data_insight_admin" invisible="state == 'archived'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,reviewed,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_executions" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="execution_count" widget="statinfo" string="Runs"/>
+                        </button>
+                        <button name="action_open_last_execution" type="object" class="oe_stat_button" icon="fa-table" invisible="not last_execution_id">
+                            <field name="last_row_count" widget="statinfo" string="Last Rows"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <field name="last_execution_id" invisible="1"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Inventory Valuation Snapshot"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="category"/>
+                            <field name="owner_id"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="query_hash" readonly="1"/>
+                            <field name="last_status" readonly="1"/>
+                            <field name="last_duration_ms" readonly="1"/>
+                            <field name="last_executed_at" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Query" name="query">
+                            <group>
+                                <field name="description" placeholder="Purpose, expected parameters, caveats, and ownership notes."/>
+                            </group>
+                            <label for="sql_text" string="SQL"/>
+                            <field name="sql_text" nolabel="1" widget="text" style="width: 100%; min-height: 340px; font-family: monospace; white-space: pre-wrap;" placeholder="SELECT id, name FROM res_partner ORDER BY id DESC"/>
+                        </page>
+                        <page string="Parameters" name="parameters">
+                            <field name="parameter_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="label"/>
+                                    <field name="value_type"/>
+                                    <field name="default_value"/>
+                                    <field name="required"/>
+                                    <field name="help"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Execution Policy" name="policy">
+                            <group>
+                                <group string="Limits">
+                                    <field name="default_limit" string="Default Rows (0 = All)"/>
+                                    <field name="max_limit" string="Hard Cap (0 = None)"/>
+                                    <field name="timeout_ms" string="Timeout ms (0 = None)"/>
+                                    <field name="cell_max_chars"/>
+                                </group>
+                                <group string="Last Execution">
+                                    <field name="last_execution_id" readonly="1"/>
+                                    <field name="last_row_count" readonly="1"/>
+                                    <field name="last_status" readonly="1"/>
+                                    <field name="last_duration_ms" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="History" name="history">
+                            <field name="execution_ids" readonly="1">
+                                <tree decoration-success="status == 'success'" decoration-danger="status == 'error'">
+                                    <field name="started_at"/>
+                                    <field name="status"/>
+                                    <field name="mode"/>
+                                    <field name="executed_by_id"/>
+                                    <field name="row_count"/>
+                                    <field name="column_count"/>
+                                    <field name="duration_ms"/>
+                                    <field name="truncated"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_data_insight_query_search" model="ir.ui.view">
+        <field name="name">data.insight.query.search</field>
+        <field name="model">data.insight.query</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="sql_text"/>
+                <field name="owner_id"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="last_errors" string="Last Errors" domain="[('last_status', '=', 'error')]"/>
+                <separator/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]" context="{'active_test': False}"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_owner" string="Owner" context="{'group_by': 'owner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_data_insight_query" model="ir.actions.act_window">
+        <field name="name">Queries</field>
+        <field name="res_model">data.insight.query</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <record id="action_data_insight_getting_started" model="ir.actions.act_window">
+        <field name="name">Getting Started</field>
+        <field name="res_model">data.insight.query</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_data_insight_query_tutorial_tree"/>
+        <field name="domain">[('name', 'ilike', 'Getting Started')]</field>
+        <field name="context">{'search_default_active': 1, 'default_category': 'technical'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Run the sandbox tutorial queries.</p>
+            <p>Use Run for CREATE, INSERT, UPDATE, DELETE, and DROP. Use Explain only for SELECT query plans.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_data_insight_root" name="Data Insight" sequence="20" web_icon="data_insight_workbench,static/description/icon.png" groups="data_insight_workbench.group_data_insight_reader"/>
+    <menuitem id="menu_data_insight_getting_started" name="Getting Started" parent="menu_data_insight_root" action="action_data_insight_getting_started" sequence="5" groups="data_insight_workbench.group_data_insight_reader"/>
+    <menuitem id="menu_data_insight_queries" name="Queries" parent="menu_data_insight_root" action="action_data_insight_query" sequence="10" groups="data_insight_workbench.group_data_insight_reader"/>
+</odoo>

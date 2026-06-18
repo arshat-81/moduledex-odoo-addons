@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_users_form_data_insight" model="ir.ui.view">
+        <field name="name">res.users.form.data.insight</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Data Insight" name="data_insight_access" groups="base.group_system">
+                    <group>
+                        <field name="data_insight_full_access" widget="boolean_toggle"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
