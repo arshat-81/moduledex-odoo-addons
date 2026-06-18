@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_data_insight_query_run_wizard_form" model="ir.ui.view">
+        <field name="name">data.insight.query.run.wizard.form</field>
+        <field name="model">data.insight.query.run.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Run Query">
+                <sheet>
+                    <group>
+                        <field name="query_id"/>
+                        <field name="mode" widget="radio"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="limit" string="Rows (0 = All)"/>
+                        </group>
+                        <group>
+                            <field name="timeout_ms" string="Timeout ms (0 = None)"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="SQL" name="sql">
+                            <field name="sql_text" nolabel="1" widget="text" style="width: 100%; min-height: 320px; font-family: monospace; white-space: pre-wrap;"/>
+                        </page>
+                        <page string="Parameters" name="parameters">
+                            <field name="parameter_json" nolabel="1" placeholder="{&#10;  &quot;state&quot;: &quot;installed&quot;&#10;}"/>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="acknowledge"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_execute" string="Execute" type="object" class="oe_highlight" icon="fa-play"/>
+                    <button name="action_validate_only" string="Validate Only" type="object" class="btn-secondary" icon="fa-check-circle"/>
+                    <button string="Cancel" special="cancel" icon="fa-times"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
