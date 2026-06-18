@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_data_insight_execution_tree" model="ir.ui.view">
+        <field name="name">data.insight.execution.list</field>
+        <field name="model">data.insight.execution</field>
+        <field name="arch" type="xml">
+            <list decoration-success="status == 'success'" decoration-danger="status == 'error'">
+                <field name="started_at"/>
+                <field name="query_id"/>
+                <field name="status"/>
+                <field name="mode"/>
+                <field name="executed_by_id"/>
+                <field name="row_count"/>
+                <field name="column_count"/>
+                <field name="duration_ms"/>
+                <field name="truncated"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_data_insight_execution_form" model="ir.ui.view">
+        <field name="name">data.insight.execution.form</field>
+        <field name="model">data.insight.execution</field>
+        <field name="arch" type="xml">
+            <form string="Query Execution" create="false" edit="false">
+                <header>
+                    <button name="action_download_csv" type="object" string="Download CSV" class="oe_highlight" icon="fa-download" invisible="not csv_file"/>
+                    <button name="action_rerun" type="object" string="Run Again" icon="fa-repeat" groups="data_insight_workbench.group_data_insight_executor"/>
+                    <button name="action_open_query" type="object" string="Open Query" icon="fa-external-link"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="local_name"/>
+                        <h1>
+                            <field name="local_name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="query_id"/>
+                            <field name="mode"/>
+                            <field name="executed_by_id"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                        </group>
+                        <group>
+                            <field name="duration_ms"/>
+                            <field name="row_count"/>
+                            <field name="column_count"/>
+                            <field name="limit"/>
+                            <field name="timeout_ms"/>
+                            <field name="truncated"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Preview" name="preview">
+                            <field name="preview_html" nolabel="1"/>
+                        </page>
+                        <page string="SQL" name="sql">
+                            <field name="sql_text" nolabel="1" widget="text" style="width: 100%; min-height: 260px; font-family: monospace; white-space: pre-wrap;"/>
+                        </page>
+                        <page string="Parameters" name="parameters">
+                            <field name="parameter_json" nolabel="1"/>
+                        </page>
+                        <page string="Export" name="export">
+                            <group>
+                                <field name="csv_filename" invisible="1"/>
+                                <field name="csv_file" filename="csv_filename"/>
+                            </group>
+                        </page>
+                        <page string="Raw JSON" name="raw_json" groups="data_insight_workbench.group_data_insight_admin">
+                            <group>
+                                <field name="headers_json"/>
+                                <field name="rows_json"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_data_insight_execution_search" model="ir.ui.view">
+        <field name="name">data.insight.execution.search</field>
+        <field name="model">data.insight.execution</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="query_id"/>
+                <field name="executed_by_id"/>
+                <filter name="success" string="Success" domain="[('status', '=', 'success')]"/>
+                <filter name="error" string="Error" domain="[('status', '=', 'error')]"/>
+                <filter name="truncated" string="Truncated" domain="[('truncated', '=', True)]"/>
+                <group>
+                    <filter name="group_query" string="Query" context="{'group_by': 'query_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_user" string="User" context="{'group_by': 'executed_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_data_insight_execution" model="ir.actions.act_window">
+        <field name="name">Execution History</field>
+        <field name="res_model">data.insight.execution</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_data_insight_execution" name="Execution History" parent="data_insight_workbench.menu_data_insight_root" action="action_data_insight_execution" sequence="20" groups="data_insight_workbench.group_data_insight_reader"/>
+</odoo>

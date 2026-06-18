@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <record id="query_template_odoo_models" model="data.insight.query">
+        <field name="name">Odoo Model Registry Snapshot</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Lists registered Odoo models with their technical names.</field>
+        <field name="sql_text"><![CDATA[
+SELECT model, name, state
+FROM ir_model
+ORDER BY model
+        ]]></field>
+    </record>
+
+    <record id="query_template_installed_modules" model="data.insight.query">
+        <field name="name">Installed Module Inventory</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Shows Odoo modules by state. Change the state parameter to installed, uninstalled, or to upgrade.</field>
+        <field name="sql_text"><![CDATA[
+SELECT name, shortdesc, latest_version, state
+FROM ir_module_module
+WHERE state = %(state)s
+ORDER BY name
+        ]]></field>
+        <field name="parameter_ids" eval="[(0, 0, {
+            'name': 'state',
+            'label': 'Module State',
+            'value_type': 'text',
+            'default_value': 'installed',
+            'required': True,
+            'help': 'Example values: installed, uninstalled, to upgrade'
+        })]"/>
+    </record>
+
+    <record id="query_template_database_version" model="data.insight.query">
+        <field name="name">PostgreSQL Version</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Returns the PostgreSQL server version for diagnostics.</field>
+        <field name="sql_text"><![CDATA[
+SELECT version() AS postgresql_version
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_start_here" model="data.insight.query">
+        <field name="name">Getting Started 00 - Run vs Explain</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Start here. This explains the tutorial flow: use Run for CREATE, INSERT, UPDATE, DELETE, and DROP. Use Explain only for SELECT-style queries where you want the PostgreSQL query plan.</field>
+        <field name="sql_text"><![CDATA[
+SELECT
+    'Use Run for CREATE, INSERT, UPDATE, DELETE, and DROP. Use Explain for SELECT query plans.' AS instruction,
+    'The sandbox table is named data_insight_sandbox and is safe to create/drop for testing.' AS sandbox_note,
+    'Full SQL access is required for write or DDL statements.' AS access_note
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_create_sandbox" model="data.insight.query">
+        <field name="name">Getting Started 01 - Create Sandbox Table</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Run mode only. Creates a throwaway PostgreSQL table used by the tutorial queries. Requires Administrator or Data Insight full SQL access.</field>
+        <field name="sql_text"><![CDATA[
+CREATE TABLE IF NOT EXISTS data_insight_sandbox (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    amount NUMERIC DEFAULT 0,
+    active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT NOW()
+)
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_insert_sandbox" model="data.insight.query">
+        <field name="name">Getting Started 02 - Insert Sandbox Row</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Run mode only. Inserts one row into the tutorial sandbox table. Requires Administrator or Data Insight full SQL access.</field>
+        <field name="sql_text"><![CDATA[
+INSERT INTO data_insight_sandbox (name, amount, active)
+VALUES ('Tutorial row', 100, TRUE)
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_read_sandbox" model="data.insight.query">
+        <field name="name">Getting Started 03 - Read Sandbox Rows</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Use Run to see sandbox rows. Use Explain on this same query to see a query plan; Explain is valid here because this is a SELECT statement.</field>
+        <field name="sql_text"><![CDATA[
+SELECT id, name, amount, active, created_at
+FROM data_insight_sandbox
+ORDER BY id
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_update_sandbox" model="data.insight.query">
+        <field name="name">Getting Started 04 - Update Sandbox Row</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Run mode only. Updates the tutorial row so users can confirm row-changing statements and row-count messages. Requires Administrator or Data Insight full SQL access.</field>
+        <field name="sql_text"><![CDATA[
+UPDATE data_insight_sandbox
+SET amount = amount + 50,
+    name = 'Updated tutorial row'
+WHERE name IN ('Tutorial row', 'Updated tutorial row')
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_delete_sandbox" model="data.insight.query">
+        <field name="name">Getting Started 05 - Delete Sandbox Row</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Run mode only. Deletes the updated tutorial row from the sandbox table. Requires Administrator or Data Insight full SQL access.</field>
+        <field name="sql_text"><![CDATA[
+DELETE FROM data_insight_sandbox
+WHERE name = 'Updated tutorial row'
+        ]]></field>
+    </record>
+
+    <record id="query_tutorial_drop_sandbox" model="data.insight.query">
+        <field name="name">Getting Started 06 - Drop Sandbox Table</field>
+        <field name="state">approved</field>
+        <field name="category">technical</field>
+        <field name="default_limit">0</field>
+        <field name="max_limit">0</field>
+        <field name="timeout_ms">0</field>
+        <field name="description">Run mode only. Cleans up the tutorial table after testing. Requires Administrator or Data Insight full SQL access.</field>
+        <field name="sql_text"><![CDATA[
+DROP TABLE IF EXISTS data_insight_sandbox
+        ]]></field>
+    </record>
+</odoo>

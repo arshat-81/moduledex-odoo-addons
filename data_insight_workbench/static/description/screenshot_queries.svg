@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="Data Insight query tutorial screenshot placement">
+    <rect width="1200" height="675" fill="#f8fafc"/>
+    <rect x="0" y="0" width="1200" height="56" fill="#0f172a"/>
+    <text x="32" y="36" font-family="Arial, sans-serif" font-size="22" fill="#ffffff">Data Insight</text>
+    <text x="190" y="36" font-family="Arial, sans-serif" font-size="16" fill="#99f6e4">Getting Started</text>
+    <text x="340" y="36" font-family="Arial, sans-serif" font-size="16" fill="#cbd5e1">Queries</text>
+    <rect x="36" y="92" width="1128" height="510" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="64" y="132" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#111827">Sandbox SQL Tutorial Queries</text>
+    <text x="64" y="164" font-family="Arial, sans-serif" font-size="15" fill="#475569">Screenshot placement: query list showing the default create, insert, read, update, delete, and drop examples.</text>
+    <rect x="64" y="198" width="1072" height="46" fill="#ecfeff"/>
+    <text x="86" y="227" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#155e75">Name</text>
+    <text x="560" y="227" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#155e75">Mode Guidance</text>
+    <text x="860" y="227" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#155e75">Access</text>
+    <g font-family="Arial, sans-serif" font-size="15" fill="#0f172a">
+        <text x="86" y="280">Getting Started 00 - Run vs Explain</text>
+        <text x="560" y="280">Run or Explain</text>
+        <text x="860" y="280">Reader</text>
+        <text x="86" y="330">Getting Started 01 - Create Sandbox Table</text>
+        <text x="560" y="330">Run only</text>
+        <text x="860" y="330">Full SQL</text>
+        <text x="86" y="380">Getting Started 02 - Insert Sandbox Row</text>
+        <text x="560" y="380">Run only</text>
+        <text x="860" y="380">Full SQL</text>
+        <text x="86" y="430">Getting Started 03 - Read Sandbox Rows</text>
+        <text x="560" y="430">Run or Explain</text>
+        <text x="860" y="430">Reader</text>
+        <text x="86" y="480">Getting Started 04 - Update Sandbox Row</text>
+        <text x="560" y="480">Run only</text>
+        <text x="860" y="480">Full SQL</text>
+        <text x="86" y="530">Getting Started 05 - Delete Sandbox Row</text>
+        <text x="560" y="530">Run only</text>
+        <text x="860" y="530">Full SQL</text>
+    </g>
+    <g stroke="#e2e8f0">
+        <path d="M64 295h1072M64 345h1072M64 395h1072M64 445h1072M64 495h1072"/>
+    </g>
+    <rect x="64" y="620" width="430" height="28" rx="14" fill="#ccfbf1"/>
+    <text x="86" y="640" font-family="Arial, sans-serif" font-size="13" fill="#115e59">Replace this SVG with a real screenshot after final UI capture.</text>
+</svg>

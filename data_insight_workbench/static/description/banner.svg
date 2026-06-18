@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420" role="img" aria-label="Animated Data Insight Workbench banner">
+    <defs>
+        <linearGradient id="banner-bg" x1="0" y1="0" x2="1400" y2="420" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#0f172a"/>
+            <stop offset="0.52" stop-color="#164e63"/>
+            <stop offset="1" stop-color="#0f766e"/>
+        </linearGradient>
+        <linearGradient id="scan" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#5eead4" stop-opacity="0"/>
+            <stop offset="0.5" stop-color="#5eead4" stop-opacity="0.22"/>
+            <stop offset="1" stop-color="#5eead4" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <style>
+            <![CDATA[
+                .grid-line {
+                    animation: gridFlow 7s linear infinite;
+                }
+                .query-line {
+                    animation: lineGlow 3.2s ease-in-out infinite;
+                }
+                .query-line:nth-of-type(2) {
+                    animation-delay: .45s;
+                }
+                .query-line:nth-of-type(3) {
+                    animation-delay: .9s;
+                }
+                .query-line:nth-of-type(4) {
+                    animation-delay: 1.35s;
+                }
+                .cursor {
+                    animation: blink 1s steps(2, end) infinite;
+                }
+                .status-dot {
+                    animation: pulse 2.4s ease-in-out infinite;
+                    transform-origin: center;
+                }
+                .bar-a {
+                    animation: barA 3.8s ease-in-out infinite;
+                    transform-origin: 722px 274px;
+                }
+                .bar-b {
+                    animation: barB 3.8s ease-in-out infinite;
+                    transform-origin: 782px 274px;
+                }
+                .bar-c {
+                    animation: barC 3.8s ease-in-out infinite;
+                    transform-origin: 842px 274px;
+                }
+                .bar-d {
+                    animation: barD 3.8s ease-in-out infinite;
+                    transform-origin: 902px 274px;
+                }
+                .scanline {
+                    animation: scanMove 4.8s ease-in-out infinite;
+                }
+                .spark {
+                    animation: spark 5s ease-in-out infinite;
+                }
+                .spark.two {
+                    animation-delay: 1.2s;
+                }
+                .spark.three {
+                    animation-delay: 2.4s;
+                }
+                @keyframes gridFlow {
+                    0% { transform: translateX(0); opacity: .16; }
+                    50% { opacity: .34; }
+                    100% { transform: translateX(76px); opacity: .16; }
+                }
+                @keyframes lineGlow {
+                    0%, 100% { opacity: .62; }
+                    45% { opacity: 1; }
+                }
+                @keyframes blink {
+                    0%, 45% { opacity: 1; }
+                    46%, 100% { opacity: 0; }
+                }
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); opacity: .72; }
+                    45% { transform: scale(1.24); opacity: 1; }
+                }
+                @keyframes barA {
+                    0%, 100% { transform: scaleY(.82); }
+                    45% { transform: scaleY(1.12); }
+                }
+                @keyframes barB {
+                    0%, 100% { transform: scaleY(1.08); }
+                    45% { transform: scaleY(.76); }
+                }
+                @keyframes barC {
+                    0%, 100% { transform: scaleY(.92); }
+                    45% { transform: scaleY(1.2); }
+                }
+                @keyframes barD {
+                    0%, 100% { transform: scaleY(1.18); }
+                    45% { transform: scaleY(.86); }
+                }
+                @keyframes scanMove {
+                    0% { transform: translateX(-180px); opacity: 0; }
+                    18%, 76% { opacity: 1; }
+                    100% { transform: translateX(1250px); opacity: 0; }
+                }
+                @keyframes spark {
+                    0%, 100% { opacity: .25; transform: translateY(0); }
+                    50% { opacity: 1; transform: translateY(-8px); }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    * {
+                        animation: none !important;
+                    }
+                }
+            ]]>
+        </style>
+        <clipPath id="content-clip">
+            <rect x="58" y="50" width="1284" height="280" rx="24"/>
+        </clipPath>
+    </defs>
+
+    <rect width="1400" height="420" rx="26" fill="url(#banner-bg)"/>
+    <g opacity="0.36">
+        <path class="grid-line" d="M-80 72H1480M-80 128H1480M-80 184H1480M-80 240H1480M-80 296H1480M-80 352H1480" stroke="#ccfbf1" stroke-width="1"/>
+        <path class="grid-line" d="M92 -40V460M168 -40V460M244 -40V460M320 -40V460M396 -40V460M472 -40V460M548 -40V460M624 -40V460M700 -40V460M776 -40V460M852 -40V460M928 -40V460M1004 -40V460M1080 -40V460M1156 -40V460M1232 -40V460M1308 -40V460" stroke="#bae6fd" stroke-width="1"/>
+    </g>
+
+    <rect x="58" y="50" width="1284" height="280" rx="24" fill="#020617" opacity="0.5"/>
+    <g clip-path="url(#content-clip)">
+        <rect class="scanline" x="80" y="50" width="82" height="280" fill="url(#scan)"/>
+    </g>
+
+    <rect x="88" y="76" width="498" height="220" rx="18" fill="#0f172a" stroke="#67e8f9" stroke-opacity="0.35"/>
+    <rect x="88" y="76" width="498" height="44" rx="18" fill="#111827"/>
+    <circle cx="116" cy="98" r="7" fill="#f87171"/>
+    <circle cx="140" cy="98" r="7" fill="#fbbf24"/>
+    <circle cx="164" cy="98" r="7" fill="#34d399"/>
+    <text x="196" y="104" fill="#94a3b8" font-family="Arial, sans-serif" font-size="15">data_insight_workbench.sql</text>
+
+    <g font-family="'Courier New', monospace" font-size="21" fill="#e0f2fe">
+        <text class="query-line" x="118" y="152">SELECT insight, status</text>
+        <text class="query-line" x="118" y="188">FROM live_database</text>
+        <text class="query-line" x="118" y="224">WHERE access = 'trusted'</text>
+        <text class="query-line" x="118" y="260">ORDER BY evidence DESC</text>
+        <rect class="cursor" x="420" y="244" width="12" height="26" fill="#5eead4"/>
+    </g>
+
+    <rect x="642" y="76" width="328" height="220" rx="18" fill="#f8fafc" opacity="0.96"/>
+    <text x="674" y="116" fill="#0f172a" font-family="Arial, sans-serif" font-size="20" font-weight="700">Execution Preview</text>
+    <g font-family="Arial, sans-serif" font-size="14">
+        <rect x="674" y="144" width="248" height="32" rx="16" fill="#ccfbf1"/>
+        <circle class="status-dot" cx="696" cy="160" r="7" fill="#0f766e"/>
+        <text x="714" y="165" fill="#115e59" font-weight="700">Success - local timezone</text>
+        <rect x="674" y="194" width="56" height="80" rx="7" fill="#0f766e" class="bar-a"/>
+        <rect x="734" y="166" width="56" height="108" rx="7" fill="#06b6d4" class="bar-b"/>
+        <rect x="794" y="184" width="56" height="90" rx="7" fill="#14b8a6" class="bar-c"/>
+        <rect x="854" y="154" width="56" height="120" rx="7" fill="#f59e0b" class="bar-d"/>
+    </g>
+    <path d="M674 274H930" stroke="#cbd5e1" stroke-width="2"/>
+
+    <rect x="1024" y="76" width="258" height="220" rx="18" fill="#082f49" stroke="#7dd3fc" stroke-opacity="0.32"/>
+    <text x="1054" y="118" fill="#e0f2fe" font-family="Arial, sans-serif" font-size="19" font-weight="700">Full Access Control</text>
+    <g font-family="Arial, sans-serif" font-size="15" fill="#cffafe">
+        <rect x="1058" y="154" width="178" height="24" rx="12" fill="#164e63"/>
+        <rect x="1058" y="154" width="165" height="24" rx="12" fill="#22c55e"/>
+        <circle cx="1223" cy="166" r="10" fill="#f8fafc"/>
+        <text x="1058" y="210">Admin grants power</text>
+        <text x="1058" y="238">Reader guard stays active</text>
+        <text x="1058" y="266">Every run is traceable</text>
+    </g>
+
+    <g class="spark" fill="#fde68a">
+        <path d="M1198 64l7 15 15 7-15 7-7 15-7-15-15-7 15-7z"/>
+    </g>
+    <g class="spark two" fill="#99f6e4">
+        <path d="M616 54l5 11 11 5-11 5-5 11-5-11-11-5 11-5z"/>
+    </g>
+    <g class="spark three" fill="#bae6fd">
+        <path d="M132 334l5 11 11 5-11 5-5 11-5-11-11-5 11-5z"/>
+    </g>
+
+    <text x="88" y="360" fill="#ffffff" font-family="Arial, sans-serif" font-size="36" font-weight="700">Data Insight Workbench</text>
+    <text x="510" y="360" fill="#99f6e4" font-family="Arial, sans-serif" font-size="17" font-weight="700">FULL EDITION</text>
+    <text x="88" y="392" fill="#ccfbf1" font-family="Arial, sans-serif" font-size="19">Saved SQL, guarded execution, full-access control, and traceable results.</text>
+</svg>
