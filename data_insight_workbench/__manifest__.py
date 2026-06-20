@@ -20,7 +20,7 @@ DROP, and other maintenance statements.
     "currency": "USD",
     "icon": "/data_insight_workbench/static/description/icon.png",
     "images": [
-        "static/description/banner.gif",
+        "static/description/banner.png",
         "static/description/screenshots/app_overview.png",
         "static/description/screenshots/getting_started_queries.png",
         "static/description/screenshots/query_form.png",
