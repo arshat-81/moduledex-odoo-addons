@@ -40,6 +40,9 @@
     <menuitem id="menu_bigcommerce_sync_log" name="Sync Log"
               parent="menu_bigcommerce_configuration" action="action_bigcommerce_update_log" sequence="4"/>
 
+    <menuitem id="menu_bigcommerce_tax_mapping" name="Tax Mappings"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_tax_mapping" sequence="6"/>
+
     <menuitem id="menu_bigcommerce_jobs" name="Queued Jobs"
               parent="menu_bigcommerce_configuration" action="action_bigcommerce_job" sequence="5"/>
     <menuitem id="menu_bigcommerce_bulk_update" name="Bulk Update"

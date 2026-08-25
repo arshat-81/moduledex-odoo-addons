@@ -1,5 +1,6 @@
 from . import bigcommerce_config
 from . import bigcommerce_job
+from . import bigcommerce_tax
 from . import bigcommerce_channel
 from . import bigcommerce_category
 from . import bigcommerce_customer_group

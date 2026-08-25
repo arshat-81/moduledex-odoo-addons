@@ -124,34 +124,86 @@ class SaleOrder(models.Model):
                 "source": source,
             })
 
+        order._bigcommerce_check_totals(config, data)
         order._bigcommerce_apply_workflow(config, data)
         return order
+
+    def _bigcommerce_check_totals(self, config, data):
+        """Warn if Odoo's computed tax does not match what BigCommerce charged.
+
+        Mapping a derived rate back onto an Odoo tax can drift - rounding per
+        line, a rate that resolves to the wrong record, or tax on shipping that
+        Odoo has no line for. Silent drift is the dangerous case: the order
+        looks fine and the VAT return is wrong. Flag it instead of hiding it.
+        """
+        self.ensure_one()
+        if config.tax_mode != "map":
+            return
+        try:
+            bc_tax = float(data.get("total_tax") or 0.0)
+            bc_total = float(data.get("total_inc_tax") or 0.0)
+        except (TypeError, ValueError):
+            return
+
+        tax_gap = abs(self.amount_tax - bc_tax)
+        total_gap = abs(self.amount_total - bc_total)
+        if tax_gap <= 0.01 and total_gap <= 0.01:
+            return
+
+        self.env["bigcommerce.update.log"].log(
+            config, "order_tax_mismatch", status="error",
+            message=_(
+                "Order %(ref)s: Odoo computed tax %(odoo_tax)s vs BigCommerce %(bc_tax)s "
+                "(total %(odoo_total)s vs %(bc_total)s). Shipping tax and per-line rounding "
+                "are the usual causes; check the tax mapping for this store.",
+                ref=self.name, odoo_tax=self.amount_tax, bc_tax=bc_tax,
+                odoo_total=self.amount_total, bc_total=bc_total))
 
     def _bigcommerce_sync_lines(self, config, bc_order_id):
         self.ensure_one()
         Variant = self.env["bigcommerce.product.variant"]
+        TaxMap = self.env["bigcommerce.tax.mapping"]
         products = config._request_all_pages(f"orders/{bc_order_id}/products", version="v2")
         order_lines = []
+        untaxed = []
         for row in products:
             variant = Variant.search([
                 ("config_id", "=", config.id), ("bc_variant_id", "=", str(row.get("variant_id"))),
             ], limit=1)
             if not variant or not variant.product_id:
                 continue
+            # Never inherit the product's own default taxes: the price was already
+            # finalised on BigCommerce, so Odoo re-taxing it makes the total diverge
+            # from what the customer actually paid. Taxes are set explicitly from
+            # what BigCommerce reports on the line, or not at all.
+            tax_ids = []
+            if config.tax_mode == "map":
+                rate = TaxMap.line_rate(row)
+                if rate:
+                    tax = TaxMap.resolve(config, rate, row.get("tax_class_id"))
+                    if tax:
+                        tax_ids = tax.ids
+                    else:
+                        untaxed.append((row.get("name") or row.get("sku") or "?", rate))
+
             order_lines.append((0, 0, {
                 "product_id": variant.product_id.id,
                 "product_uom_qty": row.get("quantity") or 1,
                 "price_unit": row.get("price_ex_tax") or row.get("base_price") or 0.0,
-                # Don't let Odoo apply the product's own default taxes on
-                # top of a price that was already finalized on BigCommerce —
-                # without this, totals silently diverge from what the
-                # customer actually paid. This mirrors the order tax-free;
-                # real per-line tax amounts from BigCommerce aren't mapped
-                # to Odoo tax records yet.
-                "tax_ids": [(6, 0, [])],
+                "tax_ids": [(6, 0, tax_ids)],
             }))
         if order_lines:
             self.write({"order_line": order_lines})
+        if untaxed:
+            self.env["bigcommerce.update.log"].log(
+                config, "order_tax",
+                status="error" if config.tax_mode == "map" else "success",
+                message=_(
+                    "Order %(ref)s: no Odoo tax for %(count)s line(s) - %(detail)s. "
+                    "Map the rate under Configuration > Tax Mappings, or enable "
+                    "'Create missing taxes'.",
+                    ref=self.name, count=len(untaxed),
+                    detail=", ".join("%s @ %.4g%%" % (n, r) for n, r in untaxed[:5])))
 
     def _bigcommerce_apply_workflow(self, config, data):
         self.ensure_one()

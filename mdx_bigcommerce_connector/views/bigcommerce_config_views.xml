@@ -74,6 +74,18 @@
                             <field name="auto_credit_note"/>
                             <field name="import_cancelled"/>
                         </group>
+                        <group string="Tax">
+                            <field name="tax_mode"/>
+                            <field name="tax_auto_create" invisible="tax_mode != 'map'"/>
+                            <div colspan="2" class="text-muted" invisible="tax_mode != 'map'"
+                                 style="font-size:13px;">
+                                BigCommerce reports tax as amounts, not as a tax record, so the
+                                effective rate is derived per order line and matched to an Odoo
+                                tax. Review the result under
+                                <strong>Configuration &#8594; Tax Mappings</strong>.
+                            </div>
+                        </group>
+
                         <group string="Background Processing">
                             <field name="use_job_queue"/>
                             <field name="job_batch_size" invisible="not use_job_queue"/>

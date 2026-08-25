@@ -74,6 +74,24 @@ class BigcommerceConfig(models.Model):
     job_pending_count = fields.Integer(compute="_compute_job_counts")
     job_failed_count = fields.Integer(compute="_compute_job_counts")
 
+    tax_mode = fields.Selection(
+        [("none", "Import orders untaxed"),
+         ("map", "Map BigCommerce tax to Odoo taxes")],
+        string="Tax handling", default="map", required=True,
+        help="BigCommerce reports tax as amounts, not as a tax record. 'Map' derives the "
+             "effective rate from each order line and assigns the matching Odoo tax, so "
+             "tax reporting works. 'Untaxed' keeps the order total correct but records no "
+             "tax at all - only use it if you handle tax outside Odoo.",
+    )
+    tax_auto_create = fields.Boolean(
+        string="Create missing taxes", default=True,
+        help="If BigCommerce charged a rate that has no matching Odoo sale tax, create one "
+             "automatically. Turn this off to map every rate by hand instead - unmapped "
+             "rates are then imported untaxed and reported in the sync log.",
+    )
+    tax_mapping_ids = fields.One2many("bigcommerce.tax.mapping", "config_id",
+                                      string="Tax Mappings")
+
     auto_credit_note = fields.Boolean(string="Auto-create credit notes on refund", default=True)
     import_cancelled = fields.Boolean(string="Import cancelled orders", default=False)
 

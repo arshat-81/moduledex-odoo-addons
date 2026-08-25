@@ -48,6 +48,7 @@ See static/description/index.html for full setup instructions.
         "views/bigcommerce_webhook_views.xml",
         "views/bigcommerce_update_log_views.xml",
         "views/bigcommerce_job_views.xml",
+        "views/bigcommerce_tax_views.xml",
         "views/sale_order_views.xml",
         "views/res_partner_views.xml",
         "wizard/bigcommerce_sync_wizard_views.xml",

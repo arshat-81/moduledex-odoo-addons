@@ -225,6 +225,36 @@
     </div>
   </div>
 
+
+  <!-- ========== TAX ========== -->
+  <div class="sec sec--tint" style="box-sizing:border-box; padding:54px 0; background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0">
+    <div class="wrap" style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <div class="eyebrow" style="box-sizing:border-box; font-size:12px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:#4F46E5; margin:0 0 12px">Tax</div>
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px; letter-spacing:-0.02em">Orders you can actually file returns from</h2>
+      <p class="lead" style="box-sizing:border-box; margin:0 0 12px; font-size:17px; color:#64748B">Tax arrives as real Odoo tax records, not as a total you have to
+         reconcile by hand.</p>
+      <p style="box-sizing:border-box; margin:0 0 12px">BigCommerce never reports <em>which</em> tax applied &#8212; only the amounts. So the
+         effective rate is derived from every order line
+         (<code style="box-sizing:border-box; background:#EEF2FF; color:#3730A3; padding:2px 7px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em">total_tax / total_ex_tax</code>) and matched to an Odoo tax, most
+         specific first:</p>
+      <table style="box-sizing:border-box; width:100%; border-collapse:collapse; margin:18px 0 0; font-size:14px; border:1px solid #E2E8F0; border-radius:10px">
+        <thead><tr><th style="box-sizing:border-box; text-align:left; padding:11px 14px; background:#F8FAFC; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748B; border-bottom:1px solid #E2E8F0">Resolved to</th><th style="box-sizing:border-box; text-align:left; padding:11px 14px; background:#F8FAFC; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748B; border-bottom:1px solid #E2E8F0">How</th></tr></thead>
+        <tbody><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>A mapping you set</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">Pin a BigCommerce rate, optionally per tax class, to a chosen Odoo tax.</td></tr><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>An existing Odoo tax</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">A sale tax already at that exact percentage is reused, never duplicated.</td></tr><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>A new tax</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">Created as <em>BigCommerce 8.25%</em> &#8212; only if you allow it.</td></tr></tbody>
+      </table>
+      <p style="box-sizing:border-box; margin:0 0 12px">This works whether your store enters prices tax-inclusive or tax-exclusive,
+         because the ex-tax figure is what drives the line. Every mapping is visible and editable
+         under <strong>Configuration &#8594; Tax Mappings</strong>, so a rate that resolved to the wrong
+         Odoo tax can be corrected instead of silently repeating.</p>
+      <div class="note note--g" style="box-sizing:border-box; border-radius:11px; padding:14px 17px; font-size:14px; margin:18px 0 0; background:#ECFDF5; border-left:4px solid #059669; color:#065F46">
+        <strong>Every imported order is reconciled.</strong> After each import the connector compares
+        its own computed tax and total against what BigCommerce charged. Any gap over a cent is
+        written to the sync log with both figures. Silent drift is the dangerous case &#8212; the order
+        looks right and the return is wrong &#8212; so it is surfaced rather than hidden. Prefer the old
+        behaviour? Set tax handling to <em>Import orders untaxed</em>.
+      </div>
+    </div>
+  </div>
+
   <!-- ========== SETUP ========== -->
   <div class="sec" style="box-sizing:border-box; padding:54px 0">
     <div class="wrap" style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
@@ -421,10 +451,6 @@
 <strong style="box-sizing:border-box">Carts cannot be bulk-imported.</strong> BigCommerce exposes no endpoint that
             lists carts, so they are captured live through webhooks only. Historical carts cannot
             be backfilled &#8212; by this or any other connector.</li>
-        <li style="box-sizing:border-box; margin-bottom:7px">
-<strong style="box-sizing:border-box">Per-line tax is not mapped to Odoo tax records.</strong> Orders import at the
-            exact totals BigCommerce charged, with Odoo taxes cleared, so figures always match the
-            storefront. Mapping BigCommerce tax lines onto Odoo tax codes is not included.</li>
         <li style="box-sizing:border-box; margin-bottom:7px">
 <strong style="box-sizing:border-box">Refunds are one-way.</strong> Refunds made on BigCommerce flow into Odoo and
             can raise a credit note. Issuing a refund from Odoo back to the BigCommerce payment
