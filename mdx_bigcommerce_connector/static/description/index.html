@@ -3,10 +3,10 @@
 .bcx .step:not(:last-child):before{content:"";position:absolute;left:19px;top:46px;bottom:0;
                                    width:2px;background:#C7D2FE;
                                    background:linear-gradient(#4F46E5,#C7D2FE);}
-@media (max-width:860px){.bcx .card{width: 49% !important;margin-right: 2% !important;}
-                         .bcx .card:nth-child(3n){margin-right: 2% !important;}
-                         .bcx .card:nth-child(2n){margin-right: 0 !important;}}
-@media (max-width:560px){.bcx .card{width: 100% !important;margin-right: 0 !important;}}</style><!-- ========== HERO ========== -->
+@media (max-width:860px){.bcx .bcx-feature-card{width: 49% !important;margin-right: 2% !important;}
+                         .bcx .bcx-feature-card:nth-child(3n){margin-right: 2% !important;}
+                         .bcx .bcx-feature-card:nth-child(2n){margin-right: 0 !important;}}
+@media (max-width:560px){.bcx .bcx-feature-card{width: 100% !important;margin-right: 0 !important;}}</style><!-- ========== HERO ========== -->
   <div class="wrap" style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px; padding-top:6px">
     <img class="hero-img" src="banner.png" alt="BigCommerce Connector for Odoo 19" style="box-sizing:border-box; display:block; width:100%; height:auto; border-radius:16px" width="100%" height="auto">
   </div>
@@ -40,8 +40,8 @@
       <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px; letter-spacing:-0.02em">Everything in one module</h2>
       <p class="lead" style="box-sizing:border-box; margin:0 0 12px; font-size:18px; color:#64748B; max-width:70ch">No paid add-ons, no per-feature upsells.</p>
 
-      <div class="grid" style="box-sizing:border-box; font-size:0; margin-top:26px">
-        <div class="card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
+      <div class="bcx-feature-grid" style="box-sizing:border-box; font-size:0; margin-top:26px">
+        <div class="bcx-feature-card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
           <div class="ico" style="box-sizing:border-box; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; margin-bottom:13px; background:#EEF2FF" width="40" height="40"><img src="ico_catalog.png" width="20" height="20" alt="" style="box-sizing:border-box; display:block;width:20px;height:20px;border:0;"></div>
           <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 6px">Full catalog</h3>
           <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Products, every variant, modifiers, categories and brands. Product
@@ -49,14 +49,14 @@
              so they survive BigCommerce rotating its CDN URLs.</p>
         </div>
 
-        <div class="card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
+        <div class="bcx-feature-card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
           <div class="ico" style="box-sizing:border-box; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; margin-bottom:13px; background:#F5F3FF" width="40" height="40"><img src="ico_storefront.png" width="20" height="20" alt="" style="box-sizing:border-box; display:block;width:20px;height:20px;border:0;"></div>
           <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 6px">Multi-storefront</h3>
           <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">BigCommerce channels mirror into Odoo as storefronts, each mappable to its own
              pricelist. Revenue splits per storefront on the dashboard.</p>
         </div>
 
-        <div class="card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04); margin-right:0" valign="top" width="32%">
+        <div class="bcx-feature-card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04); margin-right:0" valign="top" width="32%">
           <div class="ico" style="box-sizing:border-box; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; margin-bottom:13px; background:#ECFDF5" width="40" height="40"><img src="ico_carts.png" width="20" height="20" alt="" style="box-sizing:border-box; display:block;width:20px;height:20px;border:0;"></div>
           <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 6px">Carts &#8594; CRM leads <span class="tag" style="box-sizing:border-box; display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; background:#ECFDF5; color:#059669; border-radius:99px; padding:3px 9px; margin-left:6px; vertical-align:middle" valign="middle">unique</span>
 </h3>
@@ -64,7 +64,7 @@
              customer, contents and value pre-filled. No competing connector offers this.</p>
         </div>
 
-        <div class="card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
+        <div class="bcx-feature-card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
           <div class="ico" style="box-sizing:border-box; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; margin-bottom:13px; background:#EEF2FF" width="40" height="40"><img src="ico_orders.png" width="20" height="20" alt="" style="box-sizing:border-box; display:block;width:20px;height:20px;border:0;"></div>
           <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 6px">Orders &amp; refunds</h3>
           <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Orders import at the exact totals BigCommerce charged, on a workflow you choose &#8212;
@@ -72,7 +72,7 @@
              note automatically.</p>
         </div>
 
-        <div class="card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
+        <div class="bcx-feature-card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04)" valign="top" width="32%">
           <div class="ico" style="box-sizing:border-box; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; margin-bottom:13px; background:#FFFBEB" width="40" height="40"><img src="ico_webhooks.png" width="20" height="20" alt="" style="box-sizing:border-box; display:block;width:20px;height:20px;border:0;"></div>
           <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 6px">Webhooks + schedule</h3>
           <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Real-time events for orders, products, inventory, carts and refunds, with cron
@@ -80,7 +80,7 @@
              silently.</p>
         </div>
 
-        <div class="card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04); margin-right:0" valign="top" width="32%">
+        <div class="bcx-feature-card" style="box-sizing:border-box; display:inline-block; vertical-align:top; width:32%; margin:0 2% 18px 0; font-size:15px; background:#fff; border:1px solid #E2E8F0; border-radius:14px; padding:22px; box-shadow:0 1px 2px rgba(15, 23, 42, 0.04); margin-right:0" valign="top" width="32%">
           <div class="ico" style="box-sizing:border-box; width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; margin-bottom:13px; background:#F5F3FF" width="40" height="40"><img src="ico_dashboards.png" width="20" height="20" alt="" style="box-sizing:border-box; display:block;width:20px;height:20px;border:0;"></div>
           <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 6px">Two live dashboards</h3>
           <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Sales &#8212; revenue windows, per-storefront split, cart-recovery rate.
