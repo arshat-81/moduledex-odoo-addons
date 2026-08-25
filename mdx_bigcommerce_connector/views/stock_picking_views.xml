@@ -1,0 +1,42 @@
+<odoo>
+    <record id="view_picking_form_bigcommerce" model="ir.ui.view">
+        <field name="name">stock.picking.form.bigcommerce</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_push_shipment" type="object"
+                        string="Send to BigCommerce" class="btn-secondary"
+                        invisible="state != 'done' or not bigcommerce_order_id or bigcommerce_shipment_id"
+                        groups="mdx_bigcommerce_connector.group_bigcommerce_manager"/>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="bigcommerce_order_id" readonly="1"
+                       invisible="not bigcommerce_order_id"/>
+                <field name="bigcommerce_shipment_id" readonly="1"
+                       invisible="not bigcommerce_shipment_id"/>
+                <field name="bigcommerce_config_id" invisible="1"/>
+                <field name="bigcommerce_sync_state" invisible="1"/>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning" role="alert"
+                     invisible="not bigcommerce_sync_error">
+                    <strong>BigCommerce shipment failed.</strong>
+                    <field name="bigcommerce_sync_error" readonly="1" nolabel="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_tree_bigcommerce" model="ir.ui.view">
+        <field name="name">stock.picking.list.bigcommerce</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="bigcommerce_order_id" optional="hide"/>
+                <field name="bigcommerce_shipment_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

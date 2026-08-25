@@ -15,3 +15,4 @@ from . import bigcommerce_dashboard
 from . import bigcommerce_product_dashboard
 from . import sale_order
 from . import res_partner
+from . import stock_picking

@@ -74,6 +74,13 @@ class BigcommerceConfig(models.Model):
     job_pending_count = fields.Integer(compute="_compute_job_counts")
     job_failed_count = fields.Integer(compute="_compute_job_counts")
 
+    auto_push_shipments = fields.Boolean(
+        string="Send deliveries to BigCommerce", default=True,
+        help="When a delivery order is validated in Odoo, create the matching shipment on "
+             "BigCommerce with its tracking number, so the shopper sees it without anyone "
+             "retyping it. Partial deliveries create partial shipments.",
+    )
+
     tax_mode = fields.Selection(
         [("none", "Import orders untaxed"),
          ("map", "Map BigCommerce tax to Odoo taxes")],

@@ -50,6 +50,7 @@ See static/description/index.html for full setup instructions.
         "views/bigcommerce_job_views.xml",
         "views/bigcommerce_tax_views.xml",
         "views/sale_order_views.xml",
+        "views/stock_picking_views.xml",
         "views/res_partner_views.xml",
         "wizard/bigcommerce_sync_wizard_views.xml",
         "wizard/bigcommerce_import_wizard_views.xml",

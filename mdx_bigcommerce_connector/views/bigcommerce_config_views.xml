@@ -73,6 +73,7 @@
                             <field name="download_images"/>
                             <field name="auto_credit_note"/>
                             <field name="import_cancelled"/>
+                            <field name="auto_push_shipments"/>
                         </group>
                         <group string="Tax">
                             <field name="tax_mode"/>
