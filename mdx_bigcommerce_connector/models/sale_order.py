@@ -1,7 +1,7 @@
 import logging
 from email.utils import parsedate_to_datetime
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -110,9 +110,14 @@ class SaleOrder(models.Model):
         else:
             previous_status = False
             vals["partner_id"] = partner.id if partner else env.user.partner_id.id
-            vals["pricelist_id"] = (
-                group.pricelist_id.id if group and group.pricelist_id else config.pricelist_id.id
-            ) or None
+            preferred = group.pricelist_id if group and group.pricelist_id else config.pricelist_id
+            # Odoo takes the order currency from the pricelist
+            # (currency_id = pricelist_id.currency_id or company currency), so a
+            # store selling in one currency while the pricelist is in another
+            # imports the right NUMBERS under the wrong symbol. Pick a pricelist
+            # that actually matches what BigCommerce charged.
+            vals["pricelist_id"] = Order._bigcommerce_pricelist_for(
+                config, data.get("currency_code"), preferred).id or None
             order = Order.create(vals)
             order._bigcommerce_sync_lines(config, bc_id)
 
@@ -158,6 +163,51 @@ class SaleOrder(models.Model):
                 "are the usual causes; check the tax mapping for this store.",
                 ref=self.name, odoo_tax=self.amount_tax, bc_tax=bc_tax,
                 odoo_total=self.amount_total, bc_total=bc_total))
+
+    @api.model
+    def _bigcommerce_pricelist_for(self, config, currency_code, preferred):  # noqa: D401
+        """Return a pricelist whose currency matches the BigCommerce order.
+
+        Prefers the customer-group / store pricelist when it already uses the
+        right currency, so existing setups are untouched.
+        """
+        Pricelist = self.env["product.pricelist"]
+        code = (currency_code or "").upper()
+        if not code:
+            return preferred
+
+        currency = self.env["res.currency"].with_context(active_test=False).search(
+            [("name", "=", code)], limit=1)
+        if not currency:
+            self.env["bigcommerce.update.log"].log(
+                config, "order_currency", status="error",
+                message=_("Unknown currency %(code)s on a BigCommerce order; "
+                          "imported with the default pricelist instead.", code=code))
+            return preferred
+        if not currency.active:
+            # An archived currency cannot be used on a pricelist, and the order
+            # would silently fall back to the company currency.
+            currency.sudo().active = True
+            self.env["bigcommerce.update.log"].log(
+                config, "order_currency", status="success",
+                message=_("Activated currency %(code)s, required by a BigCommerce order.",
+                          code=code))
+
+        if preferred and preferred.currency_id == currency:
+            return preferred
+
+        match = Pricelist.search([
+            ("currency_id", "=", currency.id),
+            ("company_id", "in", (False, config.company_id.id)),
+        ], limit=1)
+        if match:
+            return match
+
+        return Pricelist.sudo().create({
+            "name": "BigCommerce %s" % code,
+            "currency_id": currency.id,
+            "company_id": config.company_id.id,
+        })
 
     def _bigcommerce_sync_lines(self, config, bc_order_id):
         self.ensure_one()
