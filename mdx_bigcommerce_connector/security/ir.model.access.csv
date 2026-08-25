@@ -36,3 +36,5 @@ access_bigcommerce_sync_wizard_manager,bigcommerce.sync.wizard.manager,model_big
 access_bigcommerce_import_wizard_manager,bigcommerce.import.wizard.manager,model_bigcommerce_import_wizard,group_bigcommerce_manager,1,1,1,1
 access_bigcommerce_bulk_update_wizard_manager,bigcommerce.bulk.update.wizard.manager,model_bigcommerce_bulk_update_wizard,group_bigcommerce_manager,1,1,1,1
 access_bigcommerce_publish_wizard_manager,bigcommerce.publish.wizard.manager,model_bigcommerce_publish_wizard,group_bigcommerce_manager,1,1,1,1
+access_bigcommerce_job_user,bigcommerce.job.user,model_bigcommerce_job,base.group_user,1,0,0,0
+access_bigcommerce_job_manager,bigcommerce.job.manager,model_bigcommerce_job,group_bigcommerce_manager,1,1,1,1

@@ -197,6 +197,34 @@
     </div>
   </div>
 
+
+  <!-- ========== BACKGROUND QUEUE ========== -->
+  <div class="sec" style="box-sizing:border-box; padding:54px 0">
+    <div class="wrap" style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <div class="eyebrow" style="box-sizing:border-box; font-size:12px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:#4F46E5; margin:0 0 12px">Background processing</div>
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px; letter-spacing:-0.02em">A thousand SKUs without a timeout</h2>
+      <p class="lead" style="box-sizing:border-box; margin:0 0 12px; font-size:17px; color:#64748B">Tick one box and bulk work stops running inside the
+         browser request.</p>
+      <p style="box-sizing:border-box; margin:0 0 12px">Big pushes and imports are queued and drained by a scheduled action, so
+         the browser returns straight away with <em>&ldquo;Queued 400 job(s)&rdquo;</em> instead of
+         hanging until the last API call finishes. Each job is retried on its own with an
+         exponential backoff, and anything that still fails lands in a list you can inspect,
+         re-run or cancel &mdash; one bad SKU never stops the other 399.</p>
+      <table style="box-sizing:border-box; width:100%; border-collapse:collapse; margin:18px 0 0; font-size:14px; border:1px solid #E2E8F0; border-radius:10px">
+        <thead><tr><th style="box-sizing:border-box; text-align:left; padding:11px 14px; background:#F8FAFC; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748B; border-bottom:1px solid #E2E8F0">Queued when enabled</th><th style="box-sizing:border-box; text-align:left; padding:11px 14px; background:#F8FAFC; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#64748B; border-bottom:1px solid #E2E8F0">Granularity</th></tr></thead>
+        <tbody><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>Bulk price / stock / weight push</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">One job per variant</td></tr><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>Publish / unpublish, MOQ, tax code, keywords</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">One job per product</td></tr><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>Spreadsheet upload (.csv / .xlsx / .ods)</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">One job per row</td></tr><tr><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9"><strong>Product, order, customer and category import</strong></td><td style="box-sizing:border-box; padding:11px 14px; border-bottom:1px solid #F1F5F9">One job per run</td></tr></tbody>
+      </table>
+      <div class="note note--g" style="box-sizing:border-box; border-radius:11px; padding:14px 17px; font-size:14px; margin:18px 0 0; background:#ECFDF5; border-left:4px solid #059669; color:#065F46">
+        <strong>No extra module, no server configuration.</strong> The queue is built into this
+        connector and driven by a normal Odoo scheduled action. It does not need the OCA
+        <code>queue_job</code> addon, a <code>server_wide_modules</code> entry in
+        <code>odoo.conf</code>, or a dedicated worker &mdash; so it works on Odoo Online and
+        Odoo.sh, where those are not available. Leave the box unticked and everything runs
+        immediately, exactly as before.
+      </div>
+    </div>
+  </div>
+
   <!-- ========== SETUP ========== -->
   <div class="sec" style="box-sizing:border-box; padding:54px 0">
     <div class="wrap" style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">

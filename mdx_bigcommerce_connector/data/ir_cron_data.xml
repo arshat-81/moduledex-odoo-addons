@@ -28,4 +28,27 @@ for config in env['bigcommerce.config'].search([('active', '=', True), ('state',
     <!-- No cron for carts: BigCommerce has no bulk cart-listing endpoint,
          confirmed against the live API. Cart capture is webhook-only —
          see controllers/webhook.py. -->
+
+    <record id="ir_cron_bigcommerce_run_jobs" model="ir.cron">
+        <field name="name">BigCommerce: Run queued jobs</field>
+        <field name="model_id" ref="model_bigcommerce_job"/>
+        <field name="state">code</field>
+        <field name="code">
+size = max(env['bigcommerce.config'].search([('use_job_queue','=',True)]).mapped('job_batch_size') or [50])
+model.cron_run_jobs(limit=size)
+        </field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_bigcommerce_vacuum_jobs" model="ir.cron">
+        <field name="name">BigCommerce: Clean up finished jobs</field>
+        <field name="model_id" ref="model_bigcommerce_job"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_vacuum(days=7)</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
 </odoo>

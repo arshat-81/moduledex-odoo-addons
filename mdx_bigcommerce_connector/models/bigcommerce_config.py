@@ -1,3 +1,4 @@
+import inspect
 import logging
 import time
 import uuid
@@ -24,7 +25,10 @@ class BigcommerceConfig(models.Model):
         required=True, groups="mdx_bigcommerce_connector.group_bigcommerce_manager",
         help="From your BigCommerce API path: https://api.bigcommerce.com/stores/<store_hash>/v3/",
     )
-    client_id = fields.Char(required=True, groups="mdx_bigcommerce_connector.group_bigcommerce_manager")
+    client_id = fields.Char(
+        string="Client ID", required=True,
+        groups="mdx_bigcommerce_connector.group_bigcommerce_manager",
+        help="From your BigCommerce store-level API account.")
     access_token = fields.Char(required=True, groups="mdx_bigcommerce_connector.group_bigcommerce_manager")
     active = fields.Boolean(default=True)
     state = fields.Selection(
@@ -50,6 +54,26 @@ class BigcommerceConfig(models.Model):
         help="Store the actual image files in Odoo during sync. Turn off for very "
              "large catalogues if you only need the image URLs.",
     )
+    use_job_queue = fields.Boolean(
+        string="Run bulk operations in the background", default=False,
+        help="Queue bulk pushes and imports instead of running them in the request.\n"
+             "Work is executed by the 'BigCommerce: Run queued jobs' scheduled action, "
+             "so a large catalogue cannot time out the browser. Needs no extra module "
+             "and no odoo.conf change.",
+    )
+    job_batch_size = fields.Integer(
+        string="Jobs per run", default=50,
+        help="How many queued jobs the scheduled action executes each time it fires.",
+    )
+    job_max_attempts = fields.Integer(
+        string="Retries before giving up", default=3,
+        help="A failing job is retried with an exponential backoff (1, 2, 4 ... minutes) "
+             "up to this many attempts, then marked Failed.",
+    )
+    job_count = fields.Integer(compute="_compute_job_counts")
+    job_pending_count = fields.Integer(compute="_compute_job_counts")
+    job_failed_count = fields.Integer(compute="_compute_job_counts")
+
     auto_credit_note = fields.Boolean(string="Auto-create credit notes on refund", default=True)
     import_cancelled = fields.Boolean(string="Import cancelled orders", default=False)
 
@@ -69,6 +93,71 @@ class BigcommerceConfig(models.Model):
     product_count = fields.Integer(compute="_compute_counts")
     cart_count = fields.Integer(compute="_compute_counts")
     channel_count = fields.Integer(compute="_compute_counts")
+
+    # ── deferred execution ────────────────────────────────────────────────
+
+    @staticmethod
+    def _accepts_kwarg(record, method, name):
+        """True if `record.method` takes `name` (or has a **kwargs catch-all)."""
+        try:
+            params = inspect.signature(getattr(record, method)).parameters
+        except (AttributeError, TypeError, ValueError):
+            return False
+        return name in params or any(
+            p.kind is inspect.Parameter.VAR_KEYWORD for p in params.values())
+
+    def dispatch(self, record, method, description, run_id=None, priority=10, **kwargs):
+        """Run `record.method(**kwargs)` now, or queue it if the store says so.
+
+        Call sites do not branch: they call dispatch() and get the same result
+        shape either way. Returns True when the work was queued.
+        """
+        self.ensure_one()
+        # run_id is both the job's grouping key AND an argument most target
+        # methods need for their audit-log row - without it the "see the sync
+        # log (run X)" message points at a run the user cannot filter by.
+        # Only inject it where the callee can actually accept it, otherwise a
+        # method without that parameter dies with TypeError at execution time,
+        # long after the dispatch call that caused it.
+        if run_id is not None and self._accepts_kwarg(record, method, "run_id"):
+            kwargs.setdefault("run_id", run_id)
+        if self.use_job_queue:
+            self.env["bigcommerce.job"].enqueue(
+                record, method, description, config=self, priority=priority, **kwargs)
+            return True
+        getattr(record, method)(**kwargs)
+        return False
+
+    def job_run_import(self, vals=None, **kwargs):
+        """Execute a queued import. Rebuilds the wizard from its saved values.
+
+        Re-creating the transient wizard keeps one implementation of the import
+        logic - the queued path and the interactive path run exactly the same
+        code. bc_job_inline stops it from queueing itself again.
+        """
+        self.ensure_one()
+        wizard = self.env["bigcommerce.import.wizard"].create(vals or {})
+        return wizard.with_context(bc_job_inline=True).action_import()
+
+    def action_view_jobs(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Queued Jobs"),
+            "res_model": "bigcommerce.job",
+            "view_mode": "list,form",
+            "domain": [("config_id", "=", self.id)],
+            "context": {"default_config_id": self.id},
+        }
+
+    def _compute_job_counts(self):
+        Job = self.env["bigcommerce.job"]
+        for config in self:
+            config.job_count = Job.search_count([("config_id", "=", config.id)])
+            config.job_pending_count = Job.search_count([
+                ("config_id", "=", config.id), ("state", "in", ("pending", "running"))])
+            config.job_failed_count = Job.search_count([
+                ("config_id", "=", config.id), ("state", "=", "failed")])
 
     def _compute_counts(self):
         for config in self:
@@ -287,7 +376,7 @@ class BigcommerceConfig(models.Model):
     def action_view_dashboard(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.client", "tag": "bigcommerce_sales_dashboard",
+            "type": "ir.actions.client", "tag": "mdx_bigcommerce_sales_dashboard",
             "name": _("Sales Dashboard — %s", self.name),
             "context": {"default_config_id": self.id},
         }
@@ -295,7 +384,7 @@ class BigcommerceConfig(models.Model):
     def action_view_product_dashboard(self):
         self.ensure_one()
         return {
-            "type": "ir.actions.client", "tag": "bigcommerce_catalog_dashboard",
+            "type": "ir.actions.client", "tag": "mdx_bigcommerce_catalog_dashboard",
             "name": _("Catalog Dashboard — %s", self.name),
             "context": {"default_config_id": self.id},
         }

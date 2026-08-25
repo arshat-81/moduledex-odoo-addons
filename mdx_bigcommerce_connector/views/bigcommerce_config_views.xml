@@ -39,6 +39,11 @@
                         <button name="action_view_carts" type="object" class="oe_stat_button" icon="fa-shopping-basket">
                             <field name="cart_count" widget="statinfo" string="Carts"/>
                         </button>
+                        <button name="action_view_jobs" type="object" class="oe_stat_button"
+                                icon="fa-tasks" invisible="not use_job_queue"
+                                groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
+                            <field name="job_pending_count" widget="statinfo" string="Queued"/>
+                        </button>
                         <button name="action_sync_channels" type="object" class="oe_stat_button" icon="fa-sitemap" groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
                             <field name="channel_count" widget="statinfo" string="Storefronts"/>
                         </button>
@@ -69,6 +74,19 @@
                             <field name="auto_credit_note"/>
                             <field name="import_cancelled"/>
                         </group>
+                        <group string="Background Processing">
+                            <field name="use_job_queue"/>
+                            <field name="job_batch_size" invisible="not use_job_queue"/>
+                            <field name="job_max_attempts" invisible="not use_job_queue"/>
+                            <div colspan="2" class="text-muted" invisible="not use_job_queue"
+                                 style="font-size:13px;">
+                                Bulk pushes are queued instead of running in the request, and
+                                executed by the scheduled action
+                                <strong>BigCommerce: Run queued jobs</strong> (every 2 minutes
+                                by default). No extra module and no odoo.conf change is needed.
+                            </div>
+                        </group>
+
                         <group string="Last Sync">
                             <field name="last_order_sync" readonly="1"/>
                             <field name="last_product_sync" readonly="1"/>

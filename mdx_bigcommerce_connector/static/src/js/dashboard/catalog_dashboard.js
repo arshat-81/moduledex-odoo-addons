@@ -106,4 +106,4 @@ export class BigcommerceCatalogDashboard extends Component {
     }
 }
 
-registry.category("actions").add("bigcommerce_catalog_dashboard", BigcommerceCatalogDashboard);
+registry.category("actions").add("mdx_bigcommerce_catalog_dashboard", BigcommerceCatalogDashboard);

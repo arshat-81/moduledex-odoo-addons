@@ -39,6 +39,9 @@
               parent="menu_bigcommerce_configuration" action="action_bigcommerce_webhook" sequence="3"/>
     <menuitem id="menu_bigcommerce_sync_log" name="Sync Log"
               parent="menu_bigcommerce_configuration" action="action_bigcommerce_update_log" sequence="4"/>
+
+    <menuitem id="menu_bigcommerce_jobs" name="Queued Jobs"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_job" sequence="5"/>
     <menuitem id="menu_bigcommerce_bulk_update" name="Bulk Update"
               parent="menu_bigcommerce_catalog" action="action_bigcommerce_bulk_update_menu" sequence="6"/>
 

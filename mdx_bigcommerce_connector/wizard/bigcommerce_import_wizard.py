@@ -94,6 +94,30 @@ class BigcommerceImportWizard(models.TransientModel):
         env = self.env
         count = 0
 
+        # An import both fetches from BigCommerce and writes to Odoo, so on a
+        # large catalogue it is the slowest thing this module does. Hand the
+        # whole run to the queue rather than the request, unless we are already
+        # executing inside that job.
+        if config.use_job_queue and not env.context.get("bc_job_inline"):
+            vals = {
+                "config_id": config.id,
+                "entity": self.entity,
+                "mode": self.mode,
+                "specific_ids": self.specific_ids,
+                "id_from": self.id_from,
+                "id_to": self.id_to,
+            }
+            config.dispatch(config, "job_run_import",
+                            "Import %s (%s)" % (self.entity, self.mode),
+                            vals=vals, priority=5)
+            return {
+                "type": "ir.actions.client", "tag": "display_notification",
+                "params": {"title": _("BigCommerce"),
+                           "message": _("Import queued - it runs in the background. "
+                                        "Watch Configuration > Queued Jobs."),
+                           "type": "success", "sticky": False},
+            }
+
         if self.entity == "product":
             rows = self._fetch_products(config)
             for row in rows:

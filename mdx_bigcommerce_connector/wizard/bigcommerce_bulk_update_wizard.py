@@ -325,6 +325,14 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
         ]).mapped("quantity"))) if variant.product_id else 0
 
     # ── main ────────────────────────────────────────────────────────────────
+    def _queue_active(self):
+        """True when at least one target store defers work to the job queue."""
+        configs = (self.product_ids.config_id | self.variant_ids.config_id)
+        if not configs:
+            configs = self.env["bigcommerce.config"].search(
+                [("active", "=", True), ("state", "=", "connected")])
+        return any(configs.mapped("use_job_queue"))
+
     def action_push_to_bigcommerce(self):
         self.ensure_one()
         Log = self.env["bigcommerce.update.log"]
@@ -333,7 +341,10 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
 
         if self.source == "file":
             updated, failed, missing = self._push_from_file(Log, run_id)
-            message = _("Updated %(count)s record(s) on BigCommerce.", count=updated)
+            message = (_("Queued %(count)s job(s). They run in the background - "
+                         "watch Configuration > Queued Jobs.", count=updated)
+                       if self._queue_active() else
+                       _("Updated %(count)s record(s) on BigCommerce.", count=updated))
             if missing:
                 message += "\n" + _("%(count)s SKU(s) not found in Odoo: %(skus)s",
                                     count=len(missing), skus=", ".join(missing[:8]))
@@ -355,7 +366,10 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
         else:
             updated, failed = self._push_variant_level(Log, run_id)
 
-        message = _("Updated %(count)s record(s) on BigCommerce.", count=updated)
+        message = (_("Queued %(count)s job(s). They run in the background - "
+                     "watch Configuration > Queued Jobs.", count=updated)
+                   if self._queue_active() else
+                   _("Updated %(count)s record(s) on BigCommerce.", count=updated))
         if failed:
             message += "\n" + _("%(count)s failed — see the sync log (run %(run)s).",
                                 count=failed, run=run_id)
@@ -447,24 +461,17 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
                 Log.log_change(config, run_id, self.update_type, variant, old, new, "error", str(exc))
                 continue
 
-            path = (f"catalog/products/{target.bc_product_id}" if product_level else
-                    f"catalog/products/{target.bigcommerce_product_id.bc_product_id}"
-                    f"/variants/{target.bc_variant_id}")
             try:
-                config._request("PUT", path, version="v3", json_body=body)
-            except Exception as exc:  # noqa: BLE001 — one bad row shouldn't stop the file
+                # job_push_fields owns the request, the write-back and the log,
+                # so it behaves identically whether queued or run inline.
+                config.dispatch(
+                    target, "job_push_fields",
+                    "[%s] %s | %s" % (run_id, self.update_type, sku),
+                    run_id=run_id, body=body, update_type=self.update_type,
+                    old=old, new=new)
+            except Exception:  # noqa: BLE001 — one bad row shouldn't stop the file
                 failed += 1
-                Log.log_change(config, run_id, self.update_type, variant, old, new, "error", str(exc))
                 continue
-
-            if product_level and "is_visible" in body:
-                target.is_visible = body["is_visible"]
-            if not product_level:
-                for fld, key in (("price", "price"), ("sale_price", "sale_price"),
-                                 ("inventory_level", "inventory_level"), ("weight", "weight")):
-                    if key in body:
-                        target[fld] = body[key]
-            Log.log_change(config, run_id, self.update_type, variant, old, new, "success")
             updated += 1
 
         return updated, failed, missing
@@ -497,18 +504,14 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
                 body["product_tax_code"] = new
 
             try:
-                config._request("PUT", f"catalog/products/{product.bc_product_id}",
-                                version="v3", json_body=body)
-            except Exception as exc:  # noqa: BLE001
+                config.dispatch(
+                    product, "job_push_fields",
+                    "[%s] %s | %s" % (run_id, self.update_type, product.sku or product.name),
+                    run_id=run_id, body=body, update_type=self.update_type,
+                    old=old, new=new)
+            except Exception:  # noqa: BLE001 — job_push_fields already logged it
                 failed += 1
-                Log.log_change(config, run_id, self.update_type, product.variant_ids[:1],
-                               old, new, "error", str(exc))
                 continue
-
-            if "is_visible" in body:
-                product.is_visible = body["is_visible"]
-            Log.log_change(config, run_id, self.update_type, product.variant_ids[:1],
-                           old, new, "success")
             updated += 1
         return updated, failed
 
@@ -516,7 +519,6 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
         updated = failed = 0
         for variant in self.variant_ids:
             config = variant.config_id
-            product_id = variant.bigcommerce_product_id.bc_product_id
             body, old, new = {}, None, None
             odoo_product = variant.product_id
 
@@ -550,22 +552,13 @@ class BigcommerceBulkUpdateWizard(models.TransientModel):
                 body["purchasing_disabled"] = new
 
             try:
-                config._request(
-                    "PUT", f"catalog/products/{product_id}/variants/{variant.bc_variant_id}",
-                    version="v3", json_body=body)
-            except Exception as exc:  # noqa: BLE001
+                config.dispatch(
+                    variant, "job_push_fields",
+                    "[%s] %s | %s" % (run_id, self.update_type, variant.sku or variant.id),
+                    run_id=run_id, body=body, update_type=self.update_type,
+                    old=old, new=new)
+            except Exception:  # noqa: BLE001 — job_push_fields already logged it
                 failed += 1
-                Log.log_change(config, run_id, self.update_type, variant, old, new, "error", str(exc))
                 continue
-
-            if "price" in body:
-                variant.price = body["price"]
-            if "sale_price" in body:
-                variant.sale_price = body["sale_price"]
-            if "inventory_level" in body:
-                variant.inventory_level = body["inventory_level"]
-            if "weight" in body:
-                variant.weight = body["weight"]
-            Log.log_change(config, run_id, self.update_type, variant, old, new, "success")
             updated += 1
         return updated, failed

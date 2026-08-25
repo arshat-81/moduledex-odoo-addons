@@ -1,19 +1,13 @@
 {
-    "name": "Odoo BigCommerce Connector",
-    "summary": "BigCommerce Odoo integration for products, orders, inventory, carts, refunds",
+    "name": "BigCommerce Connector",
+    "summary": "Two-way BigCommerce sync: multi-storefront catalog, price lists, customer groups, refunds, abandoned carts",
     "description": """
-Odoo BigCommerce Connector
-==========================
-BigCommerce Connector for Odoo 19 by ModuleDex. This BigCommerce Odoo
-integration syncs products, variants, categories, customers, sales orders,
-inventory, price lists, refunds, abandoned carts, and multi-storefront channels
-between BigCommerce and Odoo.
-
-It is built around what BigCommerce's own API actually supports but most
-connectors ignore:
+BigCommerce Connector
+======================
+Full two-way sync between BigCommerce and Odoo, built around what
+BigCommerce's own API actually supports but most connectors ignore:
 
 * Multi-Storefront/Channel-aware catalog and pricing sync.
-* Product, variant, category, customer, sales order, and inventory sync.
 * BigCommerce Price Lists synced to Odoo pricelists, tied to Customer Groups.
 * Customers and their addresses synced into res.partner.
 * Publish Odoo products to BigCommerce as new catalog products.
@@ -53,6 +47,7 @@ See static/description/index.html for full setup instructions.
         "views/bigcommerce_refund_views.xml",
         "views/bigcommerce_webhook_views.xml",
         "views/bigcommerce_update_log_views.xml",
+        "views/bigcommerce_job_views.xml",
         "views/sale_order_views.xml",
         "views/res_partner_views.xml",
         "wizard/bigcommerce_sync_wizard_views.xml",

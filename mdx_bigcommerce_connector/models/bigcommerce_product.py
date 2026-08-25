@@ -205,6 +205,30 @@ class BigcommerceProduct(models.Model):
             thumbnail.apply_as_main_image()
 
 
+    def job_push_fields(self, body=None, update_type=None, run_id=None, old=None, new=None):
+        """Push a field payload for this product to BigCommerce.
+
+        The single unit of work the deferred queue executes for a product-level
+        bulk update. Also called directly when the queue is switched off, so it
+        must own the whole step: request, local write-back, and audit log.
+        """
+        self.ensure_one()
+        body = body or {}
+        Log = self.env["bigcommerce.update.log"]
+        config = self.config_id
+        try:
+            config._request("PUT", f"catalog/products/{self.bc_product_id}",
+                            version="v3", json_body=body)
+        except Exception as exc:  # noqa: BLE001
+            Log.log_change(config, run_id, update_type, self.variant_ids[:1],
+                           old, new, "error", str(exc))
+            raise
+        if "is_visible" in body:
+            self.is_visible = body["is_visible"]
+        Log.log_change(config, run_id, update_type, self.variant_ids[:1], old, new, "success")
+        return True
+
+
 class BigcommerceProductVariant(models.Model):
     _name = "bigcommerce.product.variant"
     _description = "BigCommerce Product Variant"
@@ -316,6 +340,31 @@ class BigcommerceProductVariant(models.Model):
                 "location_id": config.warehouse_id.lot_stock_id.id,
                 "inventory_quantity": self.inventory_level,
             }).action_apply_inventory()
+
+
+    def job_push_fields(self, body=None, update_type=None, run_id=None, old=None, new=None):
+        """Push a field payload for this variant to BigCommerce.
+
+        See BigcommerceProduct.job_push_fields - same contract, variant endpoint.
+        """
+        self.ensure_one()
+        body = body or {}
+        Log = self.env["bigcommerce.update.log"]
+        config = self.config_id
+        product_id = self.bigcommerce_product_id.bc_product_id
+        try:
+            config._request(
+                "PUT", f"catalog/products/{product_id}/variants/{self.bc_variant_id}",
+                version="v3", json_body=body)
+        except Exception as exc:  # noqa: BLE001
+            Log.log_change(config, run_id, update_type, self, old, new, "error", str(exc))
+            raise
+        for fname, key in (("price", "price"), ("sale_price", "sale_price"),
+                           ("inventory_level", "inventory_level"), ("weight", "weight")):
+            if key in body:
+                self[fname] = body[key]
+        Log.log_change(config, run_id, update_type, self, old, new, "success")
+        return True
 
 
 class BigcommerceProductModifier(models.Model):
