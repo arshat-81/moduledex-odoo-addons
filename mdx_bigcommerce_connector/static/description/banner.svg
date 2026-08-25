@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#312E81"/>
+      <stop offset="45%" stop-color="#4338CA"/>
+      <stop offset="100%" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="bagFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E7E4FB"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="26" flood-color="#0F0B2E" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+  <circle cx="1010" cy="120" r="260" fill="#FFFFFF" fill-opacity="0.045"/>
+  <circle cx="1120" cy="470" r="180" fill="#FFFFFF" fill-opacity="0.035"/>
+
+  <text x="88" y="122" font-family="DejaVu Sans" font-size="15" font-weight="bold"
+        fill="#A5B4FC" letter-spacing="3">ODOO 19  ·  SALES</text>
+  <text x="86" y="186" font-family="DejaVu Sans" font-size="52" font-weight="bold"
+        fill="#FFFFFF">BigCommerce Connector</text>
+  <text x="88" y="224" font-family="DejaVu Sans" font-size="21" fill="#C7D2FE">
+    Two-way sync built on what the BigCommerce API really supports.
+  </text>
+
+  
+  <g>
+    <circle cx="92" cy="262" r="15" fill="#FFFFFF" fill-opacity="0.14"/>
+    <path d="M 85,262 l 5,5.5 l 10,-11" fill="none" stroke="#A5F3D0"
+          stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="122" y="268" font-family="DejaVu Sans" font-size="21" font-weight="bold"
+          fill="#FFFFFF">Multi-storefront catalog sync</text>
+    <text x="122" y="292" font-family="DejaVu Sans" font-size="16"
+          fill="#C7D2FE">Channels, categories, brands, variants &amp; modifiers</text>
+  </g>
+  <g>
+    <circle cx="92" cy="336" r="15" fill="#FFFFFF" fill-opacity="0.14"/>
+    <path d="M 85,336 l 5,5.5 l 10,-11" fill="none" stroke="#A5F3D0"
+          stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="122" y="342" font-family="DejaVu Sans" font-size="21" font-weight="bold"
+          fill="#FFFFFF">Two-way price &amp; stock</text>
+    <text x="122" y="366" font-family="DejaVu Sans" font-size="16"
+          fill="#C7D2FE">Push from Odoo, pull from BigCommerce, on a schedule or live</text>
+  </g>
+  <g>
+    <circle cx="92" cy="410" r="15" fill="#FFFFFF" fill-opacity="0.14"/>
+    <path d="M 85,410 l 5,5.5 l 10,-11" fill="none" stroke="#A5F3D0"
+          stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="122" y="416" font-family="DejaVu Sans" font-size="21" font-weight="bold"
+          fill="#FFFFFF">Abandoned carts to CRM leads</text>
+    <text x="122" y="440" font-family="DejaVu Sans" font-size="16"
+          fill="#C7D2FE">Recover lost revenue — no other connector does this</text>
+  </g>
+  <g>
+    <circle cx="92" cy="484" r="15" fill="#FFFFFF" fill-opacity="0.14"/>
+    <path d="M 85,484 l 5,5.5 l 10,-11" fill="none" stroke="#A5F3D0"
+          stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="122" y="490" font-family="DejaVu Sans" font-size="21" font-weight="bold"
+          fill="#FFFFFF">Real-time webhooks</text>
+    <text x="122" y="514" font-family="DejaVu Sans" font-size="16"
+          fill="#C7D2FE">Orders, products, carts and refunds land the moment they happen</text>
+  </g>
+
+  <!-- product mark -->
+  <g filter="url(#glow)">
+    <rect x="868" y="196" width="216" height="216" rx="50" fill="url(#card)"
+          stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="1.5"/>
+    <g transform="translate(976,304) scale(0.72) translate(-128,-128)">
+      <g stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="15" fill="none" stroke-linecap="butt">
+        <path d="M 42.71,162.46 A 92,92 0 0 0 213.29,162.46"/>
+        <path d="M 213.29,93.54 A 92,92 0 0 0 42.71,93.54"/>
+      </g>
+      <g fill="#FFFFFF" fill-opacity="0.92">
+        <path d="M 205.30,177.36 L 220.32,158.98 L 197.25,153.19 Z"/>
+        <path d="M 50.70,78.64 L 35.68,97.02 L 58.75,102.81 Z"/>
+      </g>
+      <path d="M 92,110 L 164,110 L 157,178 Q 156.2,185 149,185
+               L 107,185 Q 99.8,185 99,178 Z" fill="url(#bagFade)"/>
+      <path d="M 112,112 L 112,96 A 16,16 0 0 1 144,96 L 144,112"
+            fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="116" cy="132" r="5.5" fill="#4F46E5" fill-opacity="0.55"/>
+      <circle cx="140" cy="132" r="5.5" fill="#4F46E5" fill-opacity="0.55"/>
+    </g>
+  </g>
+</svg>

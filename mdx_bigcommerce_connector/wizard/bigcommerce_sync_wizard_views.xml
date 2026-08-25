@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_bigcommerce_sync_wizard_form" model="ir.ui.view">
+        <field name="name">bigcommerce.sync.wizard.form</field>
+        <field name="model">bigcommerce.sync.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sync with BigCommerce">
+                <group>
+                    <field name="config_id"/>
+                </group>
+                <group col="2">
+                    <field name="sync_channels"/>
+                    <field name="sync_categories"/>
+                    <field name="sync_customer_groups"/>
+                    <field name="sync_price_lists"/>
+                    <field name="sync_customers"/>
+                    <field name="sync_products"/>
+                    <field name="sync_orders"/>
+                </group>
+                <p class="text-muted">
+                    Carts aren't listed here — BigCommerce has no bulk cart-listing
+                    endpoint, so they're captured live via webhooks only (Configuration → Webhooks).
+                </p>
+                <footer>
+                    <button name="action_sync_now" type="object" string="Sync Now" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_sync_wizard" model="ir.actions.act_window">
+        <field name="name">Sync with BigCommerce</field>
+        <field name="res_model">bigcommerce.sync.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

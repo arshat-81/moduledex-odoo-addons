@@ -1,0 +1,46 @@
+<odoo>
+    <record id="view_bigcommerce_refund_list" model="ir.ui.view">
+        <field name="name">bigcommerce.refund.list</field>
+        <field name="model">bigcommerce.refund</field>
+        <field name="arch" type="xml">
+            <list string="Refunds">
+                <field name="order_id"/>
+                <field name="bc_refund_id"/>
+                <field name="amount"/>
+                <field name="reason"/>
+                <field name="state" widget="badge" decoration-danger="state == 'failed'" decoration-success="state == 'executed'"/>
+                <field name="credit_note_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_refund_form" model="ir.ui.view">
+        <field name="name">bigcommerce.refund.form</field>
+        <field name="model">bigcommerce.refund</field>
+        <field name="arch" type="xml">
+            <form string="Refund">
+                <header>
+                    <button name="action_create_credit_note" type="object" string="Create Credit Note"
+                            class="btn-primary" invisible="credit_note_id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="order_id"/>
+                        <field name="bc_order_id"/>
+                        <field name="bc_refund_id"/>
+                        <field name="amount"/>
+                        <field name="reason"/>
+                        <field name="state"/>
+                        <field name="credit_note_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_refund" model="ir.actions.act_window">
+        <field name="name">Refunds</field>
+        <field name="res_model">bigcommerce.refund</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

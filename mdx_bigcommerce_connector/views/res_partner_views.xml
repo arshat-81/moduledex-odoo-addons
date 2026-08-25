@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_partner_form_bigcommerce" model="ir.ui.view">
+        <field name="name">res.partner.form.bigcommerce</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <group name="warnings" position="before">
+                <group string="BigCommerce" col="2"
+                       invisible="not bigcommerce_customer_id">
+                    <field name="bigcommerce_customer_id" readonly="1"/>
+                    <field name="bigcommerce_customer_group_id" readonly="1"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_customers" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('bigcommerce_customer_id', '!=', False)]</field>
+    </record>
+</odoo>

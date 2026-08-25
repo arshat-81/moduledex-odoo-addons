@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_bigcommerce_customer_group_list" model="ir.ui.view">
+        <field name="name">bigcommerce.customer.group.list</field>
+        <field name="model">bigcommerce.customer.group</field>
+        <field name="arch" type="xml">
+            <list string="Customer Groups" editable="bottom">
+                <field name="config_id"/>
+                <field name="name"/>
+                <field name="is_default"/>
+                <field name="pricelist_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_customer_group" model="ir.actions.act_window">
+        <field name="name">Customer Groups</field>
+        <field name="res_model">bigcommerce.customer.group</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mdx_bigcommerce_connector.KpiCard">
+        <div t-attf-class="bc_kpi_card bc_kpi_card--{{props.accent}}">
+            <div class="bc_kpi_card_icon">
+                <i t-attf-class="fa {{props.icon}}" role="img" aria-hidden="true"/>
+            </div>
+            <div class="bc_kpi_card_body">
+                <div class="bc_kpi_card_label"><t t-esc="props.label"/></div>
+                <div class="bc_kpi_card_value"><t t-esc="props.value"/></div>
+                <div class="bc_kpi_card_sublabel" t-if="props.sublabel"><t t-esc="props.sublabel"/></div>
+            </div>
+        </div>
+    </t>
+
+</templates>

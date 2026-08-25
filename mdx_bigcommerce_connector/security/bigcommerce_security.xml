@@ -1,0 +1,18 @@
+<odoo>
+    <record id="module_category_bigcommerce" model="ir.module.category">
+        <field name="name">BigCommerce Connector</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="res_groups_privilege_bigcommerce" model="res.groups.privilege">
+        <field name="name">BigCommerce Connector</field>
+        <field name="category_id" ref="module_category_bigcommerce"/>
+    </record>
+
+    <record id="group_bigcommerce_manager" model="res.groups">
+        <field name="name">Administrator: manage stores &amp; sync</field>
+        <field name="privilege_id" ref="res_groups_privilege_bigcommerce"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

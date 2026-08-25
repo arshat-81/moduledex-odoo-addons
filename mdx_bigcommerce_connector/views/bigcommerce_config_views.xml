@@ -1,0 +1,118 @@
+<odoo>
+    <record id="view_bigcommerce_config_list" model="ir.ui.view">
+        <field name="name">bigcommerce.config.list</field>
+        <field name="model">bigcommerce.config</field>
+        <field name="arch" type="xml">
+            <list string="BigCommerce Stores">
+                <field name="name"/>
+                <field name="store_hash" groups="mdx_bigcommerce_connector.group_bigcommerce_manager"/>
+                <field name="state" widget="badge" decoration-success="state == 'connected'" decoration-danger="state == 'error'"/>
+                <field name="order_count"/>
+                <field name="product_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_config_form" model="ir.ui.view">
+        <field name="name">bigcommerce.config.form</field>
+        <field name="model">bigcommerce.config</field>
+        <field name="arch" type="xml">
+            <form string="BigCommerce Store">
+                <header>
+                    <button name="action_test_connection" type="object" string="Test Connection" class="btn-secondary" groups="mdx_bigcommerce_connector.group_bigcommerce_manager"/>
+                    <button name="action_register_webhooks" type="object" string="Register Webhooks" class="btn-secondary"
+                            groups="mdx_bigcommerce_connector.group_bigcommerce_manager"/>
+                    <button name="action_sync_all" type="object" string="Sync All Now" class="btn-primary" groups="mdx_bigcommerce_connector.group_bigcommerce_manager"/>
+                    <button name="action_view_dashboard" type="object" string="Sales Dashboard" class="btn-secondary"/>
+                    <button name="action_view_product_dashboard" type="object" string="Catalog Dashboard" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,connected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="order_count" widget="statinfo" string="Orders"/>
+                        </button>
+                        <button name="action_view_products" type="object" class="oe_stat_button" icon="fa-cubes">
+                            <field name="product_count" widget="statinfo" string="Products"/>
+                        </button>
+                        <button name="action_view_carts" type="object" class="oe_stat_button" icon="fa-shopping-basket">
+                            <field name="cart_count" widget="statinfo" string="Carts"/>
+                        </button>
+                        <button name="action_sync_channels" type="object" class="oe_stat_button" icon="fa-sitemap" groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
+                            <field name="channel_count" widget="statinfo" string="Storefronts"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Store name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Connection" groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
+                            <field name="store_hash"/>
+                            <field name="client_id"/>
+                            <field name="access_token" password="True"/>
+                            <field name="webhook_base_url" readonly="1"/>
+                        </group>
+                        <group string="Odoo Mapping">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="warehouse_id"/>
+                            <field name="pricelist_id"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Order Automation">
+                            <field name="auto_workflow"/>
+                            <field name="auto_create_product"/>
+                            <field name="download_images"/>
+                            <field name="auto_credit_note"/>
+                            <field name="import_cancelled"/>
+                        </group>
+                        <group string="Last Sync">
+                            <field name="last_order_sync" readonly="1"/>
+                            <field name="last_product_sync" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Storefronts">
+                            <field name="channel_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="bc_channel_id"/>
+                                    <field name="platform"/>
+                                    <field name="pricelist_id"/>
+                                    <field name="is_default"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Webhooks" groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
+                            <div class="alert alert-info" role="alert">
+                                Carts have no bulk sync — BigCommerce doesn't expose a way to
+                                list them. Once webhooks are registered here, abandoned/converted
+                                carts appear under Carts in real time as shoppers hit them.
+                            </div>
+                            <field name="webhook_ids">
+                                <list>
+                                    <field name="scope"/>
+                                    <field name="bc_webhook_id"/>
+                                    <field name="active"/>
+                                    <field name="is_disabled_by_bc" widget="boolean_toggle"/>
+                                    <field name="last_delivery_exception"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_config" model="ir.actions.act_window">
+        <field name="name">Stores</field>
+        <field name="res_model">bigcommerce.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

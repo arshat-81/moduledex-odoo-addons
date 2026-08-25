@@ -1,0 +1,163 @@
+$bc-primary: #4F46E5;
+$bc-primary-soft: #EEF2FF;
+$bc-success: #059669;
+$bc-success-soft: #ECFDF5;
+$bc-warning: #D97706;
+$bc-warning-soft: #FFFBEB;
+$bc-danger: #DC2626;
+$bc-danger-soft: #FEF2F2;
+$bc-ink: #111827;
+$bc-ink-soft: #6B7280;
+$bc-border: #E5E7EB;
+$bc-page-bg: #F9FAFB;
+$bc-card-shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+$bc-card-shadow-hover: 0 4px 8px rgba(16, 24, 40, .08), 0 2px 4px rgba(16, 24, 40, .06);
+
+.bc_dashboard {
+    background: $bc-page-bg;
+    padding: 24px 32px 40px;
+    min-height: 100%;
+}
+
+.bc_dashboard_toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.bc_dashboard_title {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: $bc-ink;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .fa {
+        color: $bc-primary;
+        font-size: 1.15rem;
+    }
+}
+
+.bc_store_select {
+    border: 1px solid $bc-border;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: .9rem;
+    color: $bc-ink;
+    background: #fff;
+    box-shadow: $bc-card-shadow;
+    min-width: 200px;
+
+    &:focus {
+        outline: none;
+        border-color: $bc-primary;
+        box-shadow: 0 0 0 3px $bc-primary-soft;
+    }
+}
+
+.bc_kpi_row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.bc_kpi_card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid $bc-border;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: $bc-card-shadow;
+    transition: box-shadow .15s ease, transform .15s ease;
+
+    &:hover {
+        box-shadow: $bc-card-shadow-hover;
+        transform: translateY(-1px);
+    }
+}
+
+.bc_kpi_card_icon {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+
+    .bc_kpi_card--primary & { background: $bc-primary-soft; color: $bc-primary; }
+    .bc_kpi_card--success & { background: $bc-success-soft; color: $bc-success; }
+    .bc_kpi_card--warning & { background: $bc-warning-soft; color: $bc-warning; }
+    .bc_kpi_card--danger & { background: $bc-danger-soft; color: $bc-danger; }
+}
+
+.bc_kpi_card_body {
+    min-width: 0;
+}
+
+.bc_kpi_card_label {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: $bc-ink-soft;
+    margin-bottom: 4px;
+}
+
+.bc_kpi_card_value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $bc-ink;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.bc_kpi_card_sublabel {
+    font-size: .78rem;
+    color: $bc-ink-soft;
+    margin-top: 2px;
+}
+
+.bc_chart_row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.bc_chart_card {
+    background: #fff;
+    border: 1px solid $bc-border;
+    border-radius: 12px;
+    padding: 18px 20px 20px;
+    box-shadow: $bc-card-shadow;
+    display: flex;
+    flex-direction: column;
+
+    &.bc_chart_card--wide {
+        grid-column: span 1;
+    }
+}
+
+.bc_chart_card_title {
+    font-size: .85rem;
+    font-weight: 600;
+    color: $bc-ink;
+    margin-bottom: 12px;
+}
+
+.bc_chart_card_canvas {
+    position: relative;
+    height: 260px;
+    flex: 1;
+}

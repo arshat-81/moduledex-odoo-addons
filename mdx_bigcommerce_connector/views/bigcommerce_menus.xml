@@ -1,0 +1,49 @@
+<odoo>
+    <menuitem id="menu_bigcommerce_root" name="BigCommerce" sequence="95"/>
+
+    <menuitem id="menu_bigcommerce_sales_dashboard" name="Sales Dashboard"
+              parent="menu_bigcommerce_root" action="action_bigcommerce_sales_dashboard" sequence="1"/>
+    <menuitem id="menu_bigcommerce_product_dashboard" name="Catalog Dashboard"
+              parent="menu_bigcommerce_root" action="action_bigcommerce_catalog_dashboard" sequence="2"/>
+
+    <menuitem id="menu_bigcommerce_orders" name="Orders"
+              parent="menu_bigcommerce_root" action="sale.action_orders" sequence="5"/>
+    <menuitem id="menu_bigcommerce_carts" name="Carts"
+              parent="menu_bigcommerce_root" action="action_bigcommerce_cart" sequence="6"/>
+    <menuitem id="menu_bigcommerce_refunds" name="Refunds"
+              parent="menu_bigcommerce_root" action="action_bigcommerce_refund" sequence="7"/>
+
+    <menuitem id="menu_bigcommerce_customers" name="Customers"
+              parent="menu_bigcommerce_root" action="action_bigcommerce_customers" sequence="8"/>
+
+    <menuitem id="menu_bigcommerce_catalog" name="Catalog" parent="menu_bigcommerce_root" sequence="10"/>
+    <menuitem id="menu_bigcommerce_products" name="Products"
+              parent="menu_bigcommerce_catalog" action="action_bigcommerce_product" sequence="1"/>
+    <menuitem id="menu_bigcommerce_variants" name="Variants"
+              parent="menu_bigcommerce_catalog" action="action_bigcommerce_product_variant" sequence="2"/>
+    <menuitem id="menu_bigcommerce_categories" name="Categories"
+              parent="menu_bigcommerce_catalog" action="action_bigcommerce_category" sequence="3"/>
+    <menuitem id="menu_bigcommerce_price_lists" name="Price Lists"
+              parent="menu_bigcommerce_catalog" action="action_bigcommerce_price_list" sequence="4"/>
+    <menuitem id="menu_bigcommerce_customer_groups" name="Customer Groups"
+              parent="menu_bigcommerce_catalog" action="action_bigcommerce_customer_group" sequence="5"/>
+
+    <menuitem id="menu_bigcommerce_configuration" name="Configuration"
+              parent="menu_bigcommerce_root" sequence="90"
+              groups="mdx_bigcommerce_connector.group_bigcommerce_manager"/>
+    <menuitem id="menu_bigcommerce_stores" name="Stores"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_config" sequence="1"/>
+    <menuitem id="menu_bigcommerce_storefronts" name="Storefronts"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_channel" sequence="2"/>
+    <menuitem id="menu_bigcommerce_webhooks" name="Webhooks"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_webhook" sequence="3"/>
+    <menuitem id="menu_bigcommerce_sync_log" name="Sync Log"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_update_log" sequence="4"/>
+    <menuitem id="menu_bigcommerce_bulk_update" name="Bulk Update"
+              parent="menu_bigcommerce_catalog" action="action_bigcommerce_bulk_update_menu" sequence="6"/>
+
+    <menuitem id="menu_bigcommerce_sync_now" name="Sync Now"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_sync_wizard" sequence="5"/>
+    <menuitem id="menu_bigcommerce_targeted_import" name="Targeted Import"
+              parent="menu_bigcommerce_configuration" action="action_bigcommerce_import_wizard" sequence="6"/>
+</odoo>

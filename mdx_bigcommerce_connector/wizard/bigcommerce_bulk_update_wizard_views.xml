@@ -1,0 +1,142 @@
+<odoo>
+    <record id="view_bigcommerce_bulk_update_wizard_form" model="ir.ui.view">
+        <field name="name">bigcommerce.bulk.update.wizard.form</field>
+        <field name="model">bigcommerce.bulk.update.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk update BigCommerce">
+                <group>
+                    <field name="update_type"/>
+                    <field name="source" widget="radio" options="{'horizontal': true}"/>
+                    <field name="level_hint" readonly="1" string="Scope" invisible="source == 'file'"/>
+                    <field name="target_count" invisible="1"/>
+                </group>
+
+                <!-- file upload -->
+                <group invisible="source != 'file'">
+                    <!-- deliberately NOT required: Odoo validates required fields
+                         before running any button, which would block the sample
+                         download you need *before* you have a file. The push
+                         action validates it in Python instead. -->
+                    <field name="import_file" filename="import_filename"/>
+                    <field name="import_filename" invisible="1"/>
+                    <field name="sample_file" invisible="1"/>
+                    <field name="sample_filename" invisible="1"/>
+                </group>
+                <div invisible="source != 'file'" class="mb-3">
+                    <button name="action_download_sample" type="object"
+                            string="Download sample file" class="btn-link ps-0"
+                            icon="fa-download"/>
+                    <div class="text-muted mt-1" style="font-size:13px;">
+                        Accepts <strong>.csv</strong>, <strong>.xlsx</strong> and <strong>.ods</strong>.
+                        The file needs a <code>sku</code> column plus a value column —
+                        each row can carry its own value, so you can set a different
+                        price (or stock, MOQ, tax code…) per SKU in one upload.
+                        The sample above always matches the update type you picked.
+                    </div>
+                </div>
+
+                <!-- numeric family (single value applied to everything) -->
+                <group invisible="source == 'file' or update_type not in ('price','sale_price','cost_price','quantity','weight')">
+                    <field name="value_mode"/>
+                    <field name="amount"
+                           invisible="value_mode == 'odoo'"
+                           required="value_mode != 'odoo' and source != 'file'"/>
+                </group>
+
+                <group invisible="source == 'file' or update_type != 'availability'">
+                    <field name="availability"/>
+                </group>
+                <group invisible="source == 'file' or update_type != 'purchasing'">
+                    <field name="purchasing_enabled"/>
+                </group>
+                <group invisible="source == 'file' or update_type != 'featured'">
+                    <field name="is_featured"/>
+                </group>
+                <group invisible="source == 'file' or update_type != 'moq'" col="4">
+                    <field name="order_quantity_minimum"/>
+                    <field name="order_quantity_maximum"/>
+                </group>
+                <group invisible="source == 'file' or update_type != 'search_keywords'">
+                    <field name="search_keywords" placeholder="towel, linen, bath"/>
+                </group>
+                <group invisible="source == 'file' or update_type != 'tax_code'">
+                    <field name="tax_code"/>
+                </group>
+
+                <div class="alert alert-info" role="alert"
+                     invisible="update_type not in ('publish','unpublish')">
+                    <span invisible="update_type != 'publish'">
+                        Selected products will be made visible on the BigCommerce storefront.
+                    </span>
+                    <span invisible="update_type != 'unpublish'">
+                        Selected products will be hidden from the BigCommerce storefront.
+                        Existing orders are unaffected.
+                    </span>
+                </div>
+
+                <notebook invisible="source == 'file'">
+                    <page string="Products" invisible="update_type not in ('publish','unpublish','availability','featured','moq','search_keywords','tax_code')">
+                        <p class="text-muted">
+                            Add the products to update, or pre-select them in the Products list
+                            and use Actions → Push to BigCommerce.
+                        </p>
+                        <field name="product_ids" widget="many2many"
+                               required="source == 'records' and update_type in ('publish','unpublish','availability','featured','moq','search_keywords','tax_code')">
+                            <list>
+                                <field name="name"/>
+                                <field name="sku"/>
+                                <field name="is_visible"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Variants" invisible="update_type in ('publish','unpublish','availability','featured','moq','search_keywords','tax_code')">
+                        <p class="text-muted">
+                            Add the variants to update, or pre-select them in the Variants list
+                            and use Actions → Push to BigCommerce.
+                        </p>
+                        <field name="variant_ids" widget="many2many"
+                               required="source == 'records' and update_type not in ('publish','unpublish','availability','featured','moq','search_keywords','tax_code')">
+                            <list>
+                                <field name="sku"/>
+                                <field name="option_summary"/>
+                                <field name="price"/>
+                                <field name="inventory_level"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+
+                <footer>
+                    <button name="action_push_to_bigcommerce" type="object"
+                            string="Push to BigCommerce" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_bulk_update_wizard" model="ir.actions.act_window">
+        <field name="name">Push to BigCommerce</field>
+        <field name="res_model">bigcommerce.bulk.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_bigcommerce_product_variant"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <record id="action_bigcommerce_bulk_update_wizard_product" model="ir.actions.act_window">
+        <field name="name">Push to BigCommerce</field>
+        <field name="res_model">bigcommerce.bulk.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_bigcommerce_product"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <record id="action_bigcommerce_bulk_update_menu" model="ir.actions.act_window">
+        <field name="name">Bulk Update BigCommerce</field>
+        <field name="res_model">bigcommerce.bulk.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

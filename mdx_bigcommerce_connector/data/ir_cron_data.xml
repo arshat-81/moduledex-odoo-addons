@@ -1,0 +1,31 @@
+<odoo noupdate="1">
+    <record id="ir_cron_bigcommerce_sync_orders" model="ir.cron">
+        <field name="name">BigCommerce: Sync Orders (fallback for missed webhooks)</field>
+        <field name="model_id" ref="model_bigcommerce_config"/>
+        <field name="state">code</field>
+        <field name="code">
+for config in env['bigcommerce.config'].search([('active', '=', True), ('state', '=', 'connected')]):
+    config.action_sync_orders()
+        </field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_bigcommerce_sync_inventory" model="ir.cron">
+        <field name="name">BigCommerce: Sync Products &amp; Inventory</field>
+        <field name="model_id" ref="model_bigcommerce_config"/>
+        <field name="state">code</field>
+        <field name="code">
+for config in env['bigcommerce.config'].search([('active', '=', True), ('state', '=', 'connected')]):
+    config.action_sync_products()
+        </field>
+        <field name="interval_number">30</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- No cron for carts: BigCommerce has no bulk cart-listing endpoint,
+         confirmed against the live API. Cart capture is webhook-only —
+         see controllers/webhook.py. -->
+</odoo>

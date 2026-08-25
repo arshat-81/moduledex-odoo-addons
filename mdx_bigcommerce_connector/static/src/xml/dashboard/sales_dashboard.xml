@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mdx_bigcommerce_connector.SalesDashboard">
+        <Layout display="display">
+            <div class="bc_dashboard">
+                <div class="bc_dashboard_toolbar">
+                    <h2 class="bc_dashboard_title">
+                        <i class="fa fa-shopping-cart" role="img" aria-hidden="true"/> Sales Dashboard
+                    </h2>
+                    <select class="bc_store_select" t-on-change="onConfigChange">
+                        <option value="">All Stores</option>
+                        <t t-foreach="state.configs" t-as="config" t-key="config.id">
+                            <option t-att-value="config.id" t-att-selected="config.id === state.configId">
+                                <t t-esc="config.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <t t-if="state.data">
+                    <div class="bc_kpi_row">
+                        <BigcommerceKpiCard
+                            label="'Today'"
+                            value="formatMoney(state.data.today.revenue)"
+                            sublabel="`${state.data.today.orders} orders`"
+                            icon="'fa-calendar-o'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'Last 7 Days'"
+                            value="formatMoney(state.data.last_7_days.revenue)"
+                            sublabel="`${state.data.last_7_days.orders} orders`"
+                            icon="'fa-line-chart'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'Last 30 Days'"
+                            value="formatMoney(state.data.last_30_days.revenue)"
+                            sublabel="`${state.data.last_30_days.orders} orders`"
+                            icon="'fa-bar-chart'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'All Time'"
+                            value="formatMoney(state.data.all_time.revenue)"
+                            sublabel="`${state.data.all_time.orders} orders`"
+                            icon="'fa-globe'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'Cart Recovery'"
+                            value="`${state.data.carts_recovery_rate}%`"
+                            sublabel="`${state.data.carts_converted} of ${state.data.carts_abandoned + state.data.carts_converted} recovered`"
+                            icon="'fa-shopping-basket'" accent="'success'"/>
+                        <BigcommerceKpiCard
+                            label="'Products Synced'"
+                            value="`${state.data.product_count}`"
+                            icon="'fa-cubes'" accent="'warning'"/>
+                    </div>
+
+                    <div class="bc_chart_row">
+                        <div class="bc_chart_card bc_chart_card--wide">
+                            <div class="bc_chart_card_title">Revenue by Storefront</div>
+                            <div class="bc_chart_card_canvas">
+                                <canvas t-ref="channelChart"/>
+                            </div>
+                        </div>
+                        <div class="bc_chart_card">
+                            <div class="bc_chart_card_title">Cart Funnel</div>
+                            <div class="bc_chart_card_canvas">
+                                <canvas t-ref="cartChart"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </Layout>
+    </t>
+
+</templates>

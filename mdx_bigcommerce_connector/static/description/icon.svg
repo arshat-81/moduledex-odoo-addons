@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5B54F0"/>
+      <stop offset="55%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="bagFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E7E4FB"/>
+    </linearGradient>
+    <filter id="soft" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1E1B4B" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="256" height="256" rx="58" fill="url(#bg)"/>
+
+  <!-- sync ring: two arcs with arrowheads = two-way sync -->
+  <g stroke="#FFFFFF" stroke-opacity="0.92" stroke-width="15" fill="none" stroke-linecap="butt">
+    <path d="M 42.70,162.46 A 92,92 0 0 0 213.30,162.46"/>
+    <path d="M 213.30,93.54 A 92,92 0 0 0 42.70,93.54"/>
+  </g>
+  <g fill="#FFFFFF" fill-opacity="0.92">
+    <path d="M 221.17,142.99 L 225.37,167.34 L 201.23,157.59 Z"/>
+    <path d="M 50.57,74.07 L 30.63,88.66 L 54.77,98.41 Z"/>
+  </g>
+
+  <!-- shopping bag -->
+  <g filter="url(#soft)">
+    <path d="M 92,110 L 164,110 L 157,178 Q 156.2,185 149,185
+             L 107,185 Q 99.8,185 99,178 Z" fill="url(#bagFade)"/>
+    <path d="M 112,112 L 112,96 A 16,16 0 0 1 144,96 L 144,112"
+          fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="116" cy="132" r="5.5" fill="#4F46E5" fill-opacity="0.55"/>
+    <circle cx="140" cy="132" r="5.5" fill="#4F46E5" fill-opacity="0.55"/>
+  </g>
+</svg>
