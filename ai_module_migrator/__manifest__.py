@@ -5,7 +5,7 @@
     # which a paid listing should not be confused with. Both "module" and
     # "addon" are kept in the summary so store search matches either word.
     "name": "AI Addon Migrator",
-    "version": "19.0.1.0.25",
+    "version": "19.0.1.0.26",
     "summary": "AI migration tool for custom Odoo modules and addons — upgrade or "
                "downgrade any addon between Odoo 11 and 19",
     "description": """
