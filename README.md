@@ -1,6 +1,10 @@
 # ModuleDex Odoo Addons
 
-Free Odoo addons published by ModuleDex.
+Odoo 18 addons published by ModuleDex on the Odoo Apps Store:
+https://apps.odoo.com/apps/modules/browse?author=ModuleDex
+
+This repository holds both free (LGPL-3) and commercial (OPL-1) modules —
+see Licensing below.
 
 ## Available addons
 
@@ -41,6 +45,17 @@ Use it to:
 - Odoo 18 Community
 - Odoo 18 Enterprise
 
-## License
+## Licensing
 
-LGPL-3.
+**This repository has no single license.** Each module is licensed
+independently; the authoritative license is the `license` key in that module's
+`__manifest__.py`, with the full text in its own `LICENSE` file.
+
+- `mdx_external_id_finder`, `mdx_security_simulator` — **LGPL-3**, free software.
+- `data_insight_workbench` — **OPL-1** (Odoo Proprietary License v1.0). May only
+  be used with a valid purchased license, normally obtained through the Odoo
+  Apps Store.
+
+The presence of source code in this repository does not grant any right to use,
+redistribute or resell the OPL-1 modules. See [`LICENSE`](LICENSE) and each
+module's `LICENSE` file for exact terms.
