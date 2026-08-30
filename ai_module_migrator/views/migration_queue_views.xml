@@ -1,0 +1,126 @@
+<odoo>
+    <record id="view_ai_module_migration_queue_list" model="ir.ui.view">
+        <field name="name">ai.module.migration.queue.list</field>
+        <field name="model">ai.module.migration.queue</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'failed'"
+                  decoration-muted="state in ('done','cancelled')"
+                  decoration-info="state == 'running'"
+                  default_order="id desc"
+                  create="false">
+                <field name="create_date" string="Queued"/>
+                <field name="name"/>
+                <field name="migration_job_id" optional="show"/>
+                <field name="method" optional="hide"/>
+                <field name="user_id" optional="hide"/>
+                <field name="run_id" optional="hide"/>
+                <field name="attempts" string="Try"/>
+                <field name="max_attempts" string="Max" optional="hide"/>
+                <field name="deferred_count" string="Waits" optional="hide"/>
+                <field name="run_after" optional="hide"/>
+                <field name="finished_at" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-danger="state == 'failed'"
+                       decoration-warning="state == 'running'"/>
+                <button name="action_run_now" type="object" string="Run now"
+                        icon="fa-play" invisible="state not in ('pending','failed')"/>
+                <button name="action_requeue" type="object" string="Retry"
+                        icon="fa-refresh" invisible="state not in ('failed','cancelled')"/>
+                <button name="action_cancel" type="object" string="Cancel"
+                        icon="fa-times" invisible="state not in ('pending','failed')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ai_module_migration_queue_form" model="ir.ui.view">
+        <field name="name">ai.module.migration.queue.form</field>
+        <field name="model">ai.module.migration.queue</field>
+        <field name="arch" type="xml">
+            <form string="Background Task" create="false">
+                <header>
+                    <button name="action_run_now" type="object" string="Run now"
+                            class="btn-primary" invisible="state not in ('pending','failed')"/>
+                    <button name="action_requeue" type="object" string="Retry"
+                            invisible="state not in ('failed','cancelled')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state not in ('pending','failed')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="migration_job_id"/>
+                            <field name="model_name"/>
+                            <field name="res_id"/>
+                            <field name="method"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="priority"/>
+                            <field name="run_id"/>
+                            <field name="barrier_run_id"/>
+                            <field name="attempts"/>
+                            <field name="max_attempts"/>
+                            <field name="deferred_count"/>
+                            <field name="run_after"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payload">
+                            <field name="payload" widget="text" readonly="1"/>
+                        </page>
+                        <page string="Error" invisible="not error">
+                            <field name="error" widget="text" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ai_module_migration_queue_search" model="ir.ui.view">
+        <field name="name">ai.module.migration.queue.search</field>
+        <field name="model">ai.module.migration.queue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="migration_job_id"/>
+                <field name="method"/>
+                <field name="run_id"/>
+                <filter name="filter_pending" string="Pending" domain="[('state','=','pending')]"/>
+                <filter name="filter_running" string="Running" domain="[('state','=','running')]"/>
+                <filter name="filter_failed" string="Failed" domain="[('state','=','failed')]"/>
+                <separator/>
+                <filter name="filter_unfinished" string="Unfinished"
+                        domain="[('state','in',('pending','running'))]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_job" string="Migration Job" context="{'group_by': 'migration_job_id'}"/>
+                    <filter name="group_method" string="Method" context="{'group_by': 'method'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ai_module_migration_queue" model="ir.actions.act_window">
+        <field name="name">Background Tasks</field>
+        <field name="res_model">ai.module.migration.queue</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ai_module_migration_queue_search"/>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_ai_module_migrator_queue"
+              name="Background Tasks"
+              parent="menu_ai_module_migrator_root"
+              action="action_ai_module_migration_queue"
+              sequence="20"
+              groups="ai_module_migrator.group_ai_module_migrator_manager"/>
+</odoo>

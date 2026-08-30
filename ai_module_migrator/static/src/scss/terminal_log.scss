@@ -1,0 +1,150 @@
+/* The class lives directly on the field widget's own root element (readonly
+   Text field renders as a span/div, not a nested .o_field_text), so it must
+   be styled as the element itself, not just as an ancestor. Edit-mode
+   textarea is covered separately in case readonly is ever toggled off. */
+.o_ai_module_migrator_terminal_log,
+.o_ai_module_migrator_terminal_log textarea {
+    display: block;
+    min-height: 420px;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #1f2933;
+    border-radius: 6px;
+    background-color: #0b0b0b !important;
+    color: #ff3b3b !important;
+    caret-color: #ff3b3b;
+    font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace !important;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    text-shadow: 0 0 2px rgba(255, 59, 59, 0.35);
+}
+
+/* Force the color/font onto any inner spans Odoo injects (e.g. translation
+   alert wrappers) so nothing silently falls back to the theme's default. */
+.o_ai_module_migrator_terminal_log * {
+    color: inherit !important;
+    font-family: inherit !important;
+    background: transparent !important;
+}
+
+.o_ai_module_migrator_terminal_log::selection,
+.o_ai_module_migrator_terminal_log textarea::selection,
+.o_ai_module_migrator_terminal_log *::selection {
+    background: rgba(255, 59, 59, 0.35);
+    color: #ffffff;
+}
+
+/* Formatted Migration Report (Markdown rendered to real HTML) */
+.o_ai_module_migrator_report {
+    // No max-width: these reports are read inside a form sheet that already
+    // caps its own width. Capping again at 900px left the wider tabs (Static
+    // Findings, File Inventory, Migration Report) using barely half the
+    // available space and wrapping far more than they needed to.
+    width: 100%;
+    line-height: 1.55;
+}
+
+// Defensive: a report placed inside a <group> lands in one cell of Odoo's
+// two-column field grid, so it renders at a fraction of the form width and
+// every line wraps. The views put these fields outside <group> for exactly
+// that reason, but this makes the layout survive anyone re-wrapping one
+// later, or an inherited view that adds a group around it.
+.o_group .o_ai_module_migrator_report,
+.o_inner_group .o_ai_module_migrator_report {
+    grid-column: 1 / -1;
+}
+.o_ai_module_migrator_report h1,
+.o_ai_module_migrator_report h2,
+.o_ai_module_migrator_report h3,
+.o_ai_module_migrator_report h4 {
+    margin: 1.1em 0 0.4em;
+    font-weight: 600;
+}
+.o_ai_module_migrator_report h1:first-child,
+.o_ai_module_migrator_report h2:first-child,
+.o_ai_module_migrator_report h3:first-child {
+    margin-top: 0;
+}
+.o_ai_module_migrator_report p {
+    margin: 0.35em 0 0.7em;
+}
+.o_ai_module_migrator_report ul,
+.o_ai_module_migrator_report ol {
+    margin: 0.2em 0 0.7em;
+    padding-left: 1.6em;
+}
+.o_ai_module_migrator_report li {
+    margin: 0.15em 0;
+}
+.o_ai_module_migrator_report code {
+    background: #f1f1f1;
+    border-radius: 3px;
+    padding: 0.1em 0.35em;
+    font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.92em;
+}
+.o_ai_module_migrator_report pre {
+    background: #1e1e1e;
+    color: #e6e6e6;
+    border-radius: 6px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    margin: 0.4em 0 0.9em;
+}
+.o_ai_module_migrator_report pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+.o_ai_module_migrator_report strong {
+    font-weight: 700;
+}
+.o_ai_module_migrator_table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.3em 0 0.9em;
+    font-size: 0.93em;
+}
+.o_ai_module_migrator_table th,
+.o_ai_module_migrator_table td {
+    border: 1px solid #dcdcdc;
+    padding: 4px 10px;
+    text-align: left;
+}
+.o_ai_module_migrator_table th {
+    background: #f4f4f4;
+    font-weight: 600;
+}
+.o_ai_module_migrator_table tr:nth-child(even) td {
+    background: #fafafa;
+}
+
+
+/* Settings label/field rows.
+
+   Odoo 17+ renders <setting> as a narrow card, so the old Bootstrap
+   row + col-lg-3/col-lg-8 grid split that card again and squeezed every
+   label onto three lines. Dropping the grid fixed the width but left the
+   label butted straight against its input ("AI ProviderOllama Cloud").
+   This gives the pair a real gap and a common label column so the inputs
+   line up down the page, scoped to this module so no other app's settings
+   are affected. */
+.o_ai_migrator_setting_row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 12px;
+
+    > label {
+        flex: 0 0 200px;
+        margin-bottom: 0;
+    }
+
+    // The field, or a wrapper div around one (the usage progress bars).
+    > *:not(label) {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 460px;
+    }
+}

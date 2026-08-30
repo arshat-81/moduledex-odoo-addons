@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ai_module_migrator" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.ai.module.migrator</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="AI Addon Migrator" string="AI Addon Migrator" name="ai_module_migrator">
+                    <field name="ai_module_migrator_live_refresh_ping" widget="ai_migrator_auto_refresh"
+                           invisible="1" options="{'interval': 15}"/>
+                    <block title="Data Privacy" name="ai_module_migrator_privacy_block">
+                        <setting id="ai_module_migrator_privacy_settings"
+                                 string="Third-Party Data Sharing"
+                                 help="This must be confirmed before any AI provider can be called.">
+                            <div class="content-group">
+                                <div class="alert alert-warning mt8" role="alert">
+                                    Every migration job and file this app processes — source code, file
+                                    paths, and manifest contents — is sent to whichever AI provider you
+                                    configure below, over that provider's own API, subject to that
+                                    provider's own data-handling terms. This app does not control what the
+                                    provider does with that data. No AI call will be made until this is
+                                    confirmed.
+                                </div>
+                                <div class="mt16">
+                                    <field name="ai_module_migrator_data_consent"/>
+                                    <label for="ai_module_migrator_data_consent" class="o_light_label"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Provider" name="ai_module_migrator_provider_block">
+                        <setting id="ai_module_migrator_provider_settings"
+                                 string="AI Provider"
+                                 help="Configure the provider used by migration jobs. API keys are stored as system parameters.">
+                            <div class="content-group">
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_provider" class="o_light_label"/>
+                                    <field name="ai_module_migrator_provider"/>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'openai'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_openai_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_openai_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_openai_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_openai_model"/>
+                                    </div>
+                                    <div class="row mt16" invisible="ai_module_migrator_openai_model != 'custom'">
+                                        <label for="ai_module_migrator_openai_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_openai_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_openai_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_openai_api_key" password="True"/>
+                                    </div>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'gemini'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_gemini_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_gemini_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_gemini_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_gemini_model"/>
+                                    </div>
+                                    <div class="row mt16" invisible="ai_module_migrator_gemini_model != 'custom'">
+                                        <label for="ai_module_migrator_gemini_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_gemini_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_gemini_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_gemini_api_key" password="True"/>
+                                    </div>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'anthropic'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_anthropic_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_anthropic_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_anthropic_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_anthropic_model"/>
+                                    </div>
+                                    <div class="row mt16" invisible="ai_module_migrator_anthropic_model != 'custom'">
+                                        <label for="ai_module_migrator_anthropic_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_anthropic_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_anthropic_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_anthropic_api_key" password="True"/>
+                                    </div>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'groq'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_groq_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_groq_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_groq_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_groq_model"/>
+                                    </div>
+                                    <div class="row mt16" invisible="ai_module_migrator_groq_model != 'custom'">
+                                        <label for="ai_module_migrator_groq_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_groq_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_groq_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_groq_api_key" password="True"/>
+                                    </div>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'deepseek'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_deepseek_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_deepseek_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_deepseek_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_deepseek_model"/>
+                                    </div>
+                                    <div class="row mt16" invisible="ai_module_migrator_deepseek_model != 'custom'">
+                                        <label for="ai_module_migrator_deepseek_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_deepseek_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_deepseek_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_deepseek_api_key" password="True"/>
+                                    </div>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'ollama'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_ollama_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_ollama_model"/>
+                                    </div>
+                                    <div class="row mt16" invisible="ai_module_migrator_ollama_model != 'custom'">
+                                        <label for="ai_module_migrator_ollama_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_ollama_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_ollama_api_key" password="True"/>
+                                    </div>
+
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_session_used" class="o_light_label" string="Session Usage"/>
+                                        <div>
+                                            <field name="ai_module_migrator_ollama_session_used" widget="progressbar"
+                                                   options="{'current_value': 'ai_module_migrator_ollama_session_used', 'max_value': 'ai_module_migrator_ollama_session_cap', 'editable': false}"/>
+                                            <div class="text-muted">
+                                                <field name="ai_module_migrator_ollama_session_pct" nolabel="1" readonly="1"/>% used ·
+                                                <field name="ai_module_migrator_ollama_session_reset_label" nolabel="1" readonly="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_weekly_used" class="o_light_label" string="Weekly Usage"/>
+                                        <div>
+                                            <field name="ai_module_migrator_ollama_weekly_used" widget="progressbar"
+                                                   options="{'current_value': 'ai_module_migrator_ollama_weekly_used', 'max_value': 'ai_module_migrator_ollama_weekly_cap', 'editable': false}"/>
+                                            <div class="text-muted">
+                                                <field name="ai_module_migrator_ollama_weekly_pct" nolabel="1" readonly="1"/>% used ·
+                                                <field name="ai_module_migrator_ollama_weekly_reset_label" nolabel="1" readonly="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_session_cap" class="o_light_label"/>
+                                        <field name="ai_module_migrator_ollama_session_cap"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_ollama_weekly_cap" class="o_light_label"/>
+                                        <field name="ai_module_migrator_ollama_weekly_cap"/>
+                                    </div>
+                                    <div class="mt16">
+                                        <div class="text-muted">
+                                            <i class="fa fa-info-circle"/>
+                                            Ollama Cloud does not expose real usage/quota through its API. These bars are
+                                            a local estimate based on calls made through this module — set the capacity
+                                            fields above to match what you see on ollama.com/settings.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div invisible="ai_module_migrator_provider != 'openai_compatible'">
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_compatible_endpoint" class="o_light_label"/>
+                                        <field name="ai_module_migrator_compatible_endpoint"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_compatible_custom_model" class="o_light_label"/>
+                                        <field name="ai_module_migrator_compatible_custom_model"/>
+                                    </div>
+                                    <div class="o_ai_migrator_setting_row">
+                                        <label for="ai_module_migrator_compatible_api_key" class="o_light_label"/>
+                                        <field name="ai_module_migrator_compatible_api_key" password="True"/>
+                                    </div>
+                                </div>
+
+                                <div class="mt16">
+                                    <div>
+                                        <button name="action_ai_module_migrator_test_connection"
+                                                type="object"
+                                                string="Test Connection"
+                                                icon="fa-plug"
+                                                class="btn btn-secondary"/>
+                                    </div>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_connection_state" class="o_light_label"/>
+                                    <field name="ai_module_migrator_connection_state"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_connection_message" class="o_light_label"/>
+                                    <field name="ai_module_migrator_connection_message"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_last_test" class="o_light_label"/>
+                                    <field name="ai_module_migrator_last_test"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Scanner" name="ai_module_migrator_scanner_block">
+                        <setting id="ai_module_migrator_roots"
+                                 string="Addon Roots"
+                                 help="Server paths used for source-path validation and Community/Enterprise dependency classification. Put one root per line.">
+                            <div class="content-group">
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_allowed_roots" class="o_light_label"/>
+                                    <field name="ai_module_migrator_allowed_roots" widget="text"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_community_roots" class="o_light_label"/>
+                                    <field name="ai_module_migrator_community_roots" widget="text"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_enterprise_roots" class="o_light_label"/>
+                                    <field name="ai_module_migrator_enterprise_roots" widget="text"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="ai_module_migrator_limits"
+                                 string="AI Limits"
+                                 help="Tune source excerpt size and provider response length for migration jobs.">
+                            <div class="content-group">
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_prompt_max_chars" class="o_light_label"/>
+                                    <field name="ai_module_migrator_prompt_max_chars"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_max_file_bytes" class="o_light_label"/>
+                                    <field name="ai_module_migrator_max_file_bytes"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_max_output_tokens" class="o_light_label"/>
+                                    <field name="ai_module_migrator_max_output_tokens"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_temperature" class="o_light_label"/>
+                                    <field name="ai_module_migrator_temperature"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_request_timeout" class="o_light_label"/>
+                                    <field name="ai_module_migrator_request_timeout"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_max_migration_attempts" class="o_light_label"/>
+                                    <field name="ai_module_migrator_max_migration_attempts"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_job_batch_size" class="o_light_label"/>
+                                    <field name="ai_module_migrator_job_batch_size"/>
+                                </div>
+                                <div class="o_ai_migrator_setting_row">
+                                    <label for="ai_module_migrator_job_max_attempts" class="o_light_label"/>
+                                    <field name="ai_module_migrator_job_max_attempts"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_module_migration_job_list" model="ir.ui.view">
+        <field name="name">ai.module.migration.job.list</field>
+        <field name="model">ai.module.migration.job</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state in ('generated', 'migrated')" decoration-warning="state in ('scanned', 'migrating', 'generating')" decoration-danger="state == 'failed'" decoration-muted="not active">
+                <field name="active" column_invisible="1"/>
+                <field name="name"/>
+                <field name="module_name"/>
+                <field name="source_version"/>
+                <field name="target_version"/>
+                <field name="direction"/>
+                <field name="source_edition"/>
+                <field name="provider"/>
+                <field name="file_count"/>
+                <field name="last_scan_at"/>
+                <field name="last_generated_at"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ai_module_migration_job_form" model="ir.ui.view">
+        <field name="name">ai.module.migration.job.form</field>
+        <field name="model">ai.module.migration.job</field>
+        <field name="arch" type="xml">
+            <form string="AI Module Migration Job">
+                <header>
+                    <button name="action_load_source" type="object" string="Load Source" icon="fa-upload" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_run_code_migration" type="object" string="Queue Code Migration" icon="fa-cogs" class="oe_highlight" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_retry_skipped_files" type="object" string="Retry Skipped/Error" icon="fa-refresh" class="btn-secondary" invisible="not skipped_file_count or state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_download_migrated_zip" type="object" string="Download Zip" icon="fa-download" class="btn-primary" invisible="not output_zip_attachment_id"/>
+                    <button name="action_generate_migration_plan" type="object" string="Generate AI Plan" icon="fa-magic" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_generate_static_report" type="object" string="Static Report" icon="fa-file-text-o" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_export_report" type="object" string="Export Report" icon="fa-file-o" class="btn-secondary" invisible="not migration_report"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset" icon="fa-undo" invisible="state in ('draft', 'migrating', 'generating')"/>
+                    <button name="action_archive" type="object" string="Archive" icon="fa-archive" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,scanned,generating,generated,migrating,migrated"/>
+                    <field name="ai_module_migrator_live_refresh_ping" widget="ai_migrator_auto_refresh"
+                           invisible="1" options="{'interval': 6}"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <field name="report_attachment_id" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_scan_source" type="object" class="oe_stat_button" icon="fa-files-o">
+                            <field name="file_count" widget="statinfo" string="Files"/>
+                        </button>
+                        <button name="action_generate_static_report" type="object" class="oe_stat_button" icon="fa-code">
+                            <field name="python_file_count" widget="statinfo" string="Python"/>
+                        </button>
+                        <button name="action_download_migrated_zip" type="object" class="oe_stat_button" icon="fa-check-circle" invisible="state != 'migrated'">
+                            <field name="migrated_file_count" widget="statinfo" string="Migrated"/>
+                        </button>
+                        <button type="object" name="action_download_migrated_zip" class="oe_stat_button" icon="fa-exclamation-triangle" invisible="not skipped_file_count">
+                            <field name="skipped_file_count" widget="statinfo" string="Skipped"/>
+                        </button>
+                        <button type="object" name="action_download_migrated_zip" class="oe_stat_button" icon="fa-eye" invisible="not review_file_count">
+                            <field name="review_file_count" widget="statinfo" string="Needs Review"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="sale_custom: Odoo 14 to 19"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Source">
+                            <field name="input_mode"/>
+                            <field name="source_path" invisible="input_mode != 'filesystem'" placeholder="/path/to/custom_addon"/>
+                            <field name="source_archive" filename="source_archive_filename" invisible="input_mode != 'upload'"/>
+                            <field name="source_archive_filename" invisible="1"/>
+                            <field name="dependency_archive" filename="dependency_archive_filename" invisible="input_mode != 'upload'"/>
+                            <field name="dependency_archive_filename" invisible="1"/>
+                            <field name="output_server_path" placeholder="/path/to/output  (optional — zip always available)"/>
+                            <field name="module_name" readonly="1"/>
+                            <field name="source_fingerprint" readonly="1"/>
+                        </group>
+                        <group string="Migration">
+                            <field name="source_version"/>
+                            <field name="source_version_note" readonly="1"/>
+                            <field name="source_version_confidence" readonly="1"/>
+                            <field name="target_version"/>
+                            <field name="direction" readonly="1"/>
+                            <field name="output_format"/>
+                            <field name="dependency_handling"/>
+                            <field name="source_edition" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="AI">
+                            <field name="provider"/>
+                            <field name="model_override" placeholder="Optional model override"/>
+                            <field name="custom_instruction" placeholder="Example: keep OCA style, preserve portal routes, target Community only."/>
+                        </group>
+                        <group string="Scan Metrics">
+                            <field name="file_count" readonly="1"/>
+                            <field name="python_file_count" readonly="1"/>
+                            <field name="xml_file_count" readonly="1"/>
+                            <field name="js_file_count" readonly="1"/>
+                            <field name="total_bytes" readonly="1"/>
+                            <field name="last_scan_at" readonly="1"/>
+                            <field name="last_generated_at" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Summary" name="summary">
+                            <!-- These are wide, prose-shaped reports. Wrapping them in <group>
+                                 puts each one in a two-column grid's value cell, which is only a
+                                 fraction of the form width, so every line wraps and the tab runs
+                                 metres down the page. <separator> gives the same section heading
+                                 while letting the field use the full width. -->
+                            <field name="source_summary_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                            <separator string="Source Version Consensus"/>
+                            <field name="source_version_evidence_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                            <separator string="Local Addon Index"/>
+                            <field name="local_index_summary_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                            <separator string="Module Symbol Map"/>
+                            <field name="module_symbol_map_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                        </page>
+                        <page string="Dependencies" name="dependencies">
+                            <group>
+                                <field name="dependency_handling"/>
+                                <field name="dependency_names" readonly="1" widget="text"/>
+                            </group>
+                            <field name="dependency_summary_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                            <field name="dependency_context_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report" invisible="dependency_handling != 'include'"/>
+                        </page>
+                        <page string="Static Findings" name="static_findings">
+                            <field name="static_findings_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                        </page>
+                        <page string="File Inventory" name="file_inventory">
+                            <field name="file_inventory_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                        </page>
+                        <page string="Migration Files" name="migration_files">
+                            <field name="migration_file_ids" nolabel="1" readonly="1">
+                                <list decoration-success="state == 'migrated'" decoration-info="state == 'pending'" decoration-muted="state == 'copied'" decoration-warning="state in ('skipped', 'review')" decoration-danger="state == 'error'">
+                                    <field name="file_path"/>
+                                    <field name="file_kind"/>
+                                    <field name="file_size"/>
+                                    <field name="state"/>
+                                    <field name="skip_reason"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="file_path"/>
+                                        <field name="file_kind"/>
+                                        <field name="file_size"/>
+                                        <field name="state"/>
+                                    </group>
+                                    <field name="skip_reason" widget="text"/>
+                                    <field name="migrated_content" widget="text"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="AI Logs" name="ai_logs">
+                            <field name="migration_terminal_log" nolabel="1" readonly="1" widget="text" class="o_ai_module_migrator_terminal_log"/>
+                        </page>
+                        <page string="Manifest" name="manifest">
+                            <group>
+                                <field name="manifest_name" readonly="1"/>
+                            </group>
+                            <field name="manifest_text_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                        </page>
+                        <page string="Migration Report" name="migration_report">
+                            <field name="migration_report_html" nolabel="1" readonly="1" widget="html"
+                                   class="o_ai_module_migrator_report" placeholder="Generate an AI plan or static report."/>
+                        </page>
+                        <page string="AI Raw" name="ai_raw">
+                            <field name="ai_raw_response_html" nolabel="1" readonly="1" widget="html" class="o_ai_module_migrator_report"/>
+                        </page>
+                        <page string="Migrated Code" name="migrated_code" invisible="state not in ('migrated', 'migrating')">
+                            <group>
+                                <group string="Output">
+                                    <field name="migrated_file_count" readonly="1"/>
+                                    <field name="skipped_file_count" readonly="1"/>
+                                    <field name="review_file_count" readonly="1"/>
+                                    <field name="output_zip_attachment_id" readonly="1"/>
+                                    <field name="last_generated_at" readonly="1"/>
+                                </group>
+                                <group string="How to use">
+                                    <div class="o_field_widget o_wrap_field col-lg-12">
+                                        <p>1. Click <b>Download Zip</b> to get the migrated module.</p>
+                                        <p>2. Extract into your custom-addons folder and rename if needed.</p>
+                                        <p>3. Install on a test database: <code>-u &lt;module_name&gt;</code></p>
+                                        <p>4. Review the Skipped Files tab for anything needing manual attention.</p>
+                                        <p>5. Check the Needs Review tab before trusting anything there — those files
+                                           are syntactically valid but structurally differ from the original
+                                           (e.g. a missing method or XML record), so the AI's output was not
+                                           auto-trusted.</p>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Skipped Files" name="skipped_files" invisible="not skipped_file_count">
+                            <div class="alert alert-warning" role="alert">
+                                These files were not migrated by AI. Error files are copied unchanged into the output; SKIP files need manual review.
+                            </div>
+                            <field name="skipped_file_list" nolabel="1" readonly="1" widget="text"/>
+                        </page>
+                        <page string="Needs Review" name="needs_review" invisible="not review_file_count">
+                            <div class="alert alert-warning" role="alert">
+                                These files passed syntax validation and are included in the output zip, but the
+                                migrated content structurally differs from the original file (e.g. a method,
+                                field, or XML record id present before migration is missing after it). This can
+                                be a correct, intentional removal — or a silent AI mistake that would otherwise
+                                go unnoticed. Open each file in the Migrated Code tab or the Migrated Files list
+                                and diff it against the original before you trust it.
+                            </div>
+                            <field name="review_file_list" nolabel="1" readonly="1" widget="text"/>
+                        </page>
+                        <page string="Errors" name="errors" invisible="not last_error">
+                            <field name="last_error" nolabel="1" readonly="1" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ai_module_migration_job_search" model="ir.ui.view">
+        <field name="name">ai.module.migration.job.search</field>
+        <field name="model">ai.module.migration.job</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="module_name"/>
+                <field name="source_path"/>
+                <filter name="generated" string="Generated" domain="[('state', '=', 'generated')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <filter name="enterprise" string="Enterprise/Mixed" domain="[('source_edition', 'in', ('enterprise', 'mixed'))]"/>
+                <separator/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]" context="{'active_test': False}"/>
+                <group>
+                    <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="group_direction" string="Direction" context="{'group_by': 'direction'}"/>
+                    <filter name="group_source_version" string="Source Version" context="{'group_by': 'source_version'}"/>
+                    <filter name="group_target_version" string="Target Version" context="{'group_by': 'target_version'}"/>
+                    <filter name="group_provider" string="Provider" context="{'group_by': 'provider'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ai_module_migration_job" model="ir.actions.act_window">
+        <field name="name">Migration Jobs</field>
+        <field name="res_model">ai.module.migration.job</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <record id="action_ai_module_migrator_settings" model="ir.actions.act_window">
+        <field name="name">AI Addon Migrator Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'ai_module_migrator'}</field>
+    </record>
+
+    <menuitem id="menu_ai_module_migrator_root" name="AI Migrator" sequence="35" groups="ai_module_migrator.group_ai_module_migrator_user"/>
+    <menuitem id="menu_ai_module_migrator_jobs" name="Migration Jobs" parent="menu_ai_module_migrator_root" action="action_ai_module_migration_job" sequence="10" groups="ai_module_migrator.group_ai_module_migrator_user"/>
+    <menuitem id="menu_ai_module_migrator_settings" name="Settings" parent="menu_ai_module_migrator_root" action="action_ai_module_migrator_settings" sequence="90" groups="ai_module_migrator.group_ai_module_migrator_manager"/>
+</odoo>
