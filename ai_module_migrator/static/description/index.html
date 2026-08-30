@@ -1,362 +1,308 @@
-<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1c1636; max-width:1080px; margin:0 auto; line-height:1.6; -webkit-font-smoothing:antialiased;">
+<section class="amx" style="box-sizing:border-box; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#334155; line-height:1.65; font-size:15px">
 
-  <!-- ══════════════════ HERO ══════════════════ -->
-  <div style="border-radius:20px; overflow:hidden; box-shadow:0 18px 46px -18px rgba(76,48,190,.55);">
-    <img src="banner.png" alt="AI Addon Migrator" style="width:100%; display:block;"/>
+  <!-- ══════════ HERO ══════════ -->
+  <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:6px 20px 0">
+    <h1 style="box-sizing:border-box; font-size:34px; line-height:1.15; font-weight:800; color:#0F172A; margin:0 0 8px">AI Addon Migrator for Odoo</h1>
+    <p style="box-sizing:border-box; margin:0 0 18px; font-size:18px; color:#64748B; max-width:72ch">Migrate any custom Odoo module or addon between Odoo 11 and 19, in either direction, using the AI provider of your choice &#8212; with deterministic validation on every file the AI returns.</p>
+    <img src="banner.png" alt="AI Addon Migrator for Odoo 19" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border-radius:16px">
   </div>
 
-  <div style="text-align:center; padding:44px 20px 8px;">
-    <div style="display:inline-block; background:#efeaff; color:#5b39e0; font-size:12px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; padding:7px 16px; border-radius:20px;">
-      For Odoo partners, integrators &amp; in-house developers
-    </div>
-    <h1 style="font-size:37px; line-height:1.25; margin:22px auto 0; max-width:820px; color:#1c1636; font-weight:800; letter-spacing:-.6px;">
-      Stop rewriting the same migration by hand.
-    </h1>
-    <p style="font-size:18.5px; color:#5f5885; max-width:730px; margin:18px auto 0;">
-      Point it at any custom addon &mdash; a server folder or an uploaded zip &mdash; choose the source
-      and target versions, and get back a ready-to-install module. Every AI response is checked by
-      deterministic validation before it is trusted, so what you download is reviewable, not a black box.
-    </p>
-  </div>
-
-  <!-- ══════════════════ STAT STRIP ══════════════════ -->
-  <div style="display:flex; flex-wrap:wrap; gap:14px; margin:38px 0 60px;">
-    <div style="flex:1 1 200px; text-align:center; background:linear-gradient(160deg,#faf8ff,#f2eeff); border:1px solid #e9e4f9; border-radius:14px; padding:22px 14px;">
-      <div style="font-size:27px; font-weight:800; color:#5b39e0; letter-spacing:-.5px;">11 &rarr; 19</div>
-      <div style="font-size:13px; color:#6f6890; margin-top:4px; font-weight:600;">Any version pair, either direction</div>
-    </div>
-    <div style="flex:1 1 200px; text-align:center; background:linear-gradient(160deg,#faf8ff,#f2eeff); border:1px solid #e9e4f9; border-radius:14px; padding:22px 14px;">
-      <div style="font-size:27px; font-weight:800; color:#5b39e0; letter-spacing:-.5px;">7</div>
-      <div style="font-size:13px; color:#6f6890; margin-top:4px; font-weight:600;">AI providers, switchable per job</div>
-    </div>
-    <div style="flex:1 1 200px; text-align:center; background:linear-gradient(160deg,#faf8ff,#f2eeff); border:1px solid #e9e4f9; border-radius:14px; padding:22px 14px;">
-      <div style="font-size:27px; font-weight:800; color:#5b39e0; letter-spacing:-.5px;">0</div>
-      <div style="font-size:13px; color:#6f6890; margin-top:4px; font-weight:600;">Extra modules to install</div>
-    </div>
-    <div style="flex:1 1 200px; text-align:center; background:linear-gradient(160deg,#faf8ff,#f2eeff); border:1px solid #e9e4f9; border-radius:14px; padding:22px 14px;">
-      <div style="font-size:27px; font-weight:800; color:#5b39e0; letter-spacing:-.5px;">File&nbsp;by&nbsp;file</div>
-      <div style="font-size:13px; color:#6f6890; margin-top:4px; font-weight:600;">Validated &amp; individually retried</div>
+  <!-- ══════════ PITCH ══════════ -->
+  <div style="box-sizing:border-box; padding:48px 0 8px">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <div style="box-sizing:border-box; font-size:12px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:#5B39E0; margin:0 0 12px">For Odoo partners, integrators and in-house developers</div>
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">Stop rewriting the same migration by hand</h2>
+      <p style="box-sizing:border-box; margin:0; font-size:18px; color:#64748B; max-width:70ch">Point it at an addon &#8212; a server folder or an uploaded zip &#8212; choose the source and target versions, and get back a ready-to-install module. Every AI response is syntax-checked and scanned for leftover legacy code before it is trusted, so what you download is reviewable, not a black box.</p>
     </div>
   </div>
 
-  <!-- ══════════════════ TRANSFORMATION SHOWCASE ══════════════════ -->
-  <div style="background:#171034; border-radius:22px; padding:46px 40px 40px; margin-bottom:64px; box-shadow:0 22px 50px -24px rgba(23,16,52,.7);">
-    <div style="text-align:center; margin-bottom:34px;">
-      <div style="display:inline-block; background:rgba(255,255,255,.09); color:#b9a9ff; font-size:11.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:6px 15px; border-radius:20px;">
-        Real output
-      </div>
-      <h2 style="color:#ffffff; font-size:27px; margin:16px 0 8px; font-weight:800; letter-spacing:-.4px;">What an upgrade actually looks like</h2>
-      <p style="color:#9d94c9; font-size:15px; margin:0 auto; max-width:620px;">
-        Taken from a real Odoo&nbsp;11&nbsp;&rarr;&nbsp;19 run on a production HR addon. The constructs below
-        are the ones that silently break a module on install.
-      </p>
+  <!-- ══════════ STATS ══════════ -->
+  <div style="box-sizing:border-box; padding:34px 0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <table style="box-sizing:border-box; width:100%; table-layout:fixed; border-collapse:separate; border-spacing:14px; margin:0 -14px" width="100%">
+        <tbody>
+          <tr>
+            <td width="25%" valign="top" style="box-sizing:border-box; width:25%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:14px; padding:20px 16px; text-align:center">
+                <div style="box-sizing:border-box; font-size:24px; font-weight:800; color:#5B39E0">11 &#8594; 19</div>
+                <div style="box-sizing:border-box; font-size:13px; color:#64748B; margin-top:4px">Any version pair, either direction</div>
+              </div>
+            </td>
+            <td width="25%" valign="top" style="box-sizing:border-box; width:25%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:14px; padding:20px 16px; text-align:center">
+                <div style="box-sizing:border-box; font-size:24px; font-weight:800; color:#5B39E0">7</div>
+                <div style="box-sizing:border-box; font-size:13px; color:#64748B; margin-top:4px">AI providers, switchable per job</div>
+              </div>
+            </td>
+            <td width="25%" valign="top" style="box-sizing:border-box; width:25%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:14px; padding:20px 16px; text-align:center">
+                <div style="box-sizing:border-box; font-size:24px; font-weight:800; color:#5B39E0">0</div>
+                <div style="box-sizing:border-box; font-size:13px; color:#64748B; margin-top:4px">Extra modules to install</div>
+              </div>
+            </td>
+            <td width="25%" valign="top" style="box-sizing:border-box; width:25%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:14px; padding:20px 16px; text-align:center">
+                <div style="box-sizing:border-box; font-size:24px; font-weight:800; color:#5B39E0">File&nbsp;by&nbsp;file</div>
+                <div style="box-sizing:border-box; font-size:13px; color:#64748B; margin-top:4px">Validated and individually retried</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 
-    <div style="display:flex; flex-wrap:wrap; gap:22px;">
+  <!-- ══════════ BEFORE / AFTER ══════════ -->
+  <div style="box-sizing:border-box; padding:44px 0; background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <div style="box-sizing:border-box; font-size:12px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:#5B39E0; margin:0 0 12px">Real output</div>
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">What an upgrade actually looks like</h2>
+      <p style="box-sizing:border-box; margin:0 0 22px; font-size:17px; color:#64748B; max-width:70ch">From a real Odoo 11 to 19 run on a production HR addon. These are the constructs that silently break a module on install.</p>
 
-      <!-- BEFORE -->
-      <div style="flex:1 1 400px; min-width:300px; background:#100b26; border:1px solid #2c2158; border-radius:14px; overflow:hidden;">
-        <div style="background:rgba(248,113,113,.11); border-bottom:1px solid #2c2158; padding:11px 18px; display:flex; align-items:center; gap:9px;">
-          <span style="width:9px; height:9px; border-radius:50%; background:#f87171; display:inline-block;"></span>
-          <span style="color:#fca5a5; font-size:11.5px; font-weight:700; letter-spacing:1.3px;">ODOO 11 &mdash; SOURCE</span>
-        </div>
-        <pre style="margin:0; padding:20px 18px; font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace; font-size:13px; line-height:1.85; color:#e7bcbc; white-space:pre; overflow-x:auto;">&lt;<span style="color:#ff9d9d;">tree</span> string="Employee Resignation"&gt;
+      <table style="box-sizing:border-box; width:100%; table-layout:fixed; border-collapse:separate; border-spacing:16px; margin:0 -16px" width="100%">
+        <tbody>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #FECACA; border-radius:12px; overflow:hidden">
+                <div style="box-sizing:border-box; background:#FEF2F2; border-bottom:1px solid #FECACA; padding:9px 16px; font-size:11px; font-weight:800; letter-spacing:0.12em; color:#B91C1C">ODOO 11 &#8212; SOURCE</div>
+                <pre style="box-sizing:border-box; margin:0; padding:16px; font-family:Consolas,'Liberation Mono',Menlo,monospace; font-size:12.5px; line-height:1.8; color:#7F1D1D; white-space:pre-wrap; word-break:break-word; background:#fff">&lt;<strong style="color:#B91C1C">tree</strong> string="Employee Resignation"&gt;
 
 &lt;button name="confirm_resignation"
-        <span style="color:#ff9d9d;">states</span>="draft"/&gt;
+        <strong style="color:#B91C1C">states</strong>="draft"/&gt;
 
 &lt;field name="notice_period"
-       <span style="color:#ff9d9d;">states</span>="confirm,approved"/&gt;
+       <strong style="color:#B91C1C">states</strong>="confirm,approved"/&gt;
 
-&lt;field name="<span style="color:#ff9d9d;">view_type</span>"&gt;form&lt;/field&gt;
-&lt;field name="view_mode"&gt;<span style="color:#ff9d9d;">tree</span>,form&lt;/field&gt;
+&lt;field name="<strong style="color:#B91C1C">view_type</strong>"&gt;form&lt;/field&gt;
+&lt;field name="view_mode"&gt;<strong style="color:#B91C1C">tree</strong>,form&lt;/field&gt;
 
-<span style="color:#ff9d9d;">@api.multi</span>
+<strong style="color:#B91C1C">@api.multi</strong>
 def confirm_resignation(self):</pre>
-      </div>
-
-      <!-- AFTER -->
-      <div style="flex:1 1 400px; min-width:300px; background:#0b2018; border:1px solid #1e4b39; border-radius:14px; overflow:hidden;">
-        <div style="background:rgba(52,211,153,.11); border-bottom:1px solid #1e4b39; padding:11px 18px; display:flex; align-items:center; gap:9px;">
-          <span style="width:9px; height:9px; border-radius:50%; background:#34d399; display:inline-block;"></span>
-          <span style="color:#6ee7b7; font-size:11.5px; font-weight:700; letter-spacing:1.3px;">ODOO 19 &mdash; MIGRATED</span>
-        </div>
-        <pre style="margin:0; padding:20px 18px; font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace; font-size:13px; line-height:1.85; color:#b7e8cf; white-space:pre; overflow-x:auto;">&lt;<span style="color:#6ee7b7;">list</span> string="Employee Resignation"&gt;
+              </div>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #A7F3D0; border-radius:12px; overflow:hidden">
+                <div style="box-sizing:border-box; background:#ECFDF5; border-bottom:1px solid #A7F3D0; padding:9px 16px; font-size:11px; font-weight:800; letter-spacing:0.12em; color:#047857">ODOO 19 &#8212; MIGRATED</div>
+                <pre style="box-sizing:border-box; margin:0; padding:16px; font-family:Consolas,'Liberation Mono',Menlo,monospace; font-size:12.5px; line-height:1.8; color:#065F46; white-space:pre-wrap; word-break:break-word; background:#fff">&lt;<strong style="color:#047857">list</strong> string="Employee Resignation"&gt;
 
 &lt;button name="confirm_resignation"
-        <span style="color:#6ee7b7;">invisible</span>="state != 'draft'"/&gt;
+        <strong style="color:#047857">invisible</strong>="state != 'draft'"/&gt;
 
 &lt;field name="notice_period"
-       <span style="color:#6ee7b7;">invisible</span>="state not in
+       <strong style="color:#047857">invisible</strong>="state not in
                   ['confirm','approved']"/&gt;
 
-<span style="color:#5f8f78;">(view_type removed &mdash; gone since Odoo 12)</span>
-&lt;field name="view_mode"&gt;<span style="color:#6ee7b7;">list</span>,form&lt;/field&gt;
+<span style="color:#94A3B8">(view_type removed &#8212; gone since Odoo 12)</span>
+&lt;field name="view_mode"&gt;<strong style="color:#047857">list</strong>,form&lt;/field&gt;
 
-<span style="color:#5f8f78;">(@api.multi removed &mdash; gone since Odoo 13)</span>
+<span style="color:#94A3B8">(@api.multi removed &#8212; gone since Odoo 13)</span>
 def confirm_resignation(self):</pre>
-      </div>
-    </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div style="margin-top:26px; background:rgba(255,255,255,.05); border-left:3px solid #7c5cef; border-radius:0 10px 10px 0; padding:15px 20px;">
-      <p style="margin:0; color:#c3badf; font-size:14px; line-height:1.7;">
-        <strong style="color:#ffffff;">Note the detail that matters:</strong> a modifier must become a Python
-        <em>expression</em> (<code style="background:rgba(255,255,255,.1); padding:2px 6px; border-radius:4px; color:#d9cfff;">state != 'draft'</code>),
-        not a leftover domain list. A domain list is always truthy, so the button would be permanently hidden.
-        A dedicated check catches exactly this and sends the file back for correction.
-      </p>
-    </div>
-  </div>
-
-  <!-- ══════════════════ FEATURES ══════════════════ -->
-  <div style="text-align:center; margin-bottom:34px;">
-    <h2 style="font-size:29px; margin:0 0 10px; color:#1c1636; font-weight:800; letter-spacing:-.5px;">Built to be trusted, not just fast</h2>
-    <p style="color:#6f6890; font-size:16px; margin:0 auto; max-width:640px;">
-      Anything can pipe a file to an LLM. The work is in everything that happens around the call.
-    </p>
-  </div>
-
-  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:64px;">
-
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-left:4px solid #7c5cef; border-radius:12px; padding:24px 26px; box-shadow:0 3px 14px -8px rgba(76,48,190,.3);">
-      <h3 style="margin:0 0 9px; font-size:17.5px; color:#2a1f6b; font-weight:750;">It does not take &ldquo;no&rdquo; for an answer</h3>
-      <p style="margin:0; color:#5f5885; font-size:14.5px;">
-        When a model replies <code style="background:#f2eeff; padding:1px 5px; border-radius:4px;">SKIP</code>,
-        refuses, or returns prose instead of code, the file is not quietly abandoned. It is re-asked with a
-        firmer, more specific instruction, up to a configurable attempt limit &mdash; and the original file is
-        always preserved either way.
-      </p>
-    </div>
-
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-left:4px solid #7c5cef; border-radius:12px; padding:24px 26px; box-shadow:0 3px 14px -8px rgba(76,48,190,.3);">
-      <h3 style="margin:0 0 9px; font-size:17.5px; color:#2a1f6b; font-weight:750;">Validated, then re-validated</h3>
-      <p style="margin:0; color:#5f5885; font-size:14.5px;">
-        Every migrated file is syntax-checked &mdash; Python AST, XML well-formedness, JS bracket balance
-        &mdash; and repaired on failure. It is then scanned for legacy constructs the AI itself left behind
-        and sent back for a targeted fix. The same checks run whichever provider you use.
-      </p>
-    </div>
-
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-left:4px solid #7c5cef; border-radius:12px; padding:24px 26px; box-shadow:0 3px 14px -8px rgba(76,48,190,.3);">
-      <h3 style="margin:0 0 9px; font-size:17.5px; color:#2a1f6b; font-weight:750;">Nothing silently disappears</h3>
-      <p style="margin:0; color:#5f5885; font-size:14.5px;">
-        Methods, classes, XML record ids and manifest <code style="background:#f2eeff; padding:1px 5px; border-radius:4px;">depends</code>/<code style="background:#f2eeff; padding:1px 5px; border-radius:4px;">data</code>
-        are compared before and after. If something vanished, the file is flagged <strong>Needs Review</strong>.
-        Valid syntax is never mistaken for correctness.
-      </p>
-    </div>
-
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-left:4px solid #7c5cef; border-radius:12px; padding:24px 26px; box-shadow:0 3px 14px -8px rgba(76,48,190,.3);">
-      <h3 style="margin:0 0 9px; font-size:17.5px; color:#2a1f6b; font-weight:750;">Honest version detection</h3>
-      <p style="margin:0; color:#5f5885; font-size:14.5px;">
-        Manifest metadata and code patterns are scored together to identify the source version, with a stated
-        confidence level. When the evidence is thin it says so and asks you to confirm, instead of guessing
-        and quietly migrating from the wrong baseline.
-      </p>
-    </div>
-
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-left:4px solid #7c5cef; border-radius:12px; padding:24px 26px; box-shadow:0 3px 14px -8px rgba(76,48,190,.3);">
-      <h3 style="margin:0 0 9px; font-size:17.5px; color:#2a1f6b; font-weight:750;">Its own background queue</h3>
-      <p style="margin:0; color:#5f5885; font-size:14.5px;">
-        Long AI work runs as background tasks driven by a standard scheduled action &mdash; no external queue
-        module, no <code style="background:#f2eeff; padding:1px 5px; border-radius:4px;">server_wide_modules</code>
-        entry. Tasks retry with backoff, survive a restart, and are visible in their own menu.
-      </p>
-    </div>
-
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-left:4px solid #7c5cef; border-radius:12px; padding:24px 26px; box-shadow:0 3px 14px -8px rgba(76,48,190,.3);">
-      <h3 style="margin:0 0 9px; font-size:17.5px; color:#2a1f6b; font-weight:750;">A complete audit trail</h3>
-      <p style="margin:0; color:#5f5885; font-size:14.5px;">
-        A timestamped terminal log records every request, provider, model, token budget, retry and outcome
-        per file &mdash; so you can see exactly why a file was migrated, flagged, or left alone.
-      </p>
-    </div>
-  </div>
-
-  <!-- ══════════════════ PIPELINE ══════════════════ -->
-  <div style="background:linear-gradient(165deg,#faf8ff,#f4f0ff); border:1px solid #e9e4f9; border-radius:20px; padding:44px 40px; margin-bottom:64px;">
-    <div style="text-align:center; margin-bottom:32px;">
-      <h2 style="font-size:27px; margin:0 0 8px; color:#1c1636; font-weight:800; letter-spacing:-.4px;">From source addon to installable zip</h2>
-      <p style="color:#6f6890; font-size:15px; margin:0;">Five steps. You stay in control at every one of them.</p>
-    </div>
-
-    <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:22px;">
-      <div style="flex:0 0 38px; height:38px; border-radius:50%; background:#7c5cef; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; box-shadow:0 4px 10px -3px rgba(124,92,239,.7);">1</div>
-      <div style="padding-top:6px;"><strong style="color:#2a1f6b; font-size:16px;">Load the source</strong>
-        <div style="color:#5f5885; font-size:14.5px; margin-top:3px;">Server folder or uploaded zip. The addon is scanned, its version detected and a static findings report produced &mdash; all before a single AI call.</div>
-      </div>
-    </div>
-    <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:22px;">
-      <div style="flex:0 0 38px; height:38px; border-radius:50%; background:#7c5cef; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; box-shadow:0 4px 10px -3px rgba(124,92,239,.7);">2</div>
-      <div style="padding-top:6px;"><strong style="color:#2a1f6b; font-size:16px;">Decide on dependencies</strong>
-        <div style="color:#5f5885; font-size:14.5px; margin-top:3px;">Each manifest dependency is classified against your own addon roots. You choose whether their source is sent as AI context &mdash; or not sent at all.</div>
-      </div>
-    </div>
-    <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:22px;">
-      <div style="flex:0 0 38px; height:38px; border-radius:50%; background:#7c5cef; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; box-shadow:0 4px 10px -3px rgba(124,92,239,.7);">3</div>
-      <div style="padding-top:6px;"><strong style="color:#2a1f6b; font-size:16px;">Generate a plan <span style="color:#8a82ad; font-weight:500;">(optional)</span></strong>
-        <div style="color:#5f5885; font-size:14.5px; margin-top:3px;">A written migration report, patch plan, file-by-file rewrite plan or compatibility review &mdash; produced in the background, so it never ties up your browser.</div>
-      </div>
-    </div>
-    <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:22px;">
-      <div style="flex:0 0 38px; height:38px; border-radius:50%; background:#7c5cef; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; box-shadow:0 4px 10px -3px rgba(124,92,239,.7);">4</div>
-      <div style="padding-top:6px;"><strong style="color:#2a1f6b; font-size:16px;">Run the code migration</strong>
-        <div style="color:#5f5885; font-size:14.5px; margin-top:3px;">Every file becomes its own background task: migrated, validated, retried on failure, checked for drift, and flagged when something looks off. Watch it progress live.</div>
-      </div>
-    </div>
-    <div style="display:flex; gap:20px; align-items:flex-start;">
-      <div style="flex:0 0 38px; height:38px; border-radius:50%; background:#2a1f6b; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; box-shadow:0 4px 10px -3px rgba(42,31,107,.6);">5</div>
-      <div style="padding-top:6px;"><strong style="color:#2a1f6b; font-size:16px;">Download and review</strong>
-        <div style="color:#5f5885; font-size:14.5px; margin-top:3px;">A ready-to-install module zip, plus the Skipped and Needs Review lists &mdash; so you know precisely what to check by hand before trusting it in production.</div>
+      <div style="box-sizing:border-box; margin-top:18px; background:#EEF2FF; border-left:3px solid #5B39E0; border-radius:0 10px 10px 0; padding:14px 18px">
+        <p style="box-sizing:border-box; margin:0; font-size:14.5px; color:#334155">
+          <strong style="color:#0F172A">The detail that matters:</strong> a modifier must become a Python <em>expression</em>
+          (<code style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; padding:1px 5px; border-radius:4px">state != 'draft'</code>),
+          not a leftover domain list. A domain list is always truthy, so the button would be hidden permanently. A dedicated check catches exactly this and sends the file back for correction.
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════ PROVIDERS ══════════════════ -->
-  <div style="text-align:center; margin-bottom:26px;">
-    <h2 style="font-size:27px; margin:0 0 8px; color:#1c1636; font-weight:800; letter-spacing:-.4px;">Bring your own AI</h2>
-    <p style="color:#6f6890; font-size:15px; margin:0 auto; max-width:620px;">
-      Configure one provider or several, switch per job, override the model, and test the connection before
-      you commit to a run. Usage is billed by your provider, never through this app.
-    </p>
-  </div>
-  <div style="display:flex; flex-wrap:wrap; gap:11px; justify-content:center; margin-bottom:64px;">
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">OpenAI</span>
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">Google Gemini</span>
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">Anthropic Claude</span>
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">Groq</span>
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">DeepSeek</span>
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">Ollama Cloud</span>
-    <span style="background:#ffffff; border:1px solid #e2dcf6; border-radius:10px; padding:11px 20px; font-size:14.5px; font-weight:650; color:#2a1f6b;">Any OpenAI-compatible endpoint</span>
+  <!-- ══════════ FEATURES ══════════ -->
+  <div style="box-sizing:border-box; padding:48px 0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">Built to be trusted, not just fast</h2>
+      <p style="box-sizing:border-box; margin:0 0 20px; font-size:17px; color:#64748B; max-width:70ch">Anything can pipe a file to an LLM. The work is in everything that happens around the call.</p>
+
+      <table style="box-sizing:border-box; width:100%; table-layout:fixed; border-collapse:separate; border-spacing:16px; margin:0 -16px" width="100%">
+        <tbody>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-left:3px solid #5B39E0; border-radius:12px; padding:20px 22px; min-height:150px">
+                <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 7px">It does not take &#8220;no&#8221; for an answer</h3>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">When a model replies SKIP, refuses, or returns prose instead of code, the file is not quietly abandoned. It is re-asked with a firmer instruction, up to a configurable limit &#8212; and the original is always preserved.</p>
+              </div>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-left:3px solid #5B39E0; border-radius:12px; padding:20px 22px; min-height:150px">
+                <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 7px">Validated, then re-validated</h3>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Every migrated file is syntax-checked &#8212; Python AST, XML well-formedness, JS bracket balance &#8212; and repaired on failure, then scanned for legacy constructs the AI itself left behind. The same checks run whichever provider you use.</p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-left:3px solid #5B39E0; border-radius:12px; padding:20px 22px; min-height:150px">
+                <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 7px">Nothing silently disappears</h3>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Methods, classes, XML record ids and manifest depends/data are compared before and after. If something vanished, the file is flagged Needs Review. Valid syntax is never mistaken for correctness.</p>
+              </div>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-left:3px solid #5B39E0; border-radius:12px; padding:20px 22px; min-height:150px">
+                <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 7px">Honest version detection</h3>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Manifest metadata and code patterns are scored together to identify the source version, with a stated confidence level. When the evidence is thin it says so and asks you to confirm, instead of migrating from the wrong baseline.</p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-left:3px solid #5B39E0; border-radius:12px; padding:20px 22px; min-height:150px">
+                <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 7px">Its own background queue</h3>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Long AI work runs as background tasks driven by a standard scheduled action &#8212; no external queue module, no server_wide_modules entry. Tasks retry with backoff, survive a restart, and are visible in their own menu.</p>
+              </div>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-left:3px solid #5B39E0; border-radius:12px; padding:20px 22px; min-height:150px">
+                <h3 style="box-sizing:border-box; font-size:17px; font-weight:700; color:#0F172A; margin:0 0 7px">A complete audit trail</h3>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">A timestamped terminal log records every request, provider, model, token budget, retry and outcome per file &#8212; so you can see exactly why a file was migrated, flagged, or left alone.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <!-- ══════════════════ SCREENSHOTS ══════════════════
-       Tiles 1-4 are half-width; 5 (Settings) and 6 (Background Tasks) are
-       full-width because both are wide, dense captures whose text is
-       unreadable at 46%. To refresh one, overwrite the file of the same name
-       in screenshots/ — the markup needs no change.
-  ═══════════════════════════════════════════════════════ -->
-  <div style="text-align:center; margin-bottom:32px;">
-    <h2 style="font-size:27px; margin:0 0 8px; color:#1c1636; font-weight:800; letter-spacing:-.4px;">See it in action</h2>
-    <p style="color:#6f6890; font-size:15px; margin:0;">Everything happens inside Odoo &mdash; no external console, no command line.</p>
+  <!-- ══════════ PIPELINE ══════════ -->
+  <div style="box-sizing:border-box; padding:44px 0; background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">From source addon to installable zip</h2>
+      <p style="box-sizing:border-box; margin:0 0 20px; font-size:17px; color:#64748B">Five steps. You stay in control at every one of them.</p>
+
+      <table style="box-sizing:border-box; width:100%; border-collapse:collapse" width="100%">
+        <tbody>
+          <tr><td width="42" valign="top" style="box-sizing:border-box; width:42px; padding:10px 14px 10px 0; vertical-align:top"><div style="box-sizing:border-box; width:30px; height:30px; border-radius:15px; background:#5B39E0; color:#fff; text-align:center; line-height:30px; font-weight:700; font-size:14px">1</div></td>
+              <td valign="top" style="box-sizing:border-box; padding:10px 0; vertical-align:top; border-bottom:1px solid #E2E8F0"><strong style="color:#0F172A; font-size:16px">Load the source</strong><div style="box-sizing:border-box; color:#64748B; font-size:14.5px">Server folder or uploaded zip. The addon is scanned, its version detected and a static findings report produced &#8212; all before a single AI call.</div></td></tr>
+          <tr><td width="42" valign="top" style="box-sizing:border-box; width:42px; padding:10px 14px 10px 0; vertical-align:top"><div style="box-sizing:border-box; width:30px; height:30px; border-radius:15px; background:#5B39E0; color:#fff; text-align:center; line-height:30px; font-weight:700; font-size:14px">2</div></td>
+              <td valign="top" style="box-sizing:border-box; padding:10px 0; vertical-align:top; border-bottom:1px solid #E2E8F0"><strong style="color:#0F172A; font-size:16px">Decide on dependencies</strong><div style="box-sizing:border-box; color:#64748B; font-size:14.5px">Each manifest dependency is classified against your own addon roots. You choose whether their source is sent as AI context &#8212; or not sent at all.</div></td></tr>
+          <tr><td width="42" valign="top" style="box-sizing:border-box; width:42px; padding:10px 14px 10px 0; vertical-align:top"><div style="box-sizing:border-box; width:30px; height:30px; border-radius:15px; background:#5B39E0; color:#fff; text-align:center; line-height:30px; font-weight:700; font-size:14px">3</div></td>
+              <td valign="top" style="box-sizing:border-box; padding:10px 0; vertical-align:top; border-bottom:1px solid #E2E8F0"><strong style="color:#0F172A; font-size:16px">Generate a plan (optional)</strong><div style="box-sizing:border-box; color:#64748B; font-size:14.5px">A migration report, patch plan, file-by-file rewrite plan or compatibility review &#8212; produced in the background, so it never ties up your browser.</div></td></tr>
+          <tr><td width="42" valign="top" style="box-sizing:border-box; width:42px; padding:10px 14px 10px 0; vertical-align:top"><div style="box-sizing:border-box; width:30px; height:30px; border-radius:15px; background:#5B39E0; color:#fff; text-align:center; line-height:30px; font-weight:700; font-size:14px">4</div></td>
+              <td valign="top" style="box-sizing:border-box; padding:10px 0; vertical-align:top; border-bottom:1px solid #E2E8F0"><strong style="color:#0F172A; font-size:16px">Run the code migration</strong><div style="box-sizing:border-box; color:#64748B; font-size:14.5px">Every file becomes its own background task: migrated, validated, retried on failure, checked for drift, and flagged when something looks off. Watch it progress live.</div></td></tr>
+          <tr><td width="42" valign="top" style="box-sizing:border-box; width:42px; padding:10px 14px 10px 0; vertical-align:top"><div style="box-sizing:border-box; width:30px; height:30px; border-radius:15px; background:#0F172A; color:#fff; text-align:center; line-height:30px; font-weight:700; font-size:14px">5</div></td>
+              <td valign="top" style="box-sizing:border-box; padding:10px 0; vertical-align:top"><strong style="color:#0F172A; font-size:16px">Download and review</strong><div style="box-sizing:border-box; color:#64748B; font-size:14.5px">A ready-to-install module zip, plus the Skipped and Needs Review lists &#8212; so you know precisely what to check by hand before trusting it in production.</div></td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div style="display:flex; flex-wrap:wrap; gap:22px; margin-bottom:64px;">
-
-    <div style="flex:1 1 46%; min-width:290px;">
-      <div style="border:1px solid #e2dcf6; border-radius:13px; overflow:hidden; box-shadow:0 10px 26px -14px rgba(76,48,190,.4);">
-        <div style="background:#f4f1fd; border-bottom:1px solid #e2dcf6; padding:9px 14px;">
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block;"></span>
-        </div>
-        <img src="screenshots/screenshot_1_job_form.png" alt="Migration Job form" style="width:100%; display:block;"/>
+  <!-- ══════════ PROVIDERS ══════════ -->
+  <div style="box-sizing:border-box; padding:44px 0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">Bring your own AI</h2>
+      <p style="box-sizing:border-box; margin:0 0 18px; font-size:17px; color:#64748B; max-width:70ch">Configure one provider or several, switch per job, override the model, and test the connection before you commit to a run. Usage is billed by your provider, never through this app.</p>
+      <div style="box-sizing:border-box">
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">OpenAI</span>
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">Google Gemini</span>
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">Anthropic Claude</span>
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">Groq</span>
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">DeepSeek</span>
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">Ollama Cloud</span>
+        <span style="box-sizing:border-box; display:inline-block; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:8px; padding:8px 15px; font-size:14px; font-weight:600; color:#3730A3; margin:0 7px 8px 0">Any OpenAI-compatible endpoint</span>
       </div>
-      <p style="text-align:center; color:#6f6890; font-size:13.5px; margin:11px 0 0; font-weight:600;">The migration job &mdash; source, versions, provider</p>
-    </div>
-
-    <div style="flex:1 1 46%; min-width:290px;">
-      <div style="border:1px solid #e2dcf6; border-radius:13px; overflow:hidden; box-shadow:0 10px 26px -14px rgba(76,48,190,.4);">
-        <div style="background:#f4f1fd; border-bottom:1px solid #e2dcf6; padding:9px 14px;">
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block;"></span>
-        </div>
-        <img src="screenshots/screenshot_2_migration_report.png" alt="Generated migration report" style="width:100%; display:block;"/>
-      </div>
-      <p style="text-align:center; color:#6f6890; font-size:13.5px; margin:11px 0 0; font-weight:600;">The generated migration report</p>
-    </div>
-
-    <div style="flex:1 1 46%; min-width:290px;">
-      <div style="border:1px solid #e2dcf6; border-radius:13px; overflow:hidden; box-shadow:0 10px 26px -14px rgba(76,48,190,.4);">
-        <div style="background:#f4f1fd; border-bottom:1px solid #e2dcf6; padding:9px 14px;">
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block;"></span>
-        </div>
-        <img src="screenshots/screenshot_3_migration_files.png" alt="Per-file migration status" style="width:100%; display:block;"/>
-      </div>
-      <p style="text-align:center; color:#6f6890; font-size:13.5px; margin:11px 0 0; font-weight:600;">Per-file status: migrated, copied, needs review</p>
-    </div>
-
-    <div style="flex:1 1 46%; min-width:290px;">
-      <div style="border:1px solid #e2dcf6; border-radius:13px; overflow:hidden; box-shadow:0 10px 26px -14px rgba(76,48,190,.4);">
-        <div style="background:#f4f1fd; border-bottom:1px solid #e2dcf6; padding:9px 14px;">
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block;"></span>
-        </div>
-        <img src="screenshots/screenshot_4_ai_terminal.png" alt="AI terminal audit log" style="width:100%; display:block;"/>
-      </div>
-      <p style="text-align:center; color:#6f6890; font-size:13.5px; margin:11px 0 0; font-weight:600;">The AI terminal &mdash; every request and outcome</p>
-    </div>
-
-    <div style="flex:1 1 100%;">
-      <div style="border:1px solid #e2dcf6; border-radius:13px; overflow:hidden; box-shadow:0 10px 26px -14px rgba(76,48,190,.4);">
-        <div style="background:#f4f1fd; border-bottom:1px solid #e2dcf6; padding:9px 14px;">
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block;"></span>
-        </div>
-        <img src="screenshots/screenshot_5_settings.png" alt="Provider settings" style="width:100%; display:block;"/>
-      </div>
-      <p style="text-align:center; color:#6f6890; font-size:13.5px; margin:11px 0 0; font-weight:600;">Provider configuration and safety opt-in</p>
-    </div>
-
-    <div style="flex:1 1 100%;">
-      <div style="border:1px solid #e2dcf6; border-radius:13px; overflow:hidden; box-shadow:0 10px 26px -14px rgba(76,48,190,.4);">
-        <div style="background:#f4f1fd; border-bottom:1px solid #e2dcf6; padding:9px 14px;">
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block; margin-right:5px;"></span>
-          <span style="width:8px; height:8px; border-radius:50%; background:#e0dcef; display:inline-block;"></span>
-        </div>
-        <img src="screenshots/screenshot_6_background_tasks.png" alt="Background Tasks queue" style="width:100%; display:block;"/>
-      </div>
-      <p style="text-align:center; color:#6f6890; font-size:13.5px; margin:11px 0 0; font-weight:600;">The built-in background task queue</p>
     </div>
   </div>
 
-  <!-- ══════════════════ BEFORE YOU BUY ══════════════════ -->
-  <div style="text-align:center; margin-bottom:28px;">
-    <h2 style="font-size:27px; margin:0 0 8px; color:#1c1636; font-weight:800; letter-spacing:-.4px;">Before you buy</h2>
-    <p style="color:#6f6890; font-size:15px; margin:0;">Stated plainly, so there are no surprises after install.</p>
+  <!-- ══════════ SCREENSHOTS ══════════
+       To refresh one, overwrite the file of the same name in screenshots/.
+  ══════════════════════════════════════ -->
+  <div style="box-sizing:border-box; padding:44px 0; background:#F8FAFC; border-top:1px solid #E2E8F0; border-bottom:1px solid #E2E8F0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">See it in action</h2>
+      <p style="box-sizing:border-box; margin:0 0 22px; font-size:17px; color:#64748B">Everything happens inside Odoo &#8212; no external console, no command line.</p>
+
+      <table style="box-sizing:border-box; width:100%; table-layout:fixed; border-collapse:separate; border-spacing:16px; margin:0 -16px" width="100%">
+        <tbody>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <img src="screenshots/screenshot_1_job_form.png" alt="The migration job form" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border:1px solid #E2E8F0; border-radius:10px; background:#fff">
+              <p style="box-sizing:border-box; margin:9px 0 0; font-size:13.5px; color:#64748B; text-align:center">The migration job &#8212; source, versions, provider</p>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <img src="screenshots/screenshot_2_migration_report.png" alt="The generated migration report" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border:1px solid #E2E8F0; border-radius:10px; background:#fff">
+              <p style="box-sizing:border-box; margin:9px 0 0; font-size:13.5px; color:#64748B; text-align:center">The generated migration report</p>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <img src="screenshots/screenshot_3_migration_files.png" alt="Per-file migration status" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border:1px solid #E2E8F0; border-radius:10px; background:#fff">
+              <p style="box-sizing:border-box; margin:9px 0 0; font-size:13.5px; color:#64748B; text-align:center">Per-file status: migrated, copied, needs review</p>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <img src="screenshots/screenshot_4_ai_terminal.png" alt="The AI terminal log" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border:1px solid #E2E8F0; border-radius:10px; background:#fff">
+              <p style="box-sizing:border-box; margin:9px 0 0; font-size:13.5px; color:#64748B; text-align:center">The AI terminal &#8212; every request and outcome</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="box-sizing:border-box; margin-top:20px">
+        <img src="screenshots/screenshot_5_settings.png" alt="Provider configuration" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border:1px solid #E2E8F0; border-radius:10px; background:#fff">
+        <p style="box-sizing:border-box; margin:9px 0 20px; font-size:13.5px; color:#64748B; text-align:center">Provider configuration and the safety opt-in</p>
+        <img src="screenshots/screenshot_6_background_tasks.png" alt="The background task queue" width="100%" height="auto" style="box-sizing:border-box; display:block; width:100%; height:auto; border:1px solid #E2E8F0; border-radius:10px; background:#fff">
+        <p style="box-sizing:border-box; margin:9px 0 0; font-size:13.5px; color:#64748B; text-align:center">The built-in background task queue</p>
+      </div>
+    </div>
   </div>
 
-  <div style="background:#fffaf0; border:1px solid #f5e6c8; border-radius:14px; padding:22px 26px; margin-bottom:16px;">
-    <p style="margin:0; color:#7a5c1f; font-size:14.5px; line-height:1.75;">
-      <strong>One configuration step.</strong> No extra modules are required &mdash; the background task queue
-      is built in. Because AI calls can run for several minutes, add
-      <code style="background:#f6ebd6; padding:2px 7px; border-radius:5px;">limit_time_real_cron = 3600</code>
-      to the <code style="background:#f6ebd6; padding:2px 7px; border-radius:5px;">[options]</code> section of
-      <code style="background:#f6ebd6; padding:2px 7px; border-radius:5px;">odoo.conf</code> and restart.
-      Without it, Odoo's default 120-second limit on scheduled actions can interrupt a long migration.
-    </p>
+  <!-- ══════════ BEFORE YOU BUY ══════════ -->
+  <div style="box-sizing:border-box; padding:48px 0">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <h2 style="box-sizing:border-box; font-size:29px; line-height:1.2; font-weight:800; color:#0F172A; margin:0 0 10px">Before you buy</h2>
+      <p style="box-sizing:border-box; margin:0 0 20px; font-size:17px; color:#64748B">Stated plainly, so there are no surprises after install.</p>
+
+      <div style="box-sizing:border-box; background:#FFFBEB; border:1px solid #FDE68A; border-radius:12px; padding:18px 22px; margin:0 0 16px">
+        <p style="box-sizing:border-box; margin:0; font-size:14.5px; color:#78350F"><strong>One configuration step.</strong> No extra modules are required &#8212; the background task queue is built in. Because AI calls can run for several minutes, add <code style="box-sizing:border-box; background:#FEF3C7; padding:2px 6px; border-radius:4px">limit_time_real_cron = 3600</code> to the <code style="box-sizing:border-box; background:#FEF3C7; padding:2px 6px; border-radius:4px">[options]</code> section of <code style="box-sizing:border-box; background:#FEF3C7; padding:2px 6px; border-radius:4px">odoo.conf</code> and restart. Without it, Odoo's default 120-second limit on scheduled actions can interrupt a long migration.</p>
+      </div>
+
+      <table style="box-sizing:border-box; width:100%; table-layout:fixed; border-collapse:separate; border-spacing:16px; margin:0 -16px" width="100%">
+        <tbody>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:18px 22px; min-height:120px">
+                <h4 style="box-sizing:border-box; margin:0 0 6px; font-size:15.5px; font-weight:700; color:#0F172A">On-premise / self-hosted only</h4>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">This app reads and writes files on the Odoo server's own filesystem and calls external AI APIs. It is not compatible with sandboxed hosting such as Odoo Online.</p>
+              </div>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:18px 22px; min-height:120px">
+                <h4 style="box-sizing:border-box; margin:0 0 6px; font-size:15.5px; font-weight:700; color:#0F172A">Your source code leaves your server</h4>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Every migrated file is sent to the AI provider you configure. Settings requires an explicit, recorded confirmation before any call is made &#8212; nothing is ever sent silently.</p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:18px 22px; min-height:120px">
+                <h4 style="box-sizing:border-box; margin:0 0 6px; font-size:15.5px; font-weight:700; color:#0F172A">You bring your own API key</h4>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">For whichever providers you enable. Usage is billed by that provider, not by this app. Stored keys are encrypted at rest.</p>
+              </div>
+            </td>
+            <td width="50%" valign="top" style="box-sizing:border-box; width:50%; padding:0; vertical-align:top">
+              <div style="box-sizing:border-box; background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:18px 22px; min-height:120px">
+                <h4 style="box-sizing:border-box; margin:0 0 6px; font-size:15.5px; font-weight:700; color:#0F172A">Access is restricted by design</h4>
+                <p style="box-sizing:border-box; margin:0; font-size:14px; color:#64748B">Only an explicit &#8220;AI Addon Migrator Manager&#8221; group may scan files or call a provider, and filesystem access is limited to addon roots you configure &#8212; never an unrestricted path.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div style="display:flex; flex-wrap:wrap; gap:16px;">
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-radius:12px; padding:20px 24px;">
-      <h4 style="margin:0 0 7px; font-size:15.5px; color:#2a1f6b; font-weight:750;">On-premise / self-hosted only</h4>
-      <p style="margin:0; color:#5f5885; font-size:14px;">This app reads and writes files on the Odoo server's own filesystem and calls external AI APIs. It is not compatible with sandboxed hosting such as Odoo Online.</p>
-    </div>
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-radius:12px; padding:20px 24px;">
-      <h4 style="margin:0 0 7px; font-size:15.5px; color:#2a1f6b; font-weight:750;">Your source code leaves your server</h4>
-      <p style="margin:0; color:#5f5885; font-size:14px;">Every migrated file is sent to the AI provider you configure. Settings requires an explicit, recorded confirmation before any call is made &mdash; nothing is ever sent silently.</p>
-    </div>
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-radius:12px; padding:20px 24px;">
-      <h4 style="margin:0 0 7px; font-size:15.5px; color:#2a1f6b; font-weight:750;">You bring your own API key</h4>
-      <p style="margin:0; color:#5f5885; font-size:14px;">For whichever providers you enable. Usage is billed by that provider, not by this app. Stored keys are encrypted at rest.</p>
-    </div>
-    <div style="flex:1 1 320px; background:#ffffff; border:1px solid #e9e4f9; border-radius:12px; padding:20px 24px;">
-      <h4 style="margin:0 0 7px; font-size:15.5px; color:#2a1f6b; font-weight:750;">Access is restricted by design</h4>
-      <p style="margin:0; color:#5f5885; font-size:14px;">Only an explicit &ldquo;AI Addon Migrator Manager&rdquo; group may scan files or call a provider, and filesystem access is limited to addon roots you configure &mdash; never an unrestricted path.</p>
+  <!-- ══════════ CLOSE ══════════ -->
+  <div style="box-sizing:border-box; padding:0 0 52px">
+    <div style="box-sizing:border-box; max-width:960px; margin:0 auto; padding:0 20px">
+      <div style="box-sizing:border-box; background:#EEF2FF; border:1px solid #C7D2FE; border-radius:16px; padding:30px 28px; text-align:center">
+        <h3 style="box-sizing:border-box; margin:0 0 8px; font-size:22px; font-weight:800; color:#312E81">A migration you can actually review</h3>
+        <p style="box-sizing:border-box; margin:0; font-size:15.5px; color:#4338CA">Every file accounted for, every decision logged, every uncertain result flagged rather than hidden.</p>
+      </div>
     </div>
   </div>
 
-  <div style="text-align:center; margin:56px 0 20px; padding:34px 30px; background:linear-gradient(135deg,#6d4df6,#3a2a9e); border-radius:18px;">
-    <h3 style="color:#ffffff; font-size:23px; margin:0 0 9px; font-weight:800; letter-spacing:-.3px;">A migration you can actually review</h3>
-    <p style="color:#d5cbff; font-size:15px; margin:0 auto; max-width:600px;">
-      Every file accounted for, every decision logged, every uncertain result flagged rather than hidden.
-    </p>
-  </div>
-
-</div>
+</section>
