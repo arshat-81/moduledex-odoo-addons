@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_perf_audit_run,perf.audit.run manager,model_perf_audit_run,mdx_perf_auditor.group_perf_manager,1,1,1,1
+access_perf_audit_finding,perf.audit.finding manager,model_perf_audit_finding,mdx_perf_auditor.group_perf_manager,1,1,1,1
+access_perf_db_snapshot,perf.db.snapshot manager,model_perf_db_snapshot,mdx_perf_auditor.group_perf_manager,1,1,1,1
+access_perf_cron_run,perf.cron.run manager,model_perf_cron_run,mdx_perf_auditor.group_perf_manager,1,0,0,1
+access_perf_model_analysis,perf.model.analysis manager,model_perf_model_analysis,mdx_perf_auditor.group_perf_manager,1,1,1,1
+access_perf_detector,perf.detector manager,model_perf_detector,mdx_perf_auditor.group_perf_manager,1,1,1,1

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_perf_dashboard" model="ir.actions.client">
+        <field name="name">Performance Dashboard</field>
+        <field name="tag">mdx_perf_auditor.dashboard</field>
+    </record>
+</odoo>

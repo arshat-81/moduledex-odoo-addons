@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Deliberately NOT web.external_layout: this is a technical report, not a
+         commercial document. The company letterhead, its logo and the invoice
+         footer are noise here, and external_layout also forces a tagline/VAT
+         block that reads oddly on a diagnostic. Everything below is self-
+         contained so the PDF looks the same whatever the company is set up as. -->
+    <template id="report_health">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="score" t-value="doc.health_score"/>
+                <t t-set="tone" t-value="'#1c7d5f' if score &gt;= 85 else ('#b0730f' if score &gt;= 60 else '#c0392b')"/>
+                <t t-set="openf" t-value="doc.finding_ids.filtered(lambda f: f.status in ('open','acknowledged')).sorted(key=lambda f: (f.severity_order, f.category))"/>
+
+                <div class="page" style="color:#241f29; font-size:9.5pt;
+                             font-family:'DejaVu Sans','Liberation Sans',sans-serif;">
+
+                    <!-- masthead -->
+                    <table style="width:100%; border-collapse:collapse; margin-bottom:18px;">
+                        <tr>
+                            <td style="border-bottom:3px solid #7a4d70; padding-bottom:10px;">
+                                <div style="font-size:7.5pt; letter-spacing:.18em; text-transform:uppercase; color:#7a4d70; font-weight:600;">
+                                    Odoo Performance &amp; Health Auditor
+                                </div>
+                                <div style="font-size:19pt; font-weight:600; line-height:1.1; margin-top:3px;">
+                                    Health Report
+                                </div>
+                            </td>
+                            <td style="border-bottom:3px solid #7a4d70; padding-bottom:10px; text-align:right; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:8pt; color:#6b6272;">
+                                <div><t t-esc="doc.env.cr.dbname"/></div>
+                                <div><span t-field="doc.date"/></div>
+                                <div>
+                                    <t t-esc="doc.detectors_run"/> checks |
+                                    <t t-esc="dict(doc._fields['depth'].selection).get(doc.depth)"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- score band -->
+                    <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+                        <tr>
+                            <td style="width:150px; vertical-align:top;">
+                                <div t-attf-style="border:1px solid #e3dbe5; border-top:4px solid {{tone}}; border-radius:6px; padding:12px 14px;">
+                                    <div t-attf-style="font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:34pt; font-weight:700; line-height:1; color:{{tone}};">
+                                        <t t-esc="score"/><span style="font-size:12pt; color:#9990a1;">/100</span>
+                                    </div>
+                                    <div style="font-size:7pt; letter-spacing:.14em; text-transform:uppercase; color:#6b6272; margin-top:4px;">
+                                        Health score
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding-left:18px; vertical-align:top;">
+                                <table style="width:100%; border-collapse:collapse;">
+                                    <tr t-foreach="[
+                                            ('Database', doc.score_db),
+                                            ('ORM &amp; model design', doc.score_orm),
+                                            ('Runtime', doc.score_runtime),
+                                            ('Background jobs', doc.score_jobs),
+                                            ('Assets &amp; frontend', doc.score_frontend),
+                                            ('Configuration', doc.score_config)]" t-as="cat">
+                                        <td style="padding:1.5px 8px 1.5px 0; width:135px; font-size:8.5pt;"><t t-out="doc.pdf_text(cat[0])"/></td>
+                                        <td style="padding:1.5px 0;">
+                                            <div style="background:#efeaf0; height:7px; border-radius:4px;">
+                                                <div t-attf-style="width:{{cat[1]}}%; height:7px; border-radius:4px; background:{{'#1c7d5f' if cat[1] &gt;= 85 else ('#b0730f' if cat[1] &gt;= 60 else '#c0392b')}};"/>
+                                            </div>
+                                        </td>
+                                        <td style="padding:1.5px 0 1.5px 8px; width:30px; text-align:right; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:8.5pt; color:#6b6272;">
+                                            <t t-esc="cat[1]"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width:170px; padding-left:18px; vertical-align:top;">
+                                <table style="width:100%; border-collapse:collapse; font-size:8.5pt;">
+                                    <tr><td style="padding:2px 0;">Critical</td>
+                                        <td style="text-align:right; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-weight:700; color:#c0392b;"><t t-esc="doc.critical_count"/></td></tr>
+                                    <tr><td style="padding:2px 0;">Warnings</td>
+                                        <td style="text-align:right; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-weight:700; color:#b0730f;"><t t-esc="doc.warning_count"/></td></tr>
+                                    <tr><td style="padding:2px 0;">Advisories</td>
+                                        <td style="text-align:right; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-weight:700; color:#3a6ea5;"><t t-esc="doc.info_count"/></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- findings -->
+                    <div style="font-size:7.5pt; letter-spacing:.14em; text-transform:uppercase; color:#6b6272; border-bottom:1px solid #e3dbe5; padding-bottom:4px; margin-bottom:8px;">
+                        Findings
+                    </div>
+
+                    <p t-if="not openf" style="color:#1c7d5f;">Nothing open. Every check passed.</p>
+
+                    <table t-if="openf" style="width:100%; border-collapse:collapse; font-size:8.5pt;">
+                        <thead>
+                            <tr style="background:#f6f4f6;">
+                                <th style="text-align:left; padding:5px 6px; width:20px; border-bottom:1px solid #cabfcd;"/>
+                                <th style="text-align:left; padding:5px 6px; width:34px; border-bottom:1px solid #cabfcd; font-size:7pt; text-transform:uppercase; letter-spacing:.08em; color:#6b6272;">ID</th>
+                                <th style="text-align:left; padding:5px 6px; border-bottom:1px solid #cabfcd; font-size:7pt; text-transform:uppercase; letter-spacing:.08em; color:#6b6272;">Finding</th>
+                                <th style="text-align:left; padding:5px 6px; width:150px; border-bottom:1px solid #cabfcd; font-size:7pt; text-transform:uppercase; letter-spacing:.08em; color:#6b6272;">Measured</th>
+                                <th style="text-align:left; padding:5px 6px; width:210px; border-bottom:1px solid #cabfcd; font-size:7pt; text-transform:uppercase; letter-spacing:.08em; color:#6b6272;">What to do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="openf" t-as="f" style="page-break-inside:avoid;">
+                                <t t-set="sev" t-value="'#c0392b' if f.severity == 'critical' else ('#b0730f' if f.severity == 'warning' else '#3a6ea5')"/>
+                                <td t-attf-style="border-bottom:1px solid #efeaf0; border-left:3px solid {{sev}}; padding:6px;">
+                                    <span t-attf-style="font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:7pt; font-weight:700; color:{{sev}};"
+                                          t-esc="f.severity[0].upper()"/>
+                                </td>
+                                <td style="border-bottom:1px solid #efeaf0; padding:6px; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:7.5pt; color:#6b6272;">
+                                    <t t-esc="f.detector_code"/>
+                                </td>
+                                <td style="border-bottom:1px solid #efeaf0; padding:6px;">
+                                    <div style="font-weight:600;"><t t-out="doc.pdf_text(f.name)"/></div>
+                                    <div t-if="f.target_ref and f.target_ref not in (f.name or '')"
+                                         style="font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:7.5pt; color:#6b6272;">
+                                        <t t-out="doc.pdf_text(f.target_ref)"/>
+                                    </div>
+                                </td>
+                                <td style="border-bottom:1px solid #efeaf0; padding:6px; font-family:'DejaVu Sans Mono','Liberation Mono',monospace; font-size:7.5pt;">
+                                    <t t-out="doc.pdf_text(f.metric)"/>
+                                </td>
+                                <td style="border-bottom:1px solid #efeaf0; padding:6px; color:#3f3847;">
+                                    <t t-out="doc.pdf_text(f.recommendation)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top:22px; padding-top:8px; border-top:1px solid #e3dbe5; font-size:7.5pt; color:#9990a1; line-height:1.5;">
+                        Every check behind this report is read-only - no business data was read or
+                        modified to produce it. Recommendations are advisory: apply them during a
+                        maintenance window and re-run the audit to confirm the effect.
+                        <span style="float:right;">ModuleDex | Performance &amp; Health Auditor</span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
