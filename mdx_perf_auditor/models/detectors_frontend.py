@@ -18,15 +18,18 @@ class PerfAuditRunFrontend(models.Model):
 
     def _detect_e1_bundle_size(self):
         mb = self._threshold("e1_mb", 5.0)
+        # The LIKE patterns are bound, not inlined: a literal % in the SQL text
+        # is a placeholder marker to psycopg2, and Odoo 18 unescapes %% before
+        # execute() ever sees it, so the escaped form raises IndexError there.
         rows = self._pg(SQL("""
             SELECT name, file_size
               FROM ir_attachment
              WHERE file_size > %s
-               AND (name LIKE '%%assets%%.js' OR name LIKE '%%assets%%.css'
-                    OR name LIKE '%%.min.js' OR name LIKE '%%.min.css')
+               AND (name LIKE %s OR name LIKE %s OR name LIKE %s OR name LIKE %s)
              ORDER BY file_size DESC
              LIMIT 20
-        """, int(mb * 1024 * 1024)))
+        """, int(mb * 1024 * 1024),
+             "%assets%.js", "%assets%.css", "%.min.js", "%.min.css"))
         out = []
         for r in rows:
             out.append({

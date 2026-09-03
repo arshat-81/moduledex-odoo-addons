@@ -18,16 +18,10 @@
     "price": 99.0,
     "currency": "USD",
     "icon": "/mdx_perf_auditor/static/description/icon.png",
-    # The first entry is the main image on the Apps Store listing.
-    "images": [
-        "static/description/banner.png",
-        "static/description/screenshot_dashboard.png",
-        "static/description/screenshot_finding.png",
-        "static/description/screenshot_findings.png",
-        "static/description/screenshot_report.png",
-        "static/description/screenshot_detectors.png",
-        "static/description/screenshot_trend.png",
-    ],
+    # Main image on the Apps Store listing. The screenshots live inside
+    # index.html, which is the pattern that is known to render on
+    # apps.odoo.com - see the other ModuleDex listings.
+    "images": ["static/description/banner.png"],
     "depends": ["base", "base_setup", "web", "mail"],
     "data": [
         "security/security.xml",
