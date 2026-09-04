@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="perf_audit_run_view_list" model="ir.ui.view">
+        <field name="name">perf.audit.run.list</field>
+        <field name="model">perf.audit.run</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="health_score &lt; 60"
+                  decoration-warning="health_score &gt;= 60 and health_score &lt; 85"
+                  decoration-success="health_score &gt;= 85">
+                <field name="date"/>
+                <field name="trigger"/>
+                <field name="depth" widget="badge"/>
+                <field name="health_score" widget="progressbar" string="Health"/>
+                <field name="critical_count" string="Critical"/>
+                <field name="warning_count" string="Warning"/>
+                <field name="info_count" string="Advisory"/>
+                <field name="detectors_run" string="Detectors"/>
+                <field name="duration" string="Duration (s)"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-danger="state == 'failed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="perf_audit_run_view_form" model="ir.ui.view">
+        <field name="name">perf.audit.run.form</field>
+        <field name="model">perf.audit.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(action_perf_health_report)d" type="action"
+                            string="Print Health Report" class="btn-primary"
+                            invisible="state != 'done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date" readonly="1"/>
+                            <field name="trigger" readonly="1"/>
+                            <field name="depth" readonly="1"/>
+                            <field name="duration" readonly="1"/>
+                            <field name="detectors_run" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="health_score" widget="progressbar" readonly="1"/>
+                            <label for="score_db" string="Category scores"/>
+                            <div>
+                                <span>DB <field name="score_db" class="oe_inline" readonly="1"/></span> ·
+                                <span>ORM <field name="score_orm" class="oe_inline" readonly="1"/></span> ·
+                                <span>Runtime <field name="score_runtime" class="oe_inline" readonly="1"/></span> ·
+                                <span>Jobs <field name="score_jobs" class="oe_inline" readonly="1"/></span> ·
+                                <span>Assets <field name="score_frontend" class="oe_inline" readonly="1"/></span> ·
+                                <span>Config <field name="score_config" class="oe_inline" readonly="1"/></span>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Findings" name="findings">
+                            <field name="finding_ids" readonly="1">
+                                <list decoration-danger="severity == 'critical'"
+                                      decoration-warning="severity == 'warning'"
+                                      decoration-muted="status in ('resolved','ignored')">
+                                    <field name="severity" widget="badge"
+                                           decoration-danger="severity == 'critical'"
+                                           decoration-warning="severity == 'warning'"/>
+                                    <field name="category"/>
+                                    <field name="name"/>
+                                    <field name="metric"/>
+                                    <field name="status" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Detector errors" name="errors"
+                              invisible="not detector_errors">
+                            <field name="detector_errors" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_perf_audit_run" model="ir.actions.act_window">
+        <field name="name">Audit Runs</field>
+        <field name="res_model">perf.audit.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

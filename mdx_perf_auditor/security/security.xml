@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="module_category_perf_auditor" model="ir.module.category">
+        <field name="name">Performance Auditor</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="group_perf_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="mdx_perf_auditor.module_category_perf_auditor"/>
+        <field name="comment">Run audits, review findings, and apply safe fixes. Settings access is required.</field>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('mdx_perf_auditor.group_perf_manager'))]"/>
+    </record>
+</odoo>
