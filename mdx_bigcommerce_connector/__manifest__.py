@@ -1,8 +1,8 @@
 {
-    "name": "BigCommerce Connector",
-    "summary": "Two-way BigCommerce sync: multi-storefront catalog, price lists, customer groups, refunds, abandoned carts",
+    "name": "BigCommerce Odoo Connector",
+    "summary": "Two-way BigCommerce sync for Odoo: products, orders, customers, inventory, refunds, price lists, abandoned carts and multi-storefront",
     "description": """
-BigCommerce Connector
+BigCommerce Odoo Connector
 ======================
 Full two-way sync between BigCommerce and Odoo, built around what
 BigCommerce's own API actually supports but most connectors ignore:

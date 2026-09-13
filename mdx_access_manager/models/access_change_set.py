@@ -232,10 +232,10 @@ class MdxAccessChangeLine(models.Model):
     _order = "change, model_name, id"
     _rec_name = "model_name"
 
-    change_id = fields.Many2one("mdx.access.change.set", required=True, ondelete="cascade", index=True)
+    change_id = fields.Many2one("mdx.access.change.set", string="Change Set", required=True, ondelete="cascade", index=True)
     model_id = fields.Many2one("ir.model", string="Model", required=True, ondelete="cascade")
     model_name = fields.Char(related="model_id.model", store=True, string="Technical Name")
-    model_label = fields.Char(related="model_id.name", string="Model")
+    model_label = fields.Char(related="model_id.name", string="Model Name")
     change = fields.Selection(
         [("gained", "Gained"), ("lost", "Lost"), ("both", "Gained and Lost")],
         required=True, readonly=True,

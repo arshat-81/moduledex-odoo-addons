@@ -8,17 +8,17 @@ see [Licensing](#licensing) below.
 
 | Module | Description | License |
 | --- | --- | --- |
-| [BigCommerce Connector](#bigcommerce-connector) | Two-way BigCommerce ↔ Odoo sync | OPL-1 — $249 |
+| [BigCommerce Odoo Connector](#bigcommerce-odoo-connector) | Two-way BigCommerce ↔ Odoo sync | OPL-1 — $249 |
 | [Odoo Access Rights Manager](#odoo-access-rights-manager) | Resolve, explain, compare and dry-run user permissions | OPL-1 — $179 |
 | [Odoo Module Upgrade AI](#odoo-module-upgrade-ai) | AI-assisted addon migration, Odoo 11–20 | OPL-1 — $149 |
 | [Odoo Performance Auditor](#odoo-performance-auditor) | Read-only audit of database, ORM, cron and config | OPL-1 — $99 |
-| [SQL Query & Report Builder](#sql-query--report-builder) | Safe ad-hoc SQL runner with reporting | OPL-1 — $59 |
-| [External ID Finder](#external-id-finder) | Find, inspect and create XML IDs | LGPL-3 — Free |
-| [Security Simulator](#security-simulator) | Simulate a user's access before granting it | LGPL-3 — Free |
+| [Odoo SQL Query & Reports](#odoo-sql-query--reports) | Safe ad-hoc SQL runner with reporting | OPL-1 — $59 |
+| [Odoo XML ID Finder](#odoo-xml-id-finder) | Find, inspect and create XML IDs | LGPL-3 — Free |
+| [Odoo Access Rights Simulator](#odoo-access-rights-simulator) | Simulate a user's access before granting it | LGPL-3 — Free |
 
 ## Commercial addons
 
-### BigCommerce Connector
+### BigCommerce Odoo Connector
 
 Two-way synchronisation between BigCommerce and Odoo, built around the parts of
 the BigCommerce API most connectors leave out.
@@ -96,14 +96,14 @@ each behind a one-click confirmation.
 > are installed; without them those individual checks report as unavailable
 > rather than failing.
 
-### SQL Query & Report Builder
+### Odoo SQL Query & Reports
 
 Safe SQL query runner with report previews, CSV export, execution history, and
 admin full-access control.
 
 ## Free addons
 
-### External ID Finder
+### Odoo XML ID Finder
 
 Technical helper for Odoo 19 administrators and developers, under
 `Settings > Technical > Sequences & Identifiers > External ID Finder`.
@@ -114,10 +114,10 @@ Technical helper for Odoo 19 administrators and developers, under
 - Create a missing XML ID for an existing record.
 - Open the linked Odoo record or native external identifier record.
 
-### Security Simulator
+### Odoo Access Rights Simulator
 
 Technical security helper for administrators, developers and implementers,
-under `Settings > Technical > Security > Security Simulator`.
+under `Settings > Technical > Security > Access Rights Simulator`.
 
 - Simulate model access for a selected user.
 - Review matching access rights and record rules.

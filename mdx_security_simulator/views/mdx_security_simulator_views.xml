@@ -223,7 +223,7 @@
 
     <menuitem
         id="menu_mdx_security_simulator"
-        name="Security Simulator"
+        name="Access Rights Simulator"
         parent="base.menu_security"
         action="action_mdx_security_simulator"
         groups="base.group_no_one"

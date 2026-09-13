@@ -22,7 +22,9 @@ class MdxExternalIdFinder(models.TransientModel):
         domain=[("transient", "=", False)],
         ondelete="cascade",
     )
-    model = fields.Char(related="model_id.model", readonly=True)
+    # string differs from model_id ("Model") so Odoo does not warn about two
+    # fields sharing a label; this one is the technical name, that one the record
+    model = fields.Char(related="model_id.model", string="Technical Name", readonly=True)
     res_id = fields.Integer(string="Database ID")
     text_query = fields.Char(string="Search Text")
     create_module = fields.Char(string="Module Prefix", default="__custom__")

@@ -172,7 +172,7 @@ class MdxAccessCompareLine(models.Model):
     compare_id = fields.Many2one("mdx.access.compare", required=True, ondelete="cascade", index=True)
     model_id = fields.Many2one("ir.model", string="Model", required=True, ondelete="cascade")
     model_name = fields.Char(related="model_id.model", store=True, string="Technical Name")
-    model_label = fields.Char(related="model_id.name", string="Model")
+    model_label = fields.Char(related="model_id.name", string="Model Name")
     change = fields.Selection(
         [("gained", "Gained"), ("lost", "Lost"), ("both", "Gained and Lost"), ("same", "Unchanged")],
         required=True, readonly=True,

@@ -167,7 +167,7 @@ class MdxAccessMatrixLine(models.Model):
     user_id = fields.Many2one(related="matrix_id.user_id", store=True, index=True)
     model_id = fields.Many2one("ir.model", string="Model", required=True, ondelete="cascade")
     model_name = fields.Char(related="model_id.model", store=True, string="Technical Name")
-    model_label = fields.Char(related="model_id.name", string="Model")
+    model_label = fields.Char(related="model_id.name", string="Model Name")
 
     can_read = fields.Boolean(string="Read", readonly=True)
     can_write = fields.Boolean(string="Write", readonly=True)
@@ -287,7 +287,9 @@ class MdxAccessProvenance(models.Model):
          ("global_rule", "Global Rule")],
         required=True,
     )
-    group_id = fields.Many2one("res.groups", string="Group", ondelete="cascade")
+    # string differs from group_label ("Group") so Odoo does not warn about two
+    # fields sharing a label; this one is the link, the label is what lists show
+    group_id = fields.Many2one("res.groups", string="Group Record", ondelete="cascade")
     group_label = fields.Char(string="Group", readonly=True)
     via = fields.Char(string="Path", readonly=True)
     modes = fields.Char(string="Operations", readonly=True)
