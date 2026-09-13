@@ -1,0 +1,233 @@
+<section style="box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#5b5476; max-width:1100px; margin:0 auto; padding:0 16px 40px;">
+
+  <!-- ============ HERO ============ -->
+  <div style="border-radius:16px; overflow:hidden; margin-bottom:34px;">
+    <img src="banner.png" alt="Odoo Access Rights Manager" style="width:100%; display:block;"/>
+  </div>
+
+  <p style="font-size:19px; line-height:1.6; color:#4a4460; text-align:center; max-width:790px; margin:0 auto 14px;">
+    Odoo tells you which groups a user is in. It never tells you what that actually
+    <b style="color:#1f1a33;">means</b>.
+  </p>
+  <p style="font-size:17px; line-height:1.6; color:#5b5476; text-align:center; max-width:760px; margin:0 auto 40px;">
+    So you end up reading <code style="background:#f6f4fd; padding:2px 6px; border-radius:4px;">ir.model.access</code>
+    by hand, adding a group to see what happens, and telling a client &ldquo;I think that's
+    everything&rdquo;. This app answers the three questions that actually come up.
+  </p>
+
+  <!-- ============ THE THREE QUESTIONS ============ -->
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:52px;">
+    <div style="flex:1 1 300px; background:#f6f4fd; border-radius:12px; padding:24px;">
+      <div style="font-size:15px; font-weight:700; color:#3c3470; margin-bottom:8px;">&ldquo;Why can they see that?&rdquo;</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        You never gave them the group. Something else implies it. The chain is three levels
+        deep and invisible on the user form.
+      </p>
+    </div>
+    <div style="flex:1 1 300px; background:#f6f4fd; border-radius:12px; padding:24px;">
+      <div style="font-size:15px; font-weight:700; color:#3c3470; margin-bottom:8px;">&ldquo;What breaks if I remove it?&rdquo;</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        The honest answer is usually &ldquo;let's find out on Monday&rdquo;. That is a
+        terrible answer to give the person paying you.
+      </p>
+    </div>
+    <div style="flex:1 1 300px; background:#f6f4fd; border-radius:12px; padding:24px;">
+      <div style="font-size:15px; font-weight:700; color:#3c3470; margin-bottom:8px;">&ldquo;Who granted this, and when?&rdquo;</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Odoo keeps no history of access-rights changes. When an auditor asks, there is
+        nothing to show them.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ 1. MATRIX ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">Every permission a user really has</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:840px;">
+    Pick a user, get every model they can reach with read, write, create and delete resolved the
+    way the <em>server</em> resolves it &mdash; through the full transitive closure of implied
+    groups, not the handful of tickboxes on the user form. On a standard database that is
+    typically <b style="color:#1f1a33;">16 assigned groups expanding to 42 effective ones</b>,
+    which is exactly why reading the user form tells you so little.
+  </p>
+
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_matrix.png" alt="The effective rights matrix" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">366 models, resolved in under a tenth of a second.</b> Sixteen assigned groups expanding to forty-two effective ones &mdash; and every model each of them unlocks, with a Why? on each row.
+    </p>
+  </div>
+
+  <!-- ============ 2. PROVENANCE ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">And exactly where it came from</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:840px;">
+    Click any row and get the chain: the group you actually assigned, the implication path to the
+    group that carries the access control, and the rule itself. Record rules are shown the way the
+    server applies them &mdash; group rules OR-ed together, global rules AND-ed over the top &mdash;
+    so you can see at a glance when a global rule is quietly narrowing everything else.
+  </p>
+
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_provenance.png" alt="Why a permission is granted" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">&ldquo;Sales / Administrator &rarr; Sales / User: Own Documents Only.&rdquo;</b> The chain that granted it, and the global record rule quietly narrowing everything underneath. Thirteen sources on this one model alone.
+    </p>
+  </div>
+
+  <!-- ============ 3. DRY RUN ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">Prove the change before you make it</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:840px;">
+    Stage the groups you intend to add or remove and see precisely which permissions the user would
+    gain and lose &mdash; then apply it, or throw it away. It also warns you about the things that
+    catch people out: groups that come along for the ride, a group you cannot remove because
+    something else implies it, and any change that quietly grants Settings access.
+  </p>
+  <div style="background:#f6f4fd; border-left:4px solid #6d5fe0; border-radius:0 12px 12px 0; padding:20px 24px; margin-bottom:52px;">
+    <p style="margin:0; font-size:15px; line-height:1.6;">
+      <b style="color:#1f1a33;">The preview writes nothing.</b> Not to a savepoint, not to a
+      temporary record, not to the user. A hypothetical group set is resolved in memory, so an
+      abandoned preview cannot leave anything behind &mdash; there is no state to clean up and
+      nothing to undo.
+    </p>
+  </div>
+
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_change.png" alt="Previewing a staged permission change" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">Twelve permissions gained, nothing lost &mdash; before anything is written.</b> Draft, previewed, applied. You see the whole impact while the change is still a proposal.
+    </p>
+  </div>
+  <!-- ============ 4. COMPARE ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">Compare two users, or a plan</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 52px; max-width:840px;">
+    Put two users side by side and get a straight diff of what one can do that the other cannot.
+    Or compare a real user against a proposed set of groups &mdash; the fastest way to answer
+    &ldquo;make the new hire like Sarah, but without the accounting.&rdquo;
+  </p>
+
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_compare.png" alt="Comparing two users" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">A new starter against an established colleague.</b> Every model one can reach that the other cannot, and exactly which operations differ.
+    </p>
+  </div>
+  <!-- ============ 5. AUDIT ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">A history Odoo does not keep</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:840px;">
+    Every change to a group, an access control or a record rule is recorded with who made it, when,
+    and the before and after values. Module installs are deliberately excluded, so the log holds
+    human decisions rather than thousands of rows from your last upgrade. Entries cannot be edited
+    or deleted from the interface by anyone, including administrators.
+  </p>
+
+  <!-- ============ 6. FINDINGS ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">The configuration that causes access bugs</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:840px;">
+    Five checks, each decidable from the configuration alone. No heuristics, no
+    &ldquo;this looks too permissive&rdquo; &mdash; a finding either holds or it is not reported.
+  </p>
+  <div style="display:flex; flex-wrap:wrap; gap:14px; margin-bottom:24px;">
+    <div style="flex:1 1 340px; background:#faf9fe; border:1px solid #e5e2ee; border-radius:10px; padding:18px 20px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:14.5px; margin-bottom:5px;">Paths to Settings access</div>
+      <p style="margin:0; font-size:14px; line-height:1.5;">A harmless-looking group that transitively implies administrator. Nobody remembers creating these.</p>
+    </div>
+    <div style="flex:1 1 340px; background:#faf9fe; border:1px solid #e5e2ee; border-radius:10px; padding:18px 20px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:14.5px; margin-bottom:5px;">Global rules shadowing group rules</div>
+      <p style="margin:0; font-size:14px; line-height:1.5;">The single most common reason a permission change appears to do nothing at all.</p>
+    </div>
+    <div style="flex:1 1 340px; background:#faf9fe; border:1px solid #e5e2ee; border-radius:10px; padding:18px 20px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:14.5px; margin-bottom:5px;">Access controls that can never grant</div>
+      <p style="margin:0; font-size:14px; line-height:1.5;">A group rule sitting behind a global one that already gives everyone the same thing.</p>
+    </div>
+    <div style="flex:1 1 340px; background:#faf9fe; border:1px solid #e5e2ee; border-radius:10px; padding:18px 20px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:14.5px; margin-bottom:5px;">Write access without read</div>
+      <p style="margin:0; font-size:14px; line-height:1.5;">Surfaces to the user as an access error they cannot act on, because the record cannot be shown.</p>
+    </div>
+    <div style="flex:1 1 340px; background:#faf9fe; border:1px solid #e5e2ee; border-radius:10px; padding:18px 20px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:14.5px; margin-bottom:5px;">Redundant implications</div>
+      <p style="margin:0; font-size:14px; line-height:1.5;">A link that changes nothing, hiding the inheritance that does.</p>
+    </div>
+  </div>
+  <p style="font-size:14.5px; line-height:1.6; margin:0 0 52px; color:#5b5476; max-width:840px;">
+    On a clean Odoo 19 database this reports a few dozen findings, not thousands. A list nobody
+    trusts is a list nobody reads.
+  </p>
+
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_findings.png" alt="Access configuration findings" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">A real scan of a standard Odoo 19 database.</b> Including a critical one: a harmless-looking group that reaches Settings access through another group, which is invisible on the user form.
+    </p>
+  </div>
+  <!-- ============ TRUST ============ -->
+  <h2 style="font-size:27px; margin:0 0 18px; color:#3c3470;">Why you can trust the numbers</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:52px;">
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">It agrees with the server, and that is tested</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        The resolver mirrors Odoo's own SQL rather than reimplementing its intent. A test asserts
+        that the set of models it reports as readable is <em>identical</em> to the server's own
+        list for the same user. If the two ever disagree, the test fails.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">It does not hand out privilege</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        When you apply a staged change it is written with <em>your</em> rights, never through
+        <code style="background:#fff; padding:1px 5px; border-radius:3px;">sudo</code>, so every
+        core constraint still applies. A tool that audits permissions has no business escalating
+        its own.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">It tells you when it might be wrong</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        If another installed module overrides Odoo's access checks, the matrix says so rather than
+        pretending its answer is the whole story. Detected by inspecting what is actually loaded,
+        so unknown modules are caught too.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">Read-only unless you say otherwise</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Resolving, comparing, previewing and scanning never change a permission. The only write is
+        a staged change you explicitly apply &mdash; and that one is logged.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ NOT ============ -->
+  <div style="border:1px solid #e5e2ee; border-radius:12px; padding:22px 26px; margin-bottom:52px;">
+    <h3 style="margin:0 0 10px; font-size:17px; color:#3c3470;">What this is not</h3>
+    <p style="margin:0; font-size:14.5px; line-height:1.6;">
+      It is not a restriction engine. It does not hide menus, lock fields or add a second
+      permission system on top of Odoo's. It makes the permission system you already have
+      <b style="color:#1f1a33;">legible</b>, so the groups you configure are the groups you meant.
+      If you already run a restriction module, this works alongside it and will tell you it is there.
+    </p>
+  </div>
+
+  <!-- ============ REQUIREMENTS ============ -->
+  <h2 style="font-size:27px; margin:0 0 22px; color:#3c3470;">What it needs</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Odoo 19</h3>
+      <p style="margin:0; font-size:14.5px;">Community or Enterprise. Built for Odoo 19's privilege model.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Nothing else</h3>
+      <p style="margin:0; font-size:14.5px;">Depends on <code>base</code> alone. No external Python libraries, no configuration.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Two access levels</h3>
+      <p style="margin:0; font-size:14.5px;">Auditors read findings and history; managers resolve, compare and stage changes.</p>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="background:#16122b; border-radius:15px; padding:32px; text-align:center;">
+    <div style="color:#ffffff; font-size:19px; font-weight:bold; letter-spacing:.03em; margin-bottom:6px;">ModuleDex</div>
+    <div style="color:#a99fd0; font-size:14.5px;">Odoo Access Rights Manager</div>
+    <div style="margin-top:10px;"><a href="mailto:moduledex@gmail.com" style="color:#a78bfa; text-decoration:none; font-size:14.5px;">moduledex@gmail.com</a></div>
+  </div>
+
+</section>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_access_change_log_list" model="ir.ui.view">
+        <field name="name">mdx.access.change.log.list</field>
+        <field name="model">mdx.access.change.log</field>
+        <field name="arch" type="xml">
+            <list string="Access Change Log" create="false" edit="false"
+                  decoration-danger="operation == 'unlink'" decoration-info="operation == 'create'">
+                <field name="changed_at"/>
+                <field name="changed_by_id"/>
+                <field name="res_model"/>
+                <field name="res_name"/>
+                <field name="operation"/>
+                <field name="diff_text"/>
+                <field name="change_set_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_access_change_log_form" model="ir.ui.view">
+        <field name="name">mdx.access.change.log.form</field>
+        <field name="model">mdx.access.change.log</field>
+        <field name="arch" type="xml">
+            <form string="Access Change" create="false" edit="false">
+                <sheet>
+                    <div class="oe_title"><h1><field name="description" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="res_model" readonly="1"/>
+                            <field name="res_name" readonly="1"/>
+                            <field name="res_id" readonly="1"/>
+                            <field name="operation" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="changed_by_id" readonly="1"/>
+                            <field name="changed_at" readonly="1"/>
+                            <field name="change_set_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <separator string="Change"/>
+                    <field name="diff_text" readonly="1" nolabel="1"/>
+                    <notebook>
+                        <page string="Before" name="before">
+                            <field name="before_json" readonly="1" nolabel="1"/>
+                        </page>
+                        <page string="After" name="after">
+                            <field name="after_json" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_access_change_log_search" model="ir.ui.view">
+        <field name="name">mdx.access.change.log.search</field>
+        <field name="model">mdx.access.change.log</field>
+        <field name="arch" type="xml">
+            <search string="Access Changes">
+                <field name="res_name"/>
+                <field name="changed_by_id"/>
+                <field name="diff_text"/>
+                <filter name="groups" string="Groups" domain="[('res_model','=','res.groups')]"/>
+                <filter name="acls" string="Access Controls" domain="[('res_model','=','ir.model.access')]"/>
+                <filter name="rules" string="Record Rules" domain="[('res_model','=','ir.rule')]"/>
+                <separator/>
+                <filter name="deletions" string="Deletions" domain="[('operation','=','unlink')]"/>
+                <group>
+                    <filter name="by_user" string="Changed By" context="{'group_by': 'changed_by_id'}"/>
+                    <filter name="by_model" string="Model" context="{'group_by': 'res_model'}"/>
+                    <filter name="by_operation" string="Operation" context="{'group_by': 'operation'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_access_change_log" model="ir.actions.act_window">
+        <field name="name">Change Log</field>
+        <field name="res_model">mdx.access.change.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No access changes recorded yet</p>
+            <p>Every change to a group, an access control or a record rule is recorded here with
+               who made it and the before/after values. Module installs are excluded.</p>
+        </field>
+    </record>
+</odoo>

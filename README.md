@@ -9,6 +9,7 @@ see [Licensing](#licensing) below.
 | Module | Description | License |
 | --- | --- | --- |
 | [BigCommerce Connector](#bigcommerce-connector) | Two-way BigCommerce ↔ Odoo sync | OPL-1 — $249 |
+| [Odoo Access Rights Manager](#odoo-access-rights-manager) | Resolve, explain, compare and dry-run user permissions | OPL-1 — $179 |
 | [Odoo Module Upgrade AI](#odoo-module-upgrade-ai) | AI-assisted addon migration, Odoo 11–20 | OPL-1 — $149 |
 | [Odoo Performance Auditor](#odoo-performance-auditor) | Read-only audit of database, ORM, cron and config | OPL-1 — $99 |
 | [SQL Query & Report Builder](#sql-query--report-builder) | Safe ad-hoc SQL runner with reporting | OPL-1 — $59 |
@@ -32,6 +33,28 @@ the BigCommerce API most connectors leave out.
 - Webhook-driven real-time sync, backed by a cron fallback.
 - Rate-limit-aware API client honouring BigCommerce's backoff headers.
 - Per-record audit log with before/after values, plus sales and catalog dashboards.
+
+### Odoo Access Rights Manager
+
+Odoo tells you which groups a user is in. It does not tell you what that means,
+where a permission came from, or what will break if you change it.
+
+- **Effective rights matrix** — every model a user can reach, resolved through the
+  full transitive closure of implied groups rather than the groups on the user form.
+- **Provenance** — for any granted operation, the chain that produced it: the
+  assigned group, the implication path, and the access control or record rule.
+- **Compare** — two users side by side, or one user against a proposed group set.
+- **Staged changes with a dry run** — preview exactly which permissions a change
+  would gain and lose, then apply or discard. The preview writes nothing: a
+  hypothetical group set is resolved in memory.
+- **Audit trail** — every change to groups, access controls and record rules, with
+  who made it and the before/after values. Module installs are excluded.
+- **Findings** — redundant implications, access controls that can never grant
+  anything, global record rules that silently narrow group rules, groups that hand
+  out Settings access, and write access without read.
+
+Read-only by default. The only write is a group change you explicitly apply, it is
+made with the acting user's own rights rather than through `sudo`, and it is logged.
 
 ### Odoo Module Upgrade AI
 
