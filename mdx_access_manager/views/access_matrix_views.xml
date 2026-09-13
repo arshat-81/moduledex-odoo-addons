@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_access_matrix_form" model="ir.ui.view">
+        <field name="name">mdx.access.matrix.form</field>
+        <field name="model">mdx.access.matrix</field>
+        <field name="arch" type="xml">
+            <form string="Effective Access">
+                <header>
+                    <button name="action_run" type="object" string="Resolve" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not is_superuser">
+                        This user is a superuser. The server bypasses access controls and record
+                        rules for them, so nothing below is actually enforced.
+                    </div>
+                    <group>
+                        <group string="Resolve For">
+                            <field name="user_id" options="{'no_create': True}"/>
+                            <field name="model_filter" placeholder="e.g. account."/>
+                            <field name="include_transient"/>
+                        </group>
+                        <group string="Result">
+                            <field name="model_count"/>
+                            <field name="read_count"/>
+                            <field name="write_count"/>
+                            <field name="create_count"/>
+                            <field name="unlink_count"/>
+                            <field name="last_run_at"/>
+                            <field name="is_superuser" invisible="1"/>
+                        </group>
+                    </group>
+                    <div class="text-muted"><field name="state_message" readonly="1" nolabel="1"/></div>
+                    <notebook>
+                        <page string="Models" name="models">
+                            <field name="line_ids" string="Access by Model" readonly="1">
+                                <list string="Effective Rights" default_order="model_name">
+                                    <field name="model_name"/>
+                                    <field name="model_label" optional="show"/>
+                                    <field name="can_read" widget="boolean_toggle" readonly="1"/>
+                                    <field name="can_write" widget="boolean_toggle" readonly="1"/>
+                                    <field name="can_create" widget="boolean_toggle" readonly="1"/>
+                                    <field name="can_unlink" widget="boolean_toggle" readonly="1"/>
+                                    <field name="rule_note" optional="show"/>
+                                    <button name="action_explain" type="object" string="Why?"
+                                            icon="fa-question-circle" class="btn-link"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Groups" name="groups">
+                            <group>
+                                <field name="inherited_group_count"/>
+                            </group>
+                            <separator string="Assigned on the user form"/>
+                            <field name="explicit_group_ids" widget="many2many_tags" readonly="1" nolabel="1"/>
+                            <separator string="Effective, including implied groups"/>
+                            <field name="effective_group_ids" widget="many2many_tags" readonly="1" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_access_matrix_list" model="ir.ui.view">
+        <field name="name">mdx.access.matrix.list</field>
+        <field name="model">mdx.access.matrix</field>
+        <field name="arch" type="xml">
+            <list string="Access Matrices">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="model_count"/>
+                <field name="last_run_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_access_matrix_line_list" model="ir.ui.view">
+        <field name="name">mdx.access.matrix.line.list</field>
+        <field name="model">mdx.access.matrix.line</field>
+        <field name="arch" type="xml">
+            <list string="Effective Rights">
+                <field name="user_id"/>
+                <field name="model_name"/>
+                <field name="perm_summary"/>
+                <field name="rule_note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_access_matrix_line_form" model="ir.ui.view">
+        <field name="name">mdx.access.matrix.line.form</field>
+        <field name="model">mdx.access.matrix.line</field>
+        <field name="arch" type="xml">
+            <form string="Why This Is Granted">
+                <header>
+                    <button name="action_explain" type="object" string="Explain" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="model_name" readonly="1"/>
+                            <field name="model_label" readonly="1"/>
+                            <field name="perm_summary" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="rule_note" readonly="1"/>
+                            <field name="has_global_rule" readonly="1"/>
+                            <field name="provenance_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <separator string="Why"/>
+                    <field name="provenance_ids" readonly="1" nolabel="1">
+                        <list string="Provenance">
+                            <field name="source"/>
+                            <field name="group_label"/>
+                            <field name="via"/>
+                            <field name="modes"/>
+                            <field name="domain_text" optional="hide"/>
+                            <field name="acl_id" optional="hide"/>
+                            <field name="rule_id" optional="hide"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_access_matrix" model="ir.actions.act_window">
+        <field name="name">Effective Rights</field>
+        <field name="res_model">mdx.access.matrix</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Resolve a user's real permissions</p>
+            <p>Pick a user and Odoo Access Rights Manager resolves every model they can reach,
+               through the full chain of implied groups, and tells you which group and which
+               access control granted it.</p>
+        </field>
+    </record>
+</odoo>

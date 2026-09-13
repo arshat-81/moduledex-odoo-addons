@@ -40,6 +40,29 @@ Use it to:
 - Inspect user groups, restricted fields, menus, and actions.
 - Open the native Odoo security records from the simulation results.
 
+### Odoo Access Rights Manager
+
+Odoo tells you which groups a user is in. It does not tell you what that means,
+where a permission came from, or what will break if you change it.
+
+- **Effective rights matrix** — every model a user can reach, and which of their
+  groups were inherited rather than chosen. Odoo 18 writes implied groups onto
+  the user record, so the user form cannot tell you this.
+- **Provenance** — for any granted operation, the group, the implication path and
+  the access control or record rule that produced it.
+- **Compare** — two users side by side, or one user against a proposed group set.
+- **Staged changes with a dry run** — preview exactly which permissions a change
+  would gain and lose, then apply or discard. The preview writes nothing.
+- **Audit trail** — every change to groups, access controls and record rules,
+  with who made it and the before/after values. Module installs are excluded.
+- **Findings** — redundant implications, access controls that can never grant,
+  global record rules that silently narrow group rules, groups that hand out
+  Settings access, and write access without read.
+
+Read-only by default. The only write is a group change you explicitly apply, it
+is made with the acting user's own rights rather than through `sudo`, and it is
+logged.
+
 ### Odoo Performance Auditor
 
 Read-only performance and health auditor for self-hosted Odoo 18.
@@ -73,7 +96,7 @@ independently; the authoritative license is the `license` key in that module's
 `__manifest__.py`, with the full text in its own `LICENSE` file.
 
 - `mdx_external_id_finder`, `mdx_security_simulator` — **LGPL-3**, free software.
-- `data_insight_workbench`, `mdx_perf_auditor` — **OPL-1** (Odoo Proprietary
+- `data_insight_workbench`, `mdx_perf_auditor`, `mdx_access_manager` — **OPL-1** (Odoo Proprietary
   License v1.0). May only be used with a valid purchased license, normally
   obtained through the Odoo Apps Store.
 

@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_matrix_auditor,mdx.access.matrix auditor,model_mdx_access_matrix,mdx_access_manager.group_access_auditor,1,0,0,0
+access_matrix_manager,mdx.access.matrix manager,model_mdx_access_matrix,mdx_access_manager.group_access_manager,1,1,1,1
+access_matrix_line_auditor,mdx.access.matrix.line auditor,model_mdx_access_matrix_line,mdx_access_manager.group_access_auditor,1,0,0,0
+access_matrix_line_manager,mdx.access.matrix.line manager,model_mdx_access_matrix_line,mdx_access_manager.group_access_manager,1,1,1,1
+access_provenance_auditor,mdx.access.provenance auditor,model_mdx_access_provenance,mdx_access_manager.group_access_auditor,1,0,0,0
+access_provenance_manager,mdx.access.provenance manager,model_mdx_access_provenance,mdx_access_manager.group_access_manager,1,1,1,1
+access_compare_auditor,mdx.access.compare auditor,model_mdx_access_compare,mdx_access_manager.group_access_auditor,1,0,0,0
+access_compare_manager,mdx.access.compare manager,model_mdx_access_compare,mdx_access_manager.group_access_manager,1,1,1,1
+access_compare_line_auditor,mdx.access.compare.line auditor,model_mdx_access_compare_line,mdx_access_manager.group_access_auditor,1,0,0,0
+access_compare_line_manager,mdx.access.compare.line manager,model_mdx_access_compare_line,mdx_access_manager.group_access_manager,1,1,1,1
+access_change_set_manager,mdx.access.change.set manager,model_mdx_access_change_set,mdx_access_manager.group_access_manager,1,1,1,1
+access_change_line_manager,mdx.access.change.line manager,model_mdx_access_change_line,mdx_access_manager.group_access_manager,1,1,1,1
+access_change_log_auditor,mdx.access.change.log auditor,model_mdx_access_change_log,mdx_access_manager.group_access_auditor,1,0,0,0
+access_change_log_manager,mdx.access.change.log manager,model_mdx_access_change_log,mdx_access_manager.group_access_manager,1,0,0,0
+access_finding_auditor,mdx.access.finding auditor,model_mdx_access_finding,mdx_access_manager.group_access_auditor,1,0,0,0
+access_finding_manager,mdx.access.finding manager,model_mdx_access_finding,mdx_access_manager.group_access_manager,1,1,1,1

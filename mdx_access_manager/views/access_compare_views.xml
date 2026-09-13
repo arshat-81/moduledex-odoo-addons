@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_access_compare_form" model="ir.ui.view">
+        <field name="name">mdx.access.compare.form</field>
+        <field name="model">mdx.access.compare</field>
+        <field name="arch" type="xml">
+            <form string="Compare Access">
+                <header>
+                    <button name="action_run" type="object" string="Compare" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group string="Compare">
+                            <field name="mode" widget="radio"/>
+                            <field name="left_user_id" options="{'no_create': True}"/>
+                            <field name="right_user_id" options="{'no_create': True}"
+                                   invisible="mode != 'users'" required="mode == 'users'"/>
+                            <field name="proposed_group_ids" widget="many2many_tags"
+                                   invisible="mode != 'proposal'" required="mode == 'proposal'"/>
+                        </group>
+                        <group string="Scope">
+                            <field name="model_filter" placeholder="e.g. sale."/>
+                            <field name="include_transient"/>
+                            <field name="only_differences"/>
+                            <field name="gained_count"/>
+                            <field name="lost_count"/>
+                            <field name="same_count"/>
+                            <field name="last_run_at"/>
+                        </group>
+                    </group>
+                    <div class="text-muted"><field name="state_message" readonly="1" nolabel="1"/></div>
+                    <separator string="Differences"/>
+                    <field name="line_ids" readonly="1" nolabel="1">
+                        <list string="Differences" decoration-success="change == 'gained'"
+                              decoration-danger="change == 'lost'" decoration-warning="change == 'both'">
+                            <field name="model_name"/>
+                            <field name="change"/>
+                            <field name="gained_modes"/>
+                            <field name="lost_modes"/>
+                            <field name="left_summary"/>
+                            <field name="right_summary"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_access_compare_list" model="ir.ui.view">
+        <field name="name">mdx.access.compare.list</field>
+        <field name="model">mdx.access.compare</field>
+        <field name="arch" type="xml">
+            <list string="Comparisons">
+                <field name="name"/>
+                <field name="mode"/>
+                <field name="gained_count"/>
+                <field name="lost_count"/>
+                <field name="last_run_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_access_compare" model="ir.actions.act_window">
+        <field name="name">Compare</field>
+        <field name="res_model">mdx.access.compare</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Compare two users, or test a proposal</p>
+            <p>See exactly which permissions differ between two users, or what a proposed set of
+               groups would gain and lose against a user you already trust.</p>
+        </field>
+    </record>
+</odoo>
