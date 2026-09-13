@@ -7,6 +7,7 @@
 
     <record id="group_perf_manager" model="res.groups">
         <field name="name">Manager</field>
+        <field name="sequence">10</field>
         <field name="category_id" ref="mdx_perf_auditor.module_category_perf_auditor"/>
         <field name="comment">Run audits, review findings, and apply safe fixes. Settings access is required.</field>
     </record>

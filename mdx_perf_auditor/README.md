@@ -1,6 +1,6 @@
-# Performance & Health Auditor (`mdx_perf_auditor`)
+# Odoo Performance Auditor (`mdx_perf_auditor`)
 
-Read-only auditor for self-hosted Odoo 19. Finds the database, ORM, scheduled-job
+Read-only auditor for self-hosted Odoo 18. Finds the database, ORM, scheduled-job
 and configuration problems that make an instance slow, ranks them, scores overall
 health, and offers one-click safe fixes for the few changes that are safe to
 automate.
@@ -97,6 +97,6 @@ Thresholds are `ir.config_parameter` keys `mdx_perf_auditor.threshold.<key>`
 
 ## Requirements
 
-* Odoo 19.0, Community or Enterprise
+* Odoo 18.0, Community or Enterprise
 * Self-hosted / on-premise. On managed hosting where the database user is not a
   superuser, `pg_settings` and `pg_stat_statements` checks degrade to advisory.

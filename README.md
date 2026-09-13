@@ -40,6 +40,27 @@ Use it to:
 - Inspect user groups, restricted fields, menus, and actions.
 - Open the native Odoo security records from the simulation results.
 
+### Odoo Performance Auditor
+
+Read-only performance and health auditor for self-hosted Odoo 18.
+
+It runs 41 checks against the PostgreSQL catalog, the ORM registry, the
+scheduled-action and mail queues, and the server configuration, then:
+
+- Ranks every finding against a tunable threshold, with the measured value and a
+  recommendation.
+- Scores the instance 0-100 and tracks the score across runs.
+- Snapshots table and index growth weekly, so slowdowns can be shown over time.
+- Produces a client-ready PDF Health Report.
+
+Nothing it reads is written. The only write actions are three explicitly safe
+maintenance commands — `ANALYZE`, `VACUUM` and `CREATE INDEX CONCURRENTLY` —
+each behind a one-click confirmation.
+
+`pg_stat_statements`, `pgstattuple` and `hypopg` unlock extra depth where they
+are installed; without them those individual checks report as unavailable rather
+than failing.
+
 ## Compatibility
 
 - Odoo 18 Community
@@ -52,9 +73,9 @@ independently; the authoritative license is the `license` key in that module's
 `__manifest__.py`, with the full text in its own `LICENSE` file.
 
 - `mdx_external_id_finder`, `mdx_security_simulator` — **LGPL-3**, free software.
-- `data_insight_workbench` — **OPL-1** (Odoo Proprietary License v1.0). May only
-  be used with a valid purchased license, normally obtained through the Odoo
-  Apps Store.
+- `data_insight_workbench`, `mdx_perf_auditor` — **OPL-1** (Odoo Proprietary
+  License v1.0). May only be used with a valid purchased license, normally
+  obtained through the Odoo Apps Store.
 
 The presence of source code in this repository does not grant any right to use,
 redistribute or resell the OPL-1 modules. See [`LICENSE`](LICENSE) and each
