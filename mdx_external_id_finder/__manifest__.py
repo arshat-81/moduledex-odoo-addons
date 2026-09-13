@@ -1,6 +1,6 @@
 {
-    "name": "External ID Finder",
-    "summary": "Find, inspect, and create XML IDs from one technical screen",
+    "name": "Odoo XML ID Finder",
+    "summary": "Find, inspect and create XML IDs (external IDs) for any record from one technical screen, without the developer-mode detour",
     "version": "18.0.1.0.0",
     "category": "Technical",
     "author": "ModuleDex",
