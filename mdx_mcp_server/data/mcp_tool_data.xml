@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Read tools are on by default; every write tool ships disabled and
+         requiring approval, so installing this module cannot hand an agent the
+         ability to change anything until someone decides otherwise. -->
+    <record id="tool_list_models" model="mdx.mcp.tool">
+        <field name="name">odoo_list_models</field>
+        <field name="title">List the models this key can read</field>
+        <field name="operation">models</field>
+        <field name="sequence">10</field>
+        <field name="max_records">300</field>
+        <field name="description">List the Odoo models this user can read, optionally filtered by name. Call this first when you are unsure what a thing is called: Odoo model names are technical (res.partner for contacts, sale.order for sales orders).</field>
+    </record>
+
+    <record id="tool_describe_fields" model="mdx.mcp.tool">
+        <field name="name">odoo_describe_fields</field>
+        <field name="title">Describe a model's fields</field>
+        <field name="operation">fields</field>
+        <field name="sequence">20</field>
+        <field name="description">List the fields of one model with their type, label and whether they are required or read-only. Use this before searching or writing so you use real field names rather than guesses. Fields marked masked will never return their value.</field>
+    </record>
+
+    <record id="tool_search" model="mdx.mcp.tool">
+        <field name="name">odoo_search</field>
+        <field name="title">Search records matching a domain</field>
+        <field name="operation">search</field>
+        <field name="sequence">30</field>
+        <field name="max_records">200</field>
+        <field name="description">Search a model with an Odoo domain and return the fields you ask for. A domain is a list of [field, operator, value] triples, for example [["state","=","sale"],["amount_total",">",1000]]. Ask for the fewest fields that answer the question.</field>
+    </record>
+
+    <record id="tool_read" model="mdx.mcp.tool">
+        <field name="name">odoo_read</field>
+        <field name="title">Read records by ID</field>
+        <field name="operation">read</field>
+        <field name="sequence">40</field>
+        <field name="description">Read specific records by id. Use this after a search when you need more fields from a handful of records.</field>
+    </record>
+
+    <record id="tool_read_group" model="mdx.mcp.tool">
+        <field name="name">odoo_aggregate</field>
+        <field name="title">Group and count without reading rows</field>
+        <field name="operation">read_group</field>
+        <field name="sequence">50</field>
+        <field name="description">Group and aggregate without pulling every row: counts, sums and averages by one or more fields. Prefer this over searching thousands of records and adding them up yourself.</field>
+    </record>
+
+    <record id="tool_create" model="mdx.mcp.tool">
+        <field name="name">odoo_create</field>
+        <field name="title">Create a record</field>
+        <field name="operation">create</field>
+        <field name="sequence">60</field>
+        <field name="active" eval="False"/>
+        <field name="requires_approval" eval="True"/>
+        <field name="description">Create one record. Pass dry_run true first to see what would be created. This tool may require a human to approve the change before it happens.</field>
+    </record>
+
+    <record id="tool_write" model="mdx.mcp.tool">
+        <field name="name">odoo_update</field>
+        <field name="title">Update existing records</field>
+        <field name="operation">write</field>
+        <field name="sequence">70</field>
+        <field name="active" eval="False"/>
+        <field name="requires_approval" eval="True"/>
+        <field name="max_records">50</field>
+        <field name="description">Update fields on existing records, identified by id. Pass dry_run true first to see the current values alongside what you intend to set. This tool may require a human to approve the change.</field>
+    </record>
+
+    <record id="tool_unlink" model="mdx.mcp.tool">
+        <field name="name">odoo_delete</field>
+        <field name="title">Delete records</field>
+        <field name="operation">unlink</field>
+        <field name="sequence">80</field>
+        <field name="active" eval="False"/>
+        <field name="requires_approval" eval="True"/>
+        <field name="max_records">20</field>
+        <field name="description">Delete records by id. Deletion in Odoo is usually wrong: most records should be archived instead. Always dry_run first and tell the user exactly what would be removed.</field>
+    </record>
+</odoo>

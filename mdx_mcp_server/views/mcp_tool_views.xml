@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_mcp_tool_list" model="ir.ui.view">
+        <field name="name">mdx.mcp.tool.list</field>
+        <field name="model">mdx.mcp.tool</field>
+        <field name="arch" type="xml">
+            <list string="Tools" decoration-danger="is_write and not requires_approval"
+                  decoration-muted="not active">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="title" string="What it does"/>
+                <field name="is_write" string="Writes"/>
+                <field name="requires_approval" string="Needs Approval"/>
+                <field name="max_records" string="Max Rows"/>
+                <field name="group_ids" widget="many2many_tags" optional="show"/>
+                <field name="operation" optional="hide"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mcp_tool_form" model="ir.ui.view">
+        <field name="name">mdx.mcp.tool.form</field>
+        <field name="model">mdx.mcp.tool</field>
+        <field name="arch" type="xml">
+            <form string="MCP Tool">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_calls" type="object" class="oe_stat_button"
+                                icon="fa-list">
+                            <field name="call_count" widget="statinfo" string="Calls"/>
+                        </button>
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not is_write or requires_approval">
+                        This tool changes data and does not require approval. An agent can
+                        use it without a human seeing the request first.
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="odoo_search"/></h1>
+                        <field name="title" placeholder="Human-readable name"/>
+                    </div>
+                    <group>
+                        <group string="Behaviour">
+                            <field name="operation"/>
+                            <field name="is_write" string="Changes data" readonly="1"/>
+                            <field name="requires_approval"/>
+                            <field name="max_records"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Limits">
+                            <field name="model_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="group_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <separator string="How the model is told to use it"/>
+                    <field name="description" nolabel="1"
+                           placeholder="The assistant picks tools from this text. Say what it does and when not to use it."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mcp_tool" model="ir.actions.act_window">
+        <field name="name">Tools</field>
+        <field name="res_model">mdx.mcp.tool</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'active_test': False}</field>
+    </record>
+</odoo>

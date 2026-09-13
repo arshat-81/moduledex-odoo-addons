@@ -1,0 +1,243 @@
+<section style="box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#4c5170; max-width:1100px; margin:0 auto; padding:0 16px 40px;">
+
+  <!-- ============ HERO ============ -->
+  <div style="border-radius:16px; overflow:hidden; margin-bottom:34px;">
+    <img src="banner.png" alt="Odoo MCP Server &amp; Audit" style="width:100%; display:block;"/>
+  </div>
+
+  <p style="font-size:19px; line-height:1.6; color:#2b2d4f; text-align:center; max-width:820px; margin:0 auto 14px;">
+    Connecting an AI assistant to Odoo is the easy part.
+    <b style="color:#13142b;">Letting it change data is not.</b>
+  </p>
+  <p style="font-size:17px; line-height:1.6; text-align:center; max-width:790px; margin:0 auto 40px;">
+    A model that can read your database is useful. A model that can write to it is a decision
+    someone has to be able to review, undo and account for &mdash; which is everything this module
+    adds on top of the protocol.
+  </p>
+
+  <!-- ============ THE PIPELINE ============ -->
+  <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; letter-spacing:.14em; color:#7c5cff; text-transform:uppercase; margin:0 0 8px;">The path a request takes</div>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#13142b;">Five checks, before anything is written</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 26px; max-width:860px;">
+    Every <code style="background:#f0eeff; padding:2px 6px; border-radius:4px;">tools/call</code>
+    goes through the same sequence. Any step can stop it, and whatever happens is on the record.
+  </p>
+
+  <div style="margin-bottom:52px;">
+    <div style="position:relative; padding:0 0 22px 58px;">
+      <div style="position:absolute; left:19px; top:42px; bottom:-22px; width:2px; background:#e2deff;"></div>
+      <div style="position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%; background:#f6f5ff; border:2px solid #e2deff; font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:13px; color:#7c5cff; line-height:38px; text-align:center;">01</div>
+      <div style="font-weight:700; color:#13142b; font-size:16px; margin:8px 0 5px;">Which key is this?</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6; max-width:760px;">A bearer token checked against <code>res.users.apikeys</code>, scoped to this server. Hashed by Odoo, expiring, revocable from the user form, and tied to a real user.</p>
+    </div>
+    <div style="position:relative; padding:0 0 22px 58px;">
+      <div style="position:absolute; left:19px; top:42px; bottom:-22px; width:2px; background:#e2deff;"></div>
+      <div style="position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%; background:#f6f5ff; border:2px solid #e2deff; font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:13px; color:#7c5cff; line-height:38px; text-align:center;">02</div>
+      <div style="font-weight:700; color:#13142b; font-size:16px; margin:8px 0 5px;">May it call this tool?</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6; max-width:760px;">Each tool can be switched off, restricted to groups, confined to named models and capped at a number of rows.</p>
+    </div>
+    <div style="position:relative; padding:0 0 22px 58px;">
+      <div style="position:absolute; left:19px; top:42px; bottom:-22px; width:2px; background:#e2deff;"></div>
+      <div style="position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%; background:#f6f5ff; border:2px solid #e2deff; font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:13px; color:#7c5cff; line-height:38px; text-align:center;">03</div>
+      <div style="font-weight:700; color:#13142b; font-size:16px; margin:8px 0 5px;">Does a person need to see it?</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6; max-width:760px;">A tool marked for approval does not execute. It parks, shows what it would have done, and waits.</p>
+    </div>
+    <div style="position:relative; padding:0 0 22px 58px;">
+      <div style="position:absolute; left:19px; top:42px; bottom:-22px; width:2px; background:#e2deff;"></div>
+      <div style="position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%; background:#f6f5ff; border:2px solid #e2deff; font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:13px; color:#7c5cff; line-height:38px; text-align:center;">04</div>
+      <div style="font-weight:700; color:#13142b; font-size:16px; margin:8px 0 5px;">What may that user actually touch?</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6; max-width:760px;">The call runs as the key&rsquo;s user &mdash; never as root &mdash; so Odoo&rsquo;s own access rights and record rules still decide, exactly as they do in the web client.</p>
+    </div>
+    <div style="position:relative; padding:0 0 22px 58px;">
+      
+      <div style="position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%; background:#f6f5ff; border:2px solid #e2deff; font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:13px; color:#7c5cff; line-height:38px; text-align:center;">05</div>
+      <div style="font-weight:700; color:#13142b; font-size:16px; margin:8px 0 5px;">Write it down.</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6; max-width:760px;">Succeeded, failed, denied or parked &mdash; every call leaves a row with the arguments, the result and how long it took.</p>
+    </div>
+  </div>
+
+  <!-- ============ APPROVAL ============ -->
+  <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; letter-spacing:.14em; color:#7c5cff; text-transform:uppercase; margin:0 0 8px;">Approval</div>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#13142b;">See the change before it happens</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    A parked call is replayed as a dry run first, so the request carries its own preview: the
+    current values, and what the model wants to set them to. Approving runs it
+    <b style="color:#13142b;">as the agent's user</b>, not as the approver &mdash; saying yes means
+    "let that account do this", not "do it with my rights".
+  </p>
+  <div style="border:1px solid #e2deff; border-radius:12px; overflow:hidden; margin-bottom:26px;">
+    <img src="screenshot_approval.png" alt="A parked write showing its before and after" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9ff; font-size:13.5px; color:#4c5170;">
+      <b style="color:#13142b;">The before, and the intended after.</b>
+      Nothing has been written. Approve and Run executes it; Reject closes it and tells the agent so.
+    </p>
+  </div>
+  <div style="background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:20px 24px; margin-bottom:52px;">
+    <p style="margin:0; font-size:14.5px; line-height:1.6;">
+      <b style="color:#13142b;">The agent is told plainly what happened.</b> It gets back
+      &ldquo;this needs a person to approve it, nothing has been modified, do not retry&rdquo; &mdash;
+      so it reports the wait to whoever asked instead of hammering the same call.
+    </p>
+  </div>
+
+  <!-- ============ LOG ============ -->
+  <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; letter-spacing:.14em; color:#7c5cff; text-transform:uppercase; margin:0 0 8px;">The record</div>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#13142b;">What the AI did last Tuesday</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    Someone will ask. Every call is logged with the tool, the user the key belongs to, the client
+    that connected, the model touched, the arguments sent, the number of records affected and the
+    answer that went back &mdash; including the calls that were refused.
+  </p>
+  <div style="border:1px solid #e2deff; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_calls.png" alt="The call log, showing succeeded, failed, denied and parked calls" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9ff; font-size:13.5px; color:#4c5170;">
+      <b style="color:#13142b;">Four outcomes, not one.</b> Succeeded. Failed, with the reason the
+      model was given. Denied, because that key's user has no rights to the model. Awaiting approval.
+    </p>
+  </div>
+
+  <!-- ============ TOOLS ============ -->
+  <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; letter-spacing:.14em; color:#7c5cff; text-transform:uppercase; margin:0 0 8px;">Tools</div>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#13142b;">Every tool is a record you can edit</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    Eight to start with: list models, describe fields, search, read, aggregate, create, update and
+    delete. They are data, not code &mdash; so you change what the AI can do from a form, without
+    touching Python.
+    <b style="color:#13142b;">All three write tools ship switched off.</b>
+  </p>
+  <div style="border:1px solid #e2deff; border-radius:12px; overflow:hidden; margin-bottom:26px;">
+    <img src="screenshot_tools.png" alt="The eight tools and their settings" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9ff; font-size:13.5px; color:#4c5170;">
+      <b style="color:#13142b;">Turn one on when you want it, and not before.</b> A write tool with
+      no approval required is flagged in red, because that is worth noticing.
+    </p>
+  </div>
+  <div style="border:1px solid #e2deff; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_tool.png" alt="One tool, confined to two models and one group" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9ff; font-size:13.5px; color:#4c5170;">
+      <b style="color:#13142b;">Narrow it as far as you like.</b> This one may only update contacts
+      and leads, only for keys belonging to that group, fifty records at a time, and only after a
+      person approves. The description underneath is what the model itself is told.
+    </p>
+  </div>
+
+  <!-- ============ CONNECTING ============ -->
+  <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; letter-spacing:.14em; color:#7c5cff; text-transform:uppercase; margin:0 0 8px;">Connecting</div>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#13142b;">One URL and a key</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    Generate a key from the user's own form in Odoo, then point any MCP client at the endpoint.
+    Streamable HTTP, so there is nothing to install next to the model and no gateway in between.
+  </p>
+  <div style="background:#13142b; border-radius:14px; padding:22px 24px; margin-bottom:24px; overflow-x:auto;">
+    <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:13.5px; line-height:1.75; color:#cdd0ee; white-space:pre;"><span style="color:#878db8;">POST</span> https://your-odoo/mdx/mcp
+<span style="color:#878db8;">Authorization:</span> Bearer <span style="color:#f5b342;">&lt;the key you generated&gt;</span>
+<span style="color:#878db8;">Content-Type:</span> application/json
+
+{ <span style="color:#9685ff;">"jsonrpc"</span>: <span style="color:#4acb89;">"2.0"</span>, <span style="color:#9685ff;">"id"</span>: 1, <span style="color:#9685ff;">"method"</span>: <span style="color:#4acb89;">"tools/list"</span> }</div>
+  </div>
+  <p style="font-size:14.5px; line-height:1.6; margin:0 0 52px; max-width:860px;">
+    Implements the <b style="color:#13142b;">2025-06-18</b> Model Context Protocol &mdash;
+    <code style="background:#f0eeff; padding:2px 6px; border-radius:4px;">initialize</code>,
+    <code style="background:#f0eeff; padding:2px 6px; border-radius:4px;">tools/list</code>,
+    <code style="background:#f0eeff; padding:2px 6px; border-radius:4px;">tools/call</code> and
+    <code style="background:#f0eeff; padding:2px 6px; border-radius:4px;">ping</code>, with the
+    older 2025-03-26 and 2024-11-05 versions accepted so existing clients keep working.
+  </p>
+
+  <!-- ============ DETAILS ============ -->
+  <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; letter-spacing:.14em; color:#7c5cff; text-transform:uppercase; margin:0 0 8px;">Built for models, not just for HTTP</div>
+  <h2 style="font-size:27px; margin:0 0 18px; color:#13142b;">The things that go wrong with AI tools, handled</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:30px;">
+    <div style="flex:1 1 380px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#13142b; font-size:15px; margin-bottom:7px;">A failed tool is not a failed request</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Protocol problems come back as JSON-RPC errors; tool problems come back as a result the
+        model can read. Get this backwards &mdash; as many servers do &mdash; and the model never
+        learns why it failed, so it retries the same broken call forever.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#13142b; font-size:15px; margin-bottom:7px;">A guessed argument is refused, not ignored</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Ask to group by <code>group_by</code> when the tool takes <code>groupby</code> and you get
+        told, by name, which arguments it accepts. Silently dropping it would hand the model one
+        meaningless group and it would report that as the answer.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#13142b; font-size:15px; margin-bottom:7px;">Secrets are masked before they leave</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        System parameters, stored passwords, SMTP credentials and API keys come back masked &mdash;
+        including for an administrator's key, which is the case that matters, because nothing else
+        would have stopped it. Add your own fields to the list.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#13142b; font-size:15px; margin-bottom:7px;">A vague question cannot drag the whole table through a model</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Each tool has a row cap, and the aggregate tool exists so &ldquo;how many, by country&rdquo;
+        is one grouped query rather than fifty thousand records read into a context window.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#13142b; font-size:15px; margin-bottom:7px;">Dry run on every write</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Create, update and delete all accept <code>dry_run</code>. The call reports exactly what it
+        would have changed and touches nothing &mdash; which is also how the approval preview is built.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#13142b; font-size:15px; margin-bottom:7px;">Discovery that tells the truth</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        The model-listing tool reports only the models that key's user can actually read, so the
+        assistant never plans around a table it will be refused at.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ HONEST LIMITS ============ -->
+  <div style="background:#fff8ec; border-left:4px solid #b8860b; border-radius:0 12px 12px 0; padding:20px 24px; margin-bottom:24px;">
+    <h3 style="margin:0 0 8px; font-size:17px; color:#13142b;">A key is as powerful as its user</h3>
+    <p style="margin:0; font-size:15px; line-height:1.6;">
+      Access rights are the real boundary here, and they are the ones you already have. Issue the
+      key to a user with the rights the assistant should have &mdash; not to an administrator out of
+      convenience. Masking will still cover the credential fields, but nothing can put back a
+      permission you granted.
+    </p>
+  </div>
+  <div style="border:1px solid #e2deff; border-radius:12px; padding:20px 24px; margin-bottom:52px;">
+    <h3 style="margin:0 0 8px; font-size:17px; color:#13142b;">What this is not</h3>
+    <p style="margin:0; font-size:14.5px; line-height:1.6;">
+      It is not a chatbot and it ships no model of its own &mdash; you bring Claude, ChatGPT, Cursor
+      or anything else that speaks MCP. It exposes the ORM, not business workflows: an agent can
+      read and change records, but confirming a sale order is an action on that model, not a tool
+      here. And it does not open your database to the internet by itself &mdash; the endpoint is only
+      reachable wherever your Odoo already is.
+    </p>
+  </div>
+
+  <!-- ============ REQUIREMENTS ============ -->
+  <h2 style="font-size:27px; margin:0 0 22px; color:#13142b;">What it needs</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
+    <div style="flex:1 1 280px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#13142b;">Odoo 19</h3>
+      <p style="margin:0; font-size:14.5px;">Community or Enterprise. Depends on <code>base</code> and <code>web</code> only.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#13142b;">An MCP client</h3>
+      <p style="margin:0; font-size:14.5px;">Anything speaking Streamable HTTP. No extra Python packages, no gateway, no sidecar.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f5ff; border:1px solid #e2deff; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#13142b;">Five minutes</h3>
+      <p style="margin:0; font-size:14.5px;">Install, generate a key on a user, paste the URL. The read tools work immediately.</p>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="background:#13142b; border-radius:15px; padding:32px; text-align:center;">
+    <div style="color:#ffffff; font-size:19px; font-weight:bold; letter-spacing:.03em; margin-bottom:6px;">ModuleDex</div>
+    <div style="color:#9685ff; font-size:14.5px;">Odoo MCP Server &amp; Audit</div>
+    <div style="margin-top:10px;"><a href="mailto:moduledex@gmail.com" style="color:#9685ff; text-decoration:none; font-size:14.5px;">moduledex@gmail.com</a></div>
+  </div>
+
+</section>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mcp_tool_reviewer,mdx.mcp.tool reviewer,model_mdx_mcp_tool,mdx_mcp_server.group_mcp_reviewer,1,0,0,0
+access_mcp_tool_manager,mdx.mcp.tool manager,model_mdx_mcp_tool,mdx_mcp_server.group_mcp_manager,1,1,1,1
+access_mcp_call_reviewer,mdx.mcp.call reviewer,model_mdx_mcp_call,mdx_mcp_server.group_mcp_reviewer,1,0,0,0
+access_mcp_call_manager,mdx.mcp.call manager,model_mdx_mcp_call,mdx_mcp_server.group_mcp_manager,1,0,0,0
+access_mcp_approval_reviewer,mdx.mcp.approval reviewer,model_mdx_mcp_approval,mdx_mcp_server.group_mcp_reviewer,1,1,0,0
+access_mcp_approval_manager,mdx.mcp.approval manager,model_mdx_mcp_approval,mdx_mcp_server.group_mcp_manager,1,1,0,1

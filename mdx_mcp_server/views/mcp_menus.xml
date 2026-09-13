@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_mcp_root" name="MCP" web_icon="mdx_mcp_server,static/description/icon.png"
+              sequence="94" groups="mdx_mcp_server.group_mcp_reviewer"/>
+    <menuitem id="menu_mcp_approval" name="Approvals" parent="menu_mcp_root"
+              action="action_mcp_approval" sequence="10"/>
+    <menuitem id="menu_mcp_call" name="Call Log" parent="menu_mcp_root"
+              action="action_mcp_call" sequence="20"/>
+    <menuitem id="menu_mcp_tool" name="Tools" parent="menu_mcp_root"
+              action="action_mcp_tool" sequence="30"
+              groups="mdx_mcp_server.group_mcp_manager"/>
+</odoo>

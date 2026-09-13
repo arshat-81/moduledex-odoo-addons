@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_users_form_mcp" model="ir.ui.view">
+        <field name="name">res.users.form.mcp</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="MCP Access" groups="mdx_mcp_server.group_mcp_manager">
+                    <div colspan="2">
+                        <button name="action_mcp_generate_key" type="object"
+                                string="Generate MCP Key" class="btn-secondary"/>
+                        <span class="text-muted ms-2">
+                            Creates an Odoo API key scoped to the MCP server. It is shown once.
+                            Revoke it from Account Security like any other key.
+                        </span>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_config_settings_mcp" model="ir.ui.view">
+        <field name="name">res.config.settings.mcp</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Its own app section rather than an xpath into someone else's
+                 block: base_setup's blocks are named, not id'd, and which ones
+                 exist changes between versions. This anchors on <form>, which
+                 does not. -->
+            <xpath expr="//form" position="inside">
+                <app data-string="MCP Server" string="MCP Server" name="mdx_mcp_server"
+                     groups="mdx_mcp_server.group_mcp_manager">
+                    <block title="Safety" name="mcp_safety">
+                        <setting string="Approve every write"
+                                 help="Park every create, update and delete for a human, whatever the individual tool says. The safest way to start.">
+                            <field name="mcp_require_approval_all_writes"/>
+                        </setting>
+                        <setting string="Masked fields"
+                                 help="Comma separated model.field entries whose values are never returned to an agent, on top of the built-in credential fields.">
+                            <field name="mcp_masked_fields" placeholder="res.partner.vat, x_model.secret"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

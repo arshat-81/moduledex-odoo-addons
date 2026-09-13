@@ -90,30 +90,54 @@ class MdxBackupDestination(models.Model):
 
     # -- state --------------------------------------------------------
     run_ids = fields.One2many("mdx.backup.run", "destination_id", string="History")
-    run_count = fields.Integer(compute="_compute_stats")
-    last_success = fields.Datetime(compute="_compute_stats", store=True)
+    # Two compute methods, not one, and deliberately so. Odoo runs a compute when
+    # any field it fills is read, so mixing stored and non-stored fields in one
+    # method makes reading run_count write last_success to the database - a read
+    # that writes, which fails outright on a read-only cursor. Splitting them
+    # also keeps compute_sudo consistent within each method: stored computed
+    # fields are sudo by default and non-stored ones are not, so a single body
+    # would have run under two different sets of rights depending on which field
+    # happened to be touched first, and could report a run_count that disagreed
+    # with the last_status beside it.
+    run_count = fields.Integer(compute="_compute_run_stats", compute_sudo=True)
+    last_success = fields.Datetime(compute="_compute_last_run", store=True,
+                                   compute_sudo=True)
     last_status = fields.Selection(
         [("success", "Verified"), ("unverified", "Unverified"), ("failed", "Failed")],
-        compute="_compute_stats", store=True,
+        compute="_compute_last_run", store=True, compute_sudo=True,
     )
-    last_size = fields.Integer(compute="_compute_stats", string="Last Size (bytes)")
+    last_size = fields.Integer(compute="_compute_run_stats", compute_sudo=True,
+                               string="Last Size (bytes)")
     is_stale = fields.Boolean(compute="_compute_stale", search="_search_stale")
 
+    def _runs_newest_first(self):
+        """History in the order it happened.
+
+        Ordered by when a run actually finished, not by id. Ids normally track
+        time, but a restored or imported history does not, and "when did this
+        last work" must not be answered by insertion order.
+        """
+        self.ensure_one()
+        return self.run_ids.sorted(
+            lambda r: (r.finished_at or r.started_at or fields.Datetime.now(), r.id),
+            reverse=True)
+
     @api.depends("run_ids.state", "run_ids.finished_at")
-    def _compute_stats(self):
+    def _compute_last_run(self):
         for dest in self:
-            # Ordered by when the run actually finished, not by id. Ids normally
-            # track time, but a restored or imported history does not, and
-            # "when did this last work" must not be answered by insertion order.
-            runs = dest.run_ids.sorted(
-                lambda r: (r.finished_at or r.started_at or fields.Datetime.now(), r.id),
-                reverse=True)
-            dest.run_count = len(runs)
+            runs = dest._runs_newest_first()
             last = runs[:1]
             dest.last_status = last.state if last else False
-            dest.last_size = last.size_bytes if last else 0
             good = runs.filtered(lambda r: r.state == "success")[:1]
             dest.last_success = good.finished_at if good else False
+
+    @api.depends("run_ids.state", "run_ids.finished_at", "run_ids.size_bytes")
+    def _compute_run_stats(self):
+        for dest in self:
+            runs = dest._runs_newest_first()
+            last = runs[:1]
+            dest.run_count = len(runs)
+            dest.last_size = last.size_bytes if last else 0
 
     def _compute_next_due(self):
         for dest in self:
