@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="module_category_ai_module_migrator" model="ir.module.category">
-        <field name="name">AI Addon Migrator</field>
+        <field name="name">Odoo Module Upgrade AI</field>
         <field name="sequence">45</field>
     </record>
 
     <record id="privilege_ai_module_migrator_access" model="res.groups.privilege">
-        <field name="name">AI Addon Migrator</field>
+        <field name="name">Odoo Module Upgrade AI</field>
         <field name="sequence">45</field>
         <field name="category_id" ref="ai_module_migrator.module_category_ai_module_migrator"/>
     </record>

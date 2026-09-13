@@ -442,7 +442,7 @@ class ResConfigSettings(models.TransientModel):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("AI Addon Migrator"),
+                "title": _("Odoo Module Upgrade AI"),
                 "message": message,
                 "type": "success" if ok else "danger",
                 "sticky": False,

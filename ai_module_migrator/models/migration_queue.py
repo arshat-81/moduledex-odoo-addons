@@ -58,7 +58,7 @@ class AiModuleMigrationQueue(models.Model):
     """
 
     _name = "ai.module.migration.queue"
-    _description = "AI Addon Migrator Background Task"
+    _description = "Odoo Module Upgrade AI Background Task"
     _order = "priority asc, id asc"
     _rec_name = "name"
 

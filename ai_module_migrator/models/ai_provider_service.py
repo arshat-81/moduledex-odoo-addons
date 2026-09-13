@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 class AiModuleMigratorProviderService(models.AbstractModel):
     _name = "ai.module.migrator.provider.service"
-    _description = "AI Addon Migrator Provider Service"
+    _description = "Odoo Module Upgrade AI Provider Service"
 
     @api.model
     def provider_selection(self):
@@ -171,7 +171,7 @@ class AiModuleMigratorProviderService(models.AbstractModel):
         if not self._param("ai_module_migrator.data_consent"):
             raise UserError(_(
                 "Before any AI provider can be called, an administrator must confirm, in "
-                "Settings → AI Addon Migrator, that sending source code to a third-party "
+                "Settings → Odoo Module Upgrade AI, that sending source code to a third-party "
                 "AI provider is acceptable for this addon."
             ))
 
@@ -233,7 +233,7 @@ class AiModuleMigratorProviderService(models.AbstractModel):
             headers={
                 "Authorization": "Bearer %s" % api_key,
                 "Content-Type": "application/json",
-                "User-Agent": "Odoo AI Addon Migrator/1.0",
+                "User-Agent": "OdooModuleUpgradeAI/1.0",
             },
             method="POST",
         )
@@ -348,7 +348,7 @@ class AiModuleMigratorProviderService(models.AbstractModel):
             headers={
                 "Authorization": "Bearer %s" % api_key,
                 "Content-Type": "application/json",
-                "User-Agent": "Odoo AI Addon Migrator/1.0",
+                "User-Agent": "OdooModuleUpgradeAI/1.0",
             },
             method="POST",
         )

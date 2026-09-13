@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="AI Addon Migrator" string="AI Addon Migrator" name="ai_module_migrator">
+                <app data-string="Odoo Module Upgrade AI" string="Odoo Module Upgrade AI" name="ai_module_migrator">
                     <field name="ai_module_migrator_live_refresh_ping" widget="ai_migrator_auto_refresh"
                            invisible="1" options="{'interval': 15}"/>
                     <block title="Data Privacy" name="ai_module_migrator_privacy_block">

@@ -1,20 +1,31 @@
 {
     # Display name only — the technical name stays ai_module_migrator, so no
-    # XML ids, asset paths or installed databases are affected. "Addon" rather
-    # than "Module" keeps this clear of OCA's free odoo-module-migrator library,
-    # which a paid listing should not be confused with. Both "module" and
-    # "addon" are kept in the summary so store search matches either word.
-    "name": "AI Addon Migrator",
-    "version": "19.0.1.0.26",
+    # XML ids, asset paths, ir.config_parameter keys or installed databases are
+    # affected by a retitle.
+    #
+    # Title rationale, measured against the store rather than guessed:
+    #   - "Odoo" appears in 32-35% of titles that sell (500+ sold, or 10+/month,
+    #     or 5,000+ downloads) and in none of the low-selling ones.
+    #   - 22 characters matches the 22-23 char median of those same sellers.
+    #     Pipe-stuffed keyword titles correlate with NOT selling: 0% of apps
+    #     with 500+ sales carry two or more pipes, against 17% of apps with
+    #     1-19 sales.
+    #   - "Module" is the word buyers type; "addon" is not.
+    #   - "Upgrade" rather than "Migration" keeps a paid listing clear of OCA's
+    #     free odoo-module-migrator CLI, which this should not be mistaken for.
+    #     "migration", "addon" and "downgrade" all stay in the summary below, so
+    #     store search still matches every one of those words.
+    "name": "Odoo Module Upgrade AI",
+    "version": "19.0.1.1.0",
     "summary": "AI migration tool for custom Odoo modules and addons — upgrade or "
-               "downgrade any addon between Odoo 11 and 19",
+               "downgrade any addon between Odoo 11 and 20",
     "description": """
-AI Addon Migrator
-=================
+Odoo Module Upgrade AI
+======================
 
 Scan an Odoo addon from a server path or uploaded zip, compare its dependencies
 against local Community and Enterprise addon roots, and generate an AI-assisted
-migration report for any Odoo 11-19 source/target version pair.
+migration report for any Odoo 11-20 source/target version pair.
 
 Long-running AI work (plan generation and per-file code migration) runs in the
 background through this module's own queue, driven by a standard Odoo scheduled

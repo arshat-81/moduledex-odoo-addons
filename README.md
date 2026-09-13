@@ -9,7 +9,7 @@ see [Licensing](#licensing) below.
 | Module | Description | License |
 | --- | --- | --- |
 | [BigCommerce Connector](#bigcommerce-connector) | Two-way BigCommerce ↔ Odoo sync | OPL-1 — $249 |
-| [AI Addon Migrator](#ai-addon-migrator) | AI-assisted addon migration, Odoo 11–19 | OPL-1 — $149 |
+| [Odoo Module Upgrade AI](#odoo-module-upgrade-ai) | AI-assisted addon migration, Odoo 11–20 | OPL-1 — $149 |
 | [SQL Query & Report Builder](#sql-query--report-builder) | Safe ad-hoc SQL runner with reporting | OPL-1 — $59 |
 | [External ID Finder](#external-id-finder) | Find, inspect and create XML IDs | LGPL-3 — Free |
 | [Security Simulator](#security-simulator) | Simulate a user's access before granting it | LGPL-3 — Free |
@@ -32,13 +32,13 @@ the BigCommerce API most connectors leave out.
 - Rate-limit-aware API client honouring BigCommerce's backoff headers.
 - Per-record audit log with before/after values, plus sales and catalog dashboards.
 
-### AI Addon Migrator
+### Odoo Module Upgrade AI
 
 Scan an Odoo addon from a server path or uploaded zip, compare its dependencies
 against local Community and Enterprise addon roots, and generate an AI-assisted
-migration report for any Odoo 11–19 source/target version pair.
+migration report for any Odoo 11–20 source/target version pair.
 
-- Upgrade *or* downgrade between any Odoo 11–19 version pair.
+- Upgrade *or* downgrade between any Odoo 11–20 version pair.
 - Long-running AI work runs in the background through the module's own queue,
   driven by a standard Odoo scheduled action — no external queue module and no
   `odoo.conf` changes required.

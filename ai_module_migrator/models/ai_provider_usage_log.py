@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 class AiModuleMigratorUsageLog(models.Model):
     _name = "ai.module.migrator.usage.log"
-    _description = "AI Addon Migrator Usage Log"
+    _description = "Odoo Module Upgrade AI Usage Log"
     _order = "id desc"
 
     provider = fields.Char(string="Provider", required=True, index=True)

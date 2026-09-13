@@ -21,7 +21,7 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-ODOO_VERSION_SELECTION = [(str(version), "Odoo %s" % version) for version in range(11, 20)]
+ODOO_VERSION_SELECTION = [(str(version), "Odoo %s" % version) for version in range(11, 21)]
 
 TEXT_EXTENSIONS = {
     ".py", ".xml", ".js", ".scss", ".css", ".csv", ".json", ".txt", ".md", ".rst",
@@ -30,7 +30,7 @@ TEXT_EXTENSIONS = {
 IGNORED_DIRS = {".git", ".hg", ".svn", "__pycache__", ".pytest_cache", "node_modules", ".mypy_cache"}
 MANIFEST_NAMES = ("__manifest__.py", "__openerp__.py")
 
-# Module technical names that have shipped Enterprise-only across Odoo 11-19,
+# Module technical names that have shipped Enterprise-only across Odoo 11-20,
 # used to tell an Enterprise addons_path entry apart from a Community one
 # without relying on any particular directory naming convention.
 #
@@ -696,7 +696,7 @@ class AiModuleMigrationJob(models.Model):
 
     def _check_manager_access(self):
         if not self.env.user.has_group("ai_module_migrator.group_ai_module_migrator_manager"):
-            raise AccessError(_("Only AI Addon Migrator managers can scan server files or call AI providers."))
+            raise AccessError(_("Only Odoo Module Upgrade AI managers can scan server files or call AI providers."))
 
     def _check_queue_available(self):
         """Background work is run by this module's own cron, so nothing external
@@ -1352,6 +1352,13 @@ class AiModuleMigrationJob(models.Model):
         if ext == ".js" and target >= 16:
             add(r"\bodoo\.define\s*\(", _("legacy odoo.define() AMD module (use /** @odoo-module **/ ES6 imports)"))
 
+        # Odoo 20 is selectable as a target, but no `target >= 20` rules are
+        # asserted here yet: Odoo 20 is announced for Odoo Experience
+        # (24-26 Sep 2026) and its removed/renamed APIs are not published, so
+        # hand-written regexes would emit confident false findings - the exact
+        # failure mode this detector exists to prevent. When the release notes
+        # land, add `if target >= 20:` blocks in the sections above, in the
+        # same shape as the 17/18 ones.
         return hits
 
     def _legacy_marker_note(self, markers):
@@ -2202,7 +2209,7 @@ class AiModuleMigrationJob(models.Model):
             if dep in community_modules:
                 status = _("Community")
             elif dep in enterprise_only:
-                status = _("Enterprise-only in local Odoo 19")
+                status = _("Enterprise-only in local Odoo")
                 enterprise_hits.append(dep)
             elif dep in enterprise_modules:
                 status = _("Enterprise root")
@@ -2494,7 +2501,10 @@ class AiModuleMigrationJob(models.Model):
         if source <= 12 and target >= 17:
             findings.append("Large-version jump detected; split work into manifest/data, ORM, views, JS/assets, and tests.")
         if source < target and target >= 19:
-            findings.append("Target is Odoo 19; validate list views, assets, OWL services, manifest version, and removed APIs.")
+            findings.append(
+                "Target is Odoo %s; validate list views, assets, OWL services, manifest version, "
+                "and removed APIs." % target
+            )
         if source > target:
             findings.append("Downgrade requested; identify target-missing APIs and avoid generating data that older Odoo cannot load.")
         if not findings:
@@ -2596,7 +2606,7 @@ class AiModuleMigrationJob(models.Model):
             "Use only the scanned addon facts below. Do not assume dependencies exist unless they are in the local index summary.\n"
             "The task can be an upgrade, downgrade, or same-version compatibility migration.\n"
             "When downgrading, explicitly call out APIs, XML syntax, assets, or data constructs that the target version may not support.\n"
-            "When targeting Odoo 18 or 19, pay special attention to list views, assets, OWL/web client code, manifest format, and removed ORM APIs.\n"
+            "When targeting Odoo 18 or later, pay special attention to list views, assets, OWL/web client code, manifest format, and removed ORM APIs.\n"
             "Prefer conservative, reviewable changes over broad rewrites.\n\n"
             "Source version: Odoo %(source)s\n"
             "Target version: Odoo %(target)s\n"
@@ -2668,7 +2678,7 @@ class AiModuleMigrationJob(models.Model):
     def _assert_allowed_path(self, path):
         allowed_roots = self._allowed_roots()
         if not allowed_roots:
-            raise UserError(_("No allowed source roots are configured in AI Addon Migrator settings."))
+            raise UserError(_("No allowed source roots are configured in Odoo Module Upgrade AI settings."))
         if not any(self._is_child_path(path, root) for root in allowed_roots):
             raise UserError(_("Path is outside configured allowed roots: %s") % path)
 
@@ -2751,7 +2761,7 @@ class AiModuleMigrationJob(models.Model):
 
         Odoo Enterprise ships no machine-readable marker for "this directory
         is the Enterprise addons root" — so this checks for a handful of
-        module names that have shipped Enterprise-only across Odoo 11-19
+        module names that have shipped Enterprise-only across Odoo 11-20
         (accounting, helpdesk, e-sign, timesheets grid, ...). A root counting
         as Enterprise only needs to contain ONE of them.
         """
