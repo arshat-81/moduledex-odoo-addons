@@ -1,13 +1,13 @@
-<section style="box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#5b5476; max-width:1100px; margin:0 auto; padding:0 16px 40px;">
+<section style="box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#47556b; max-width:1100px; margin:0 auto; padding:0 16px 40px;">
 
   <!-- ============ HERO ============ -->
   <div style="border-radius:16px; overflow:hidden; margin-bottom:34px;">
     <img src="banner.png" alt="Odoo Credential Encryption" style="width:100%; display:block;"/>
   </div>
 
-  <p style="font-size:19px; line-height:1.6; color:#4a4460; text-align:center; max-width:800px; margin:0 auto 14px;">
-    Open your database and read the <code style="background:#f6f4fd; padding:2px 6px; border-radius:4px;">ir_mail_server</code>
-    table. The SMTP password is <b style="color:#1f1a33;">right there, in plain text</b>.
+  <p style="font-size:19px; line-height:1.6; color:#334155; text-align:center; max-width:800px; margin:0 auto 14px;">
+    Open your database and read the <code style="background:#f0fdfa; padding:2px 6px; border-radius:4px;">ir_mail_server</code>
+    table. The SMTP password is <b style="color:#0f172a;">right there, in plain text</b>.
   </p>
   <p style="font-size:17px; line-height:1.6; text-align:center; max-width:780px; margin:0 auto 40px;">
     So is the FTP password your backup tool uses, your connector API keys, and every OAuth refresh
@@ -15,91 +15,92 @@
   </p>
 
   <!-- ============ PROOF ============ -->
-  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">See it for yourself</h2>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#0f172a;">See it for yourself</h2>
   <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
     Two mail servers on the same database. One was configured before the field was protected, the
     other after. This is a straight <code>SELECT</code> against the column &mdash; no Odoo, no
     access rules, the view a database dump gives you.
   </p>
-  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
-    <img src="screenshot_proof.png" alt="Plain text and ciphertext side by side in the same column" style="width:100%; display:block;"/>
-    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
-      <b style="color:#1f1a33;">Row 1 hands over the password. Row 2 hands over nothing.</b>
-      Same table, same column, same query.
+  <div style="background:#0b0d14; border-radius:14px; padding:20px; margin-bottom:52px;">
+    <div style="font-family:ui-monospace,'DejaVu Sans Mono',monospace; font-size:12.5px; color:#5eead4; letter-spacing:.08em; margin:0 0 14px 6px;">SELECT name, smtp_user, smtp_pass FROM ir_mail_server;</div>
+    <img src="screenshot_proof.png" alt="Plain text and ciphertext side by side in the same column" style="width:100%; display:block; border-radius:8px;"/>
+    <p style="margin:16px 6px 2px; font-size:13.5px; color:#94a3b8; font-family:ui-monospace,'DejaVu Sans Mono',monospace;">
+      <span style="color:#f87171;">row 1</span> hands over the password.
+      <span style="color:#5eead4;">row 2</span> hands over nothing. Same table, same column, same query.
     </p>
   </div>
 
   <!-- ============ WHO READS IT ============ -->
-  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">That table gets read more than you think</h2>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#0f172a;">That table gets read more than you think</h2>
   <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:52px;">
-    <div style="flex:1 1 240px; background:#f6f4fd; border-radius:12px; padding:22px;">
-      <div style="font-weight:700; color:#3c3470; font-size:15px; margin-bottom:6px;">A dump for a developer</div>
+    <div style="flex:1 1 240px; background:#f0fdfa; border-radius:12px; padding:22px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:6px;">A dump for a developer</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">Handed over to debug something, kept on a laptop, never deleted.</p>
     </div>
-    <div style="flex:1 1 240px; background:#f6f4fd; border-radius:12px; padding:22px;">
-      <div style="font-weight:700; color:#3c3470; font-size:15px; margin-bottom:6px;">A reporting replica</div>
+    <div style="flex:1 1 240px; background:#f0fdfa; border-radius:12px; padding:22px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:6px;">A reporting replica</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">Read-only to the business, and every password is in it.</p>
     </div>
-    <div style="flex:1 1 240px; background:#f6f4fd; border-radius:12px; padding:22px;">
-      <div style="font-weight:700; color:#3c3470; font-size:15px; margin-bottom:6px;">A SQL console</div>
+    <div style="flex:1 1 240px; background:#f0fdfa; border-radius:12px; padding:22px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:6px;">A SQL console</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">Including one inside Odoo itself, where record rules do not apply.</p>
     </div>
-    <div style="flex:1 1 240px; background:#f6f4fd; border-radius:12px; padding:22px;">
-      <div style="font-weight:700; color:#3c3470; font-size:15px; margin-bottom:6px;">A restored backup</div>
+    <div style="flex:1 1 240px; background:#f0fdfa; border-radius:12px; padding:22px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:6px;">A restored backup</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">Live credentials for production, sitting on a test box.</p>
     </div>
   </div>
 
   <!-- ============ SETUP ============ -->
-  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">Point it at a field. That is the setup.</h2>
+  <h2 style="font-size:27px; margin:0 0 14px; color:#0f172a;">Point it at a field. That is the setup.</h2>
   <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
     Any stored text field on any model. Values are encrypted on write and decrypted on read by the
     ORM itself, so the module that owns the field carries on exactly as before &mdash; no code
     changes, no re-entering credentials, nothing to integrate.
   </p>
-  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:30px;">
+  <div style="border:1px solid #cbece6; border-radius:12px; overflow:hidden; margin-bottom:30px;">
     <img src="screenshot_fields.png" alt="The list of protected fields" style="width:100%; display:block;"/>
-    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
-      <b style="color:#1f1a33;">Every protected field, with a live count.</b>
+    <p style="margin:0; padding:13px 18px; background:#f6fefd; font-size:13.5px; color:#47556b;">
+      <b style="color:#0f172a;">Every protected field, with a live count.</b>
       How many rows are encrypted, and how many are still in the clear.
     </p>
   </div>
-  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+  <div style="border:1px solid #cbece6; border-radius:12px; overflow:hidden; margin-bottom:52px;">
     <img src="screenshot_field_form.png" alt="Migrating rows that predate protection" style="width:100%; display:block;"/>
-    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
-      <b style="color:#1f1a33;">Values that predate protection keep working.</b>
+    <p style="margin:0; padding:13px 18px; background:#f6fefd; font-size:13.5px; color:#47556b;">
+      <b style="color:#0f172a;">Values that predate protection keep working.</b>
       They stay readable until you choose to convert them, so switching this on cannot break a
       running integration. The migration is safe to re-run.
     </p>
   </div>
 
   <!-- ============ HOW ============ -->
-  <h2 style="font-size:27px; margin:0 0 18px; color:#3c3470;">How it is built</h2>
+  <h2 style="font-size:27px; margin:0 0 18px; color:#0f172a;">How it is built</h2>
   <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:30px;">
-    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
-      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">Fernet: AES-128-CBC with an HMAC</div>
+    <div style="flex:1 1 380px; background:#f0fdfa; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:7px;">Fernet: AES-128-CBC with an HMAC</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">
         Authenticated encryption, so a tampered value fails loudly instead of quietly decrypting
         to nonsense.
       </p>
     </div>
-    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
-      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">The key never touches the database</div>
+    <div style="flex:1 1 380px; background:#f0fdfa; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:7px;">The key never touches the database</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">
         It lives in the filesystem data directory, created on first use with owner-only
         permissions. A stolen dump therefore contains no way to decrypt itself, which is the
         entire point.
       </p>
     </div>
-    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
-      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">Encrypted at the ORM layer</div>
+    <div style="flex:1 1 380px; background:#f0fdfa; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:7px;">Encrypted at the ORM layer</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">
         Values are decrypted as they enter the record cache, so reading the field in Python gets
         the password &mdash; not just the web client.
       </p>
     </div>
-    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
-      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">It refuses to corrupt a secret</div>
+    <div style="flex:1 1 380px; background:#f0fdfa; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#0f172a; font-size:15px; margin-bottom:7px;">It refuses to corrupt a secret</div>
       <p style="margin:0; font-size:14.5px; line-height:1.55;">
         Ciphertext is longer than the value it replaces, so a field with a length limit is
         rejected rather than silently truncated.
@@ -109,7 +110,7 @@
 
   <!-- ============ HONEST LIMITS ============ -->
   <div style="background:#fff8ec; border-left:4px solid #b8860b; border-radius:0 12px 12px 0; padding:20px 24px; margin-bottom:24px;">
-    <h3 style="margin:0 0 8px; font-size:17px; color:#1f1a33;">Back up the key file</h3>
+    <h3 style="margin:0 0 8px; font-size:17px; color:#0f172a;">Back up the key file</h3>
     <p style="margin:0; font-size:15px; line-height:1.6;">
       It lives in the Odoo data directory and it is not in your database backup unless you put it
       there. Lose the key and the encrypted credentials cannot be recovered. That is the property
@@ -117,10 +118,10 @@
       small print.
     </p>
   </div>
-  <div style="border:1px solid #e5e2ee; border-radius:12px; padding:20px 24px; margin-bottom:52px;">
-    <h3 style="margin:0 0 8px; font-size:17px; color:#3c3470;">What this is not</h3>
+  <div style="border:1px solid #cbece6; border-radius:12px; padding:20px 24px; margin-bottom:52px;">
+    <h3 style="margin:0 0 8px; font-size:17px; color:#0f172a;">What this is not</h3>
     <p style="margin:0; font-size:14.5px; line-height:1.6;">
-      It protects data <b style="color:#1f1a33;">at rest</b>. It is not a second permission layer:
+      It protects data <b style="color:#0f172a;">at rest</b>. It is not a second permission layer:
       a user who can already read the field through Odoo still sees the value, because masking it
       would break every integration that legitimately needs it. Encrypted fields also cannot be
       searched or sorted on &mdash; ciphertext does not compare. Protect credentials, not fields
@@ -129,27 +130,27 @@
   </div>
 
   <!-- ============ REQUIREMENTS ============ -->
-  <h2 style="font-size:27px; margin:0 0 22px; color:#3c3470;">What it needs</h2>
+  <h2 style="font-size:27px; margin:0 0 22px; color:#0f172a;">What it needs</h2>
   <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
-    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
-      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Odoo 19</h3>
+    <div style="flex:1 1 280px; background:#f0fdfa; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#0f172a;">Odoo 19</h3>
       <p style="margin:0; font-size:14.5px;">Community or Enterprise. Depends on <code>base</code> alone.</p>
     </div>
-    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
-      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Self-hosted</h3>
+    <div style="flex:1 1 280px; background:#f0fdfa; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#0f172a;">Self-hosted</h3>
       <p style="margin:0; font-size:14.5px;">The key lives on the filesystem, so you need access to the data directory.</p>
     </div>
-    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
-      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Nothing to configure</h3>
+    <div style="flex:1 1 280px; background:#f0fdfa; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#0f172a;">Nothing to configure</h3>
       <p style="margin:0; font-size:14.5px;">The key is generated on first use. Choose a field and you are done.</p>
     </div>
   </div>
 
   <!-- ============ FOOTER ============ -->
-  <div style="background:#16122b; border-radius:15px; padding:32px; text-align:center;">
+  <div style="background:#0b0d14; border-radius:15px; padding:32px; text-align:center;">
     <div style="color:#ffffff; font-size:19px; font-weight:bold; letter-spacing:.03em; margin-bottom:6px;">ModuleDex</div>
-    <div style="color:#a99fd0; font-size:14.5px;">Odoo Credential Encryption</div>
-    <div style="margin-top:10px;"><a href="mailto:moduledex@gmail.com" style="color:#a78bfa; text-decoration:none; font-size:14.5px;">moduledex@gmail.com</a></div>
+    <div style="color:#5eead4; font-size:14.5px;">Odoo Credential Encryption</div>
+    <div style="margin-top:10px;"><a href="mailto:moduledex@gmail.com" style="color:#5eead4; text-decoration:none; font-size:14.5px;">moduledex@gmail.com</a></div>
   </div>
 
 </section>
