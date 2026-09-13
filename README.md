@@ -8,7 +8,7 @@ see Licensing below.
 
 ## Available addons
 
-### External ID Finder
+### Odoo XML ID Finder
 
 Technical helper for Odoo 17 administrators and developers.
 
@@ -24,13 +24,13 @@ Use it to:
 - Create a missing XML ID for an existing record.
 - Open the linked Odoo record or native external identifier record.
 
-### Security Simulator
+### Odoo Access Rights Simulator
 
 Technical helper for Odoo 17 administrators and implementers.
 
 It adds a saved simulation screen under:
 
-`Settings > Technical > Security > Security Simulator`
+`Settings > Technical > Security > Access Rights Simulator`
 
 Use it to:
 

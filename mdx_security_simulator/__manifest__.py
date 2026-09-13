@@ -1,6 +1,6 @@
 {
-    "name": "Security Simulator",
-    "summary": "Simulate user access rights, record rules, groups, and field restrictions",
+    "name": "Odoo Access Rights Simulator",
+    "summary": "Simulate a user's access rights before granting them: model permissions, record rules, groups, restricted fields, menus and actions, without changing anything",
     "version": "17.0.1.0.0",
     "category": "Technical",
     "author": "ModuleDex",

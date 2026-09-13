@@ -31,7 +31,7 @@ RULE_RESULT = [
 
 class MdxSecuritySimulator(models.Model):
     _name = "mdx.security.simulator"
-    _description = "Security Simulator"
+    _description = "Access Rights Simulator"
     _rec_name = "name"
     _order = "write_date desc, id desc"
 
@@ -59,7 +59,9 @@ class MdxSecuritySimulator(models.Model):
         domain=[("transient", "=", False)],
         ondelete="cascade",
     )
-    model = fields.Char(related="model_id.model", readonly=True)
+    # string differs from model_id ("Model") so Odoo does not warn about two
+    # fields sharing a label; this one is the technical name, that one the record
+    model = fields.Char(related="model_id.model", string="Technical Name", readonly=True)
     record_id = fields.Integer(string="Record ID")
     target_record = fields.Reference(
         string="Target Record",
@@ -639,7 +641,7 @@ class MdxSecuritySimulator(models.Model):
 
 class MdxSecuritySimulatorOperationLine(models.Model):
     _name = "mdx.security.simulator.operation.line"
-    _description = "Security Simulator Operation Result"
+    _description = "Access Rights Simulator Operation Result"
     _order = "id"
 
     simulation_id = fields.Many2one("mdx.security.simulator", required=True, ondelete="cascade")
@@ -660,7 +662,7 @@ class MdxSecuritySimulatorOperationLine(models.Model):
 
 class MdxSecuritySimulatorAccessLine(models.Model):
     _name = "mdx.security.simulator.access.line"
-    _description = "Security Simulator Access Right"
+    _description = "Access Rights Simulator Access Right"
     _order = "applies_to_user desc, active desc, group_id, name"
 
     simulation_id = fields.Many2one("mdx.security.simulator", required=True, ondelete="cascade")
@@ -692,7 +694,7 @@ class MdxSecuritySimulatorAccessLine(models.Model):
 
 class MdxSecuritySimulatorRuleLine(models.Model):
     _name = "mdx.security.simulator.rule.line"
-    _description = "Security Simulator Record Rule"
+    _description = "Access Rights Simulator Record Rule"
     _order = "applies_to_user desc, active desc, global_rule desc, name"
 
     simulation_id = fields.Many2one("mdx.security.simulator", required=True, ondelete="cascade")
@@ -728,7 +730,7 @@ class MdxSecuritySimulatorRuleLine(models.Model):
 
 class MdxSecuritySimulatorGroupLine(models.Model):
     _name = "mdx.security.simulator.group.line"
-    _description = "Security Simulator User Group"
+    _description = "Access Rights Simulator User Group"
     _order = "category, group_id"
 
     simulation_id = fields.Many2one("mdx.security.simulator", required=True, ondelete="cascade")
@@ -752,7 +754,7 @@ class MdxSecuritySimulatorGroupLine(models.Model):
 
 class MdxSecuritySimulatorFieldLine(models.Model):
     _name = "mdx.security.simulator.field.line"
-    _description = "Security Simulator Restricted Field"
+    _description = "Access Rights Simulator Restricted Field"
     _order = "accessible desc, name"
 
     simulation_id = fields.Many2one("mdx.security.simulator", required=True, ondelete="cascade")
@@ -777,7 +779,7 @@ class MdxSecuritySimulatorFieldLine(models.Model):
 
 class MdxSecuritySimulatorActionLine(models.Model):
     _name = "mdx.security.simulator.action.line"
-    _description = "Security Simulator Model Action"
+    _description = "Access Rights Simulator Model Action"
     _order = "accessible desc, name"
 
     simulation_id = fields.Many2one("mdx.security.simulator", required=True, ondelete="cascade")

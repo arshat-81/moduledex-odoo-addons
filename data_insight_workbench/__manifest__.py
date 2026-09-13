@@ -1,6 +1,6 @@
 {
-    "name": "SQL Query & Report Builder",
-    "summary": "Safe SQL query runner with report previews, CSV export, execution history, and admin full-access control.",
+    "name": "Odoo SQL Query & Reports",
+    "summary": "Run safe read-only SQL against your Odoo database with approval control, report previews, CSV export and full execution history",
     "description": """
 Data Insight Workbench is the full edition SQL workspace for Odoo administrators
 and trusted power users. It combines saved SQL assets, tutorial queries,
