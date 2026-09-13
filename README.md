@@ -10,6 +10,7 @@ see [Licensing](#licensing) below.
 | --- | --- | --- |
 | [BigCommerce Connector](#bigcommerce-connector) | Two-way BigCommerce ↔ Odoo sync | OPL-1 — $249 |
 | [Odoo Module Upgrade AI](#odoo-module-upgrade-ai) | AI-assisted addon migration, Odoo 11–20 | OPL-1 — $149 |
+| [Odoo Performance Auditor](#odoo-performance-auditor) | Read-only audit of database, ORM, cron and config | OPL-1 — $99 |
 | [SQL Query & Report Builder](#sql-query--report-builder) | Safe ad-hoc SQL runner with reporting | OPL-1 — $59 |
 | [External ID Finder](#external-id-finder) | Find, inspect and create XML IDs | LGPL-3 — Free |
 | [Security Simulator](#security-simulator) | Simulate a user's access before granting it | LGPL-3 — Free |
@@ -56,6 +57,21 @@ migration report for any Odoo 11–20 source/target version pair.
 > ```
 > limit_time_real_cron = 3600
 > ```
+
+### Odoo Performance Auditor
+
+Read-only auditor for self-hosted Odoo. Runs 41 checks against the PostgreSQL
+catalog, the ORM registry, the scheduled-action and mail queues and the server
+configuration, then ranks what it finds against tunable thresholds, scores the
+instance 0-100 and produces a client-ready PDF Health Report.
+
+Nothing it reads is written. The only write actions are three explicitly safe
+maintenance commands — `ANALYZE`, `VACUUM` and `CREATE INDEX CONCURRENTLY` —
+each behind a one-click confirmation.
+
+> `pg_stat_statements`, `pgstattuple` and `hypopg` unlock extra depth where they
+> are installed; without them those individual checks report as unavailable
+> rather than failing.
 
 ### SQL Query & Report Builder
 

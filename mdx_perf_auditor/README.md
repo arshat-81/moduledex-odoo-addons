@@ -1,4 +1,4 @@
-# Performance & Health Auditor (`mdx_perf_auditor`)
+# Odoo Performance Auditor (`mdx_perf_auditor`)
 
 Read-only auditor for self-hosted Odoo 19. Finds the database, ORM, scheduled-job
 and configuration problems that make an instance slow, ranks them, scores overall

@@ -1,5 +1,5 @@
 {
-    "name": "Performance & Health Auditor",
+    "name": "Odoo Performance Auditor",
     "summary": "Find the database, ORM, cron, and configuration problems that make Odoo slow — "
                "ranked findings, a health score, one-click safe fixes, and a client-ready report.",
     "description": "Read-only auditor for self-hosted Odoo. Runs 41 checks against the "
@@ -9,7 +9,7 @@
                    "score, one-click safe fixes (ANALYZE / VACUUM / CREATE INDEX CONCURRENTLY "
                    "only), and a PDF Health Report. Nothing it reads is written; Settings access "
                    "only.",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Technical",
     "author": "ModuleDex",
     "website": "https://apps.odoo.com/apps/modules/browse?author=ModuleDex",
