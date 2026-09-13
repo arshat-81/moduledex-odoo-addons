@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_backup_run_list" model="ir.ui.view">
+        <field name="name">mdx.backup.run.list</field>
+        <field name="model">mdx.backup.run</field>
+        <field name="arch" type="xml">
+            <list string="Backups" create="false"
+                  decoration-success="state == 'success'"
+                  decoration-warning="state == 'unverified'"
+                  decoration-danger="state == 'failed'"
+                  decoration-muted="pruned">
+                <field name="started_at"/>
+                <field name="destination_id"/>
+                <field name="filename"/>
+                <field name="size_human"/>
+                <field name="duration_s"/>
+                <field name="state"/>
+                <field name="pruned"/>
+                <field name="sha256" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_backup_run_form" model="ir.ui.view">
+        <field name="name">mdx.backup.run.form</field>
+        <field name="model">mdx.backup.run</field>
+        <field name="arch" type="xml">
+            <form string="Backup" create="false" edit="false">
+                <sheet>
+                    <div class="oe_title"><h1><field name="filename" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="destination_id" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                            <field name="pruned" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="started_at" readonly="1"/>
+                            <field name="finished_at" readonly="1"/>
+                            <field name="duration_s" readonly="1"/>
+                            <field name="size_human" readonly="1"/>
+                            <field name="sha256" readonly="1"/>
+                        </group>
+                    </group>
+                    <separator string="Result"/>
+                    <field name="message" readonly="1" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_backup_run_search" model="ir.ui.view">
+        <field name="name">mdx.backup.run.search</field>
+        <field name="model">mdx.backup.run</field>
+        <field name="arch" type="xml">
+            <search string="Backups">
+                <field name="filename"/>
+                <field name="destination_id"/>
+                <filter name="verified" string="Verified" domain="[('state','=','success')]"/>
+                <filter name="problem" string="Not Verified"
+                        domain="[('state','in',['unverified','failed'])]"/>
+                <separator/>
+                <filter name="present" string="Still on Destination" domain="[('pruned','=',False)]"/>
+                <group>
+                    <filter name="by_dest" string="Destination"
+                            context="{'group_by': 'destination_id'}"/>
+                    <filter name="by_state" string="Result" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_backup_run" model="ir.actions.act_window">
+        <field name="name">Backup History</field>
+        <field name="res_model">mdx.backup.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

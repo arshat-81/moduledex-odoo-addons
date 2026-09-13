@@ -1,0 +1,141 @@
+<section style="box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#5b5476; max-width:1100px; margin:0 auto; padding:0 16px 40px;">
+
+  <!-- ============ HERO ============ -->
+  <div style="border-radius:16px; overflow:hidden; margin-bottom:34px;">
+    <img src="banner.png" alt="Odoo Verified Database Backup" style="width:100%; display:block;"/>
+  </div>
+
+  <p style="font-size:19px; line-height:1.6; color:#4a4460; text-align:center; max-width:800px; margin:0 auto 14px;">
+    Every backup module tells you a backup ran.
+    <b style="color:#1f1a33;">That is not the same as having a backup.</b>
+  </p>
+  <p style="font-size:17px; line-height:1.6; text-align:center; max-width:780px; margin:0 auto 40px;">
+    The upload returned success. The file is 4&nbsp;MB instead of 3.3&nbsp;GB, or the transfer
+    stopped half way, or the archive is there but unreadable. You find out on the day you need it.
+  </p>
+
+  <!-- ============ VERIFIED ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">So it checks, every time</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    After the dump is uploaded it is <b style="color:#1f1a33;">read back from the destination</b>,
+    its SHA-256 compared against what was sent, and the archive opened to confirm it really
+    contains <code>dump.sql</code> and <code>manifest.json</code>. A run is only marked
+    <b style="color:#1f1a33;">Verified</b> when the file that came back is the file that went out.
+    Anything else is marked Unverified &mdash; because a backup you have not checked is a backup
+    you do not have.
+  </p>
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_history.png" alt="Backup history showing verified, unverified and failed runs" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">Three states, not two.</b> Green ran and was proven. Amber uploaded
+      but could not be confirmed &mdash; that one read back 1&nbsp;MB of a 3.4&nbsp;MB file. Red
+      never got off the ground.
+    </p>
+  </div>
+
+  <!-- ============ ALERTS ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">It tells you when backups stop</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    Success mail trains people to ignore mail. This notifies on failure, and separately when a
+    destination has had no verified backup inside the window you set. That second alert is the one
+    that matters: a job that silently stopped three weeks ago looks exactly like one that never
+    existed, right up until you need it.
+  </p>
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_destinations.png" alt="Destinations, one of them flagged stale" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">Every destination, and when it last actually worked.</b>
+      The red row has not produced a verified backup inside its window, and the people on its
+      alert list have already been told.
+    </p>
+  </div>
+
+  <!-- ============ CONFIG ============ -->
+  <h2 style="font-size:27px; margin:0 0 14px; color:#3c3470;">Configured once, then left alone</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:860px;">
+    Each destination decides its own schedule, retention and alerting, so an hourly local snapshot
+    and a nightly off-site copy live side by side without fighting each other.
+  </p>
+  <div style="border:1px solid #e5e2ee; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_destination.png" alt="A backup destination and its history" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#faf9fe; font-size:13.5px; color:#5b5476;">
+      <b style="color:#1f1a33;">Test the connection before you trust it</b>, then watch the
+      history fill in underneath.
+    </p>
+  </div>
+
+  <!-- ============ DETAILS ============ -->
+  <h2 style="font-size:27px; margin:0 0 18px; color:#3c3470;">The things that bite, handled</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:30px;">
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">Retention that cannot delete your last backup</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Keep the last N, or the last N days, applied after each verified run. The newest backup is
+        excluded from deletion whatever the rules say &mdash; a lone 400-day-old archive is still
+        the only copy you have.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">Credentials not in the dump</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        FTP and SFTP passwords are stored encrypted at rest, so a copy of your database does not
+        hand over the keys to where your other backups live. Handled by Odoo Credential
+        Encryption, which this installs alongside.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">A standard Odoo archive</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        Written with Odoo's own dump API, the same one behind Database Manager. It restores the
+        normal way, so nothing here locks you in &mdash; stop using this module and your backups
+        still work.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f6f4fd; border-radius:12px; padding:22px 24px;">
+      <div style="font-weight:700; color:#1f1a33; font-size:15px; margin-bottom:7px;">A failure cannot stop the schedule</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">
+        One destination going down does not take the cron with it. Each run records what went
+        wrong, in words, and the next destination carries on.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ DESTINATIONS ============ -->
+  <div style="border:1px solid #e5e2ee; border-radius:12px; padding:22px 26px; margin-bottom:52px;">
+    <h3 style="margin:0 0 10px; font-size:17px; color:#3c3470;">Where backups can go</h3>
+    <p style="margin:0 0 8px; font-size:14.5px; line-height:1.6;">
+      <b style="color:#1f1a33;">A folder on the server</b> &mdash; or anything mounted into it, such as
+      an NFS share or an rclone mount. <b style="color:#1f1a33;">FTP and FTPS.</b> Both need no
+      extra Python packages.
+    </p>
+    <p style="margin:0; font-size:14.5px; line-height:1.6;">
+      <b style="color:#1f1a33;">SFTP</b> works when <code>paramiko</code> is installed on the server. If it
+      is not, the destination says so plainly instead of failing at three in the morning.
+    </p>
+  </div>
+
+  <!-- ============ REQUIREMENTS ============ -->
+  <h2 style="font-size:27px; margin:0 0 22px; color:#3c3470;">What it needs</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Odoo 19</h3>
+      <p style="margin:0; font-size:14.5px;">Community or Enterprise, self-hosted or Odoo.sh.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">pg_dump on the server</h3>
+      <p style="margin:0; font-size:14.5px;">The same requirement Odoo's own Database Manager has.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Somewhere to put them</h3>
+      <p style="margin:0; font-size:14.5px;">A writable folder, or FTP/FTPS credentials. Test the connection from the form.</p>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="background:#16122b; border-radius:15px; padding:32px; text-align:center;">
+    <div style="color:#ffffff; font-size:19px; font-weight:bold; letter-spacing:.03em; margin-bottom:6px;">ModuleDex</div>
+    <div style="color:#a99fd0; font-size:14.5px;">Odoo Verified Database Backup</div>
+    <div style="margin-top:10px;"><a href="mailto:moduledex@gmail.com" style="color:#a78bfa; text-decoration:none; font-size:14.5px;">moduledex@gmail.com</a></div>
+  </div>
+
+</section>

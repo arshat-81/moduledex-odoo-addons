@@ -12,6 +12,7 @@ see [Licensing](#licensing) below.
 | [Odoo Access Rights Manager](#odoo-access-rights-manager) | Resolve, explain, compare and dry-run user permissions | OPL-1 — $179 |
 | [Odoo Module Upgrade AI](#odoo-module-upgrade-ai) | AI-assisted addon migration, Odoo 11–20 | OPL-1 — $149 |
 | [Odoo Performance Auditor](#odoo-performance-auditor) | Read-only audit of database, ORM, cron and config | OPL-1 — $99 |
+| [Odoo Credential Encryption](#odoo-credential-encryption) | Encrypt passwords and API keys at rest | OPL-1 — $89 |
 | [Odoo SQL Query & Reports](#odoo-sql-query--reports) | Safe ad-hoc SQL runner with reporting | OPL-1 — $59 |
 | [Odoo XML ID Finder](#odoo-xml-id-finder) | Find, inspect and create XML IDs | LGPL-3 — Free |
 | [Odoo Access Rights Simulator](#odoo-access-rights-simulator) | Simulate a user's access before granting it | LGPL-3 — Free |
@@ -95,6 +96,27 @@ each behind a one-click confirmation.
 > `pg_stat_statements`, `pgstattuple` and `hypopg` unlock extra depth where they
 > are installed; without them those individual checks report as unavailable
 > rather than failing.
+
+### Odoo Credential Encryption
+
+Odoo stores credentials as ordinary text: the SMTP password, the FTP password a
+backup module uses, connector API keys, OAuth refresh tokens. Anyone who can read
+the table reads the secret — and that table travels, in dumps, replicas and
+restored backups.
+
+- Point it at any stored text field on any model.
+- Values are encrypted on write and decrypted as they enter the ORM cache, so the
+  module that owns the field keeps working unchanged.
+- Values written before protection stay readable until you convert them; the
+  migration is safe to re-run.
+- Fernet (AES-128-CBC + HMAC). The key lives in the filesystem data directory,
+  never in the database, so a stolen dump cannot decrypt itself.
+
+> Back up the key file with your database. Lose it and the credentials cannot be
+> recovered — that is the property that makes the encryption worth anything.
+
+Protects data at rest; it is not a second permission layer, and encrypted fields
+cannot be searched or sorted on.
 
 ### Odoo SQL Query & Reports
 

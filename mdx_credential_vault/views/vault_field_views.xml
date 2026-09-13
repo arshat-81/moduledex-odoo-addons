@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_vault_field_list" model="ir.ui.view">
+        <field name="name">mdx.vault.field.list</field>
+        <field name="model">mdx.vault.field</field>
+        <field name="arch" type="xml">
+            <list string="Protected Fields" decoration-warning="plaintext_count &gt; 0"
+                  decoration-muted="not active">
+                <field name="model_name"/>
+                <field name="field_name"/>
+                <field name="encrypted_count"/>
+                <field name="plaintext_count"/>
+                <field name="last_counted_at" optional="show"/>
+                <field name="active" column_invisible="1"/>
+                <button name="action_encrypt_existing" type="object" string="Encrypt Existing"
+                        icon="fa-lock" class="btn-link" invisible="plaintext_count == 0"/>
+                <button name="action_count" type="object" string="Recount"
+                        icon="fa-refresh" class="btn-link"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_vault_field_form" model="ir.ui.view">
+        <field name="name">mdx.vault.field.form</field>
+        <field name="model">mdx.vault.field</field>
+        <field name="arch" type="xml">
+            <form string="Protected Field">
+                <header>
+                    <button name="action_encrypt_existing" type="object" class="btn-primary"
+                            string="Encrypt Existing Rows" invisible="plaintext_count == 0"
+                            confirm="This rewrites the stored column in place. Make sure you have a database backup and that the vault key file is backed up too. Continue?"/>
+                    <button name="action_count" type="object" string="Recount"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_label" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="plaintext_count == 0">
+                        <field name="plaintext_count" readonly="1" nolabel="1" class="oe_inline"/>
+                        row(s) still hold a plain-text value written before this field was
+                        protected. New writes are encrypted; use Encrypt Existing Rows to
+                        convert the rest.
+                    </div>
+                    <group>
+                        <group string="Field">
+                            <field name="model_id" options="{'no_create': True}"/>
+                            <field name="field_id" options="{'no_create': True}"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Stored Values">
+                            <field name="encrypted_count"/>
+                            <field name="plaintext_count"/>
+                            <field name="last_counted_at"/>
+                        </group>
+                    </group>
+                    <div class="text-muted"><field name="note" readonly="1" nolabel="1"/></div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vault_field_search" model="ir.ui.view">
+        <field name="name">mdx.vault.field.search</field>
+        <field name="model">mdx.vault.field</field>
+        <field name="arch" type="xml">
+            <search string="Protected Fields">
+                <field name="model_name"/>
+                <field name="field_name"/>
+                <filter name="needs_migration" string="Needs Migration"
+                        domain="[('plaintext_count','&gt;',0)]"/>
+                <filter name="inactive" string="Disabled" domain="[('active','=',False)]"/>
+                <group>
+                    <filter name="by_model" string="Model" context="{'group_by': 'model_name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_vault_field" model="ir.actions.act_window">
+        <field name="name">Protected Fields</field>
+        <field name="res_model">mdx.vault.field</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Protect a credential field</p>
+            <p>Choose a stored text field that holds a password, an API key or a token.
+               New values are encrypted on write and decrypted on read, so the module that
+               owns the field keeps working unchanged.</p>
+        </field>
+    </record>
+
+    <record id="action_vault_check_key" model="ir.actions.server">
+        <field name="name">Check Vault Key</field>
+        <field name="model_id" ref="model_mdx_vault_field"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_check_key()</field>
+    </record>
+</odoo>

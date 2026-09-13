@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_vault_root" name="Credential Encryption"
+              web_icon="mdx_credential_vault,static/description/icon.png"
+              sequence="96" groups="mdx_credential_vault.group_credential_vault_manager"/>
+
+    <menuitem id="menu_vault_fields" name="Protected Fields"
+              parent="menu_vault_root" action="action_vault_field" sequence="10"/>
+
+    <menuitem id="menu_vault_key" name="Check Vault Key"
+              parent="menu_vault_root" action="action_vault_check_key" sequence="20"/>
+</odoo>

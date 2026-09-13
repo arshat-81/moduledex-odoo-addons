@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_backup_destination,mdx.backup.destination manager,model_mdx_backup_destination,mdx_backup_manager.group_backup_manager,1,1,1,1
+access_backup_run,mdx.backup.run manager,model_mdx_backup_run,mdx_backup_manager.group_backup_manager,1,0,0,1

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="module_category_backup_manager" model="ir.module.category">
+        <field name="name">Verified Backup</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="privilege_backup_manager" model="res.groups.privilege">
+        <field name="name">Verified Backup</field>
+        <field name="sequence">40</field>
+        <field name="category_id" ref="mdx_backup_manager.module_category_backup_manager"/>
+    </record>
+
+    <!-- One group. Every field here is either a credential or controls where a
+         full copy of the database is sent, so there is no safe read-only tier. -->
+    <record id="group_backup_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="privilege_id" ref="mdx_backup_manager.privilege_backup_manager"/>
+        <field name="comment">Configure destinations, run backups and read the history.</field>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('mdx_backup_manager.group_backup_manager'))]"/>
+    </record>
+</odoo>

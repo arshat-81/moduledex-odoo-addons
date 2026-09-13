@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vault_field_manager,mdx.vault.field manager,model_mdx_vault_field,mdx_credential_vault.group_credential_vault_manager,1,1,1,1
