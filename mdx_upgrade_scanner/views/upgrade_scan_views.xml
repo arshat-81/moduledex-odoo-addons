@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_upgrade_scan_form" model="ir.ui.view">
+    <field name="name">mdx.upgrade.scan.form</field>
+    <field name="model">mdx.upgrade.scan</field>
+    <field name="arch" type="xml">
+      <form string="Scan">
+        <header>
+          <button name="action_scan" type="object" string="Run Scan" class="btn-primary"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_findings" type="object" class="oe_stat_button"
+                    icon="fa-bug" invisible="state != 'done'">
+              <field name="finding_count" widget="statinfo" string="Findings"/>
+            </button>
+          </div>
+          <div class="oe_title">
+            <h1><field name="verdict" readonly="1"/></h1>
+          </div>
+          <group>
+            <group string="What to scan">
+              <field name="scope" widget="radio"/>
+              <field name="module_ids" widget="many2many_tags"
+                     invisible="scope != 'selected'"
+                     required="scope == 'selected'"/>
+            </group>
+            <group string="Last run" invisible="state != 'done'">
+              <field name="scanned_on" readonly="1"/>
+              <field name="scanned_by_id" readonly="1"/>
+              <field name="module_count" readonly="1"/>
+              <field name="file_count" readonly="1"/>
+            </group>
+          </group>
+          <group string="What it found" invisible="state != 'done'">
+            <group>
+              <field name="removed_count" readonly="1"/>
+              <field name="due_count" readonly="1"/>
+            </group>
+            <group>
+              <field name="deprecated_count" readonly="1"/>
+              <field name="advisory_count" readonly="1"/>
+            </group>
+          </group>
+          <notebook invisible="state != 'done'">
+            <page string="Findings" name="findings">
+              <field name="finding_ids" readonly="1">
+                <list decoration-danger="severity == 'removed'"
+                      decoration-warning="severity == 'due'"
+                      decoration-muted="severity == 'advisory'">
+                  <field name="module_name"/>
+                  <field name="file_path" string="File"/>
+                  <field name="line"/>
+                  <field name="severity"/>
+                  <field name="rule_title" string="What it is"/>
+                  <field name="snippet" string="The line"/>
+                  <field name="replacement" string="Use instead"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_upgrade_scan_list" model="ir.ui.view">
+    <field name="name">mdx.upgrade.scan.list</field>
+    <field name="model">mdx.upgrade.scan</field>
+    <field name="arch" type="xml">
+      <list string="Scans">
+        <field name="create_date" string="When"/>
+        <field name="scope"/>
+        <field name="module_count"/>
+        <field name="file_count"/>
+        <field name="removed_count" string="Removed" decoration-danger="removed_count &gt; 0"/>
+        <field name="due_count" string="Due" decoration-warning="due_count &gt; 0"/>
+        <field name="deprecated_count" string="Deprecated"/>
+        <field name="verdict"/>
+        <field name="state"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_upgrade_scan" model="ir.actions.act_window">
+    <field name="name">Scans</field>
+    <field name="res_model">mdx.upgrade.scan</field>
+    <field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Scan your code for what the next upgrade removes</p>
+      <p>Create a scan and press Run. Your own modules are checked by default; Odoo's are skipped.</p>
+    </field>
+  </record>
+</odoo>

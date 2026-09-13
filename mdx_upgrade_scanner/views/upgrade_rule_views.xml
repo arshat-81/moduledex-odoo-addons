@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_upgrade_rule_list" model="ir.ui.view">
+    <field name="name">mdx.upgrade.rule.list</field>
+    <field name="model">mdx.upgrade.rule</field>
+    <field name="arch" type="xml">
+      <list string="Rules" decoration-danger="severity == 'removed'"
+            decoration-warning="severity == 'due'" decoration-muted="not active">
+        <field name="name" string="Looks For"/>
+        <field name="title" string="What it means"/>
+        <field name="severity"/>
+        <field name="since_version"/>
+        <field name="replacement"/>
+        <field name="kind" optional="hide"/>
+        <field name="source_ref" optional="hide"/>
+        <field name="active" column_invisible="1"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_upgrade_rule_form" model="ir.ui.view">
+    <field name="name">mdx.upgrade.rule.form</field>
+    <field name="model">mdx.upgrade.rule</field>
+    <field name="arch" type="xml">
+      <form string="Rule">
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_findings" type="object" class="oe_stat_button"
+                    icon="fa-bug">
+              <field name="finding_count" widget="statinfo" string="Findings"/>
+            </button>
+          </div>
+          <div class="oe_title">
+            <label for="title"/>
+            <h1><field name="title" placeholder="What a person should understand from it"/></h1>
+            <field name="name" placeholder="As it appears in code"/>
+          </div>
+          <group>
+            <group string="What to look for">
+              <field name="kind"/>
+              <field name="pattern"/>
+              <field name="applies_to_py"/>
+              <field name="applies_to_xml"/>
+              <field name="active"/>
+            </group>
+            <group string="When it breaks">
+              <field name="severity"/>
+              <field name="since_version" placeholder="18.0"/>
+              <field name="removed_in" placeholder="19.0"/>
+              <field name="replacement"/>
+              <field name="source_ref"/>
+            </group>
+          </group>
+          <separator string="Why it changed"/>
+          <field name="explanation" nolabel="1"
+                 placeholder="What changed, and anything worth knowing before you rewrite it."/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_upgrade_rule_search" model="ir.ui.view">
+    <field name="name">mdx.upgrade.rule.search</field>
+    <field name="model">mdx.upgrade.rule</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="title"/>
+        <field name="replacement"/>
+        <filter name="removed" string="Already removed" domain="[('severity','=','removed')]"/>
+        <filter name="due" string="Due for removal" domain="[('severity','=','due')]"/>
+        <filter name="deprecated" string="Deprecated" domain="[('severity','=','deprecated')]"/>
+        <separator/>
+        <filter name="inactive" string="Switched off" domain="[('active','=',False)]"/>
+        <group>
+          <filter name="group_by_severity" string="Severity" context="{'group_by': 'severity'}"/>
+          <filter name="group_by_since" string="Deprecated In" context="{'group_by': 'since_version'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_upgrade_rule" model="ir.actions.act_window">
+    <field name="name">Rules</field>
+    <field name="res_model">mdx.upgrade.rule</field>
+    <field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Every check the scanner makes</p>
+      <p>Each one cites where in the Odoo source the deprecation is declared, so you can verify it. Add your own, or switch off the ones you do not care about.</p>
+    </field>
+  </record>
+</odoo>

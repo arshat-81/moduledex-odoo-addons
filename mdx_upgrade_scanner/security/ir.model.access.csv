@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_upgrade_rule_user,upgrade.rule.user,model_mdx_upgrade_rule,group_upgrade_user,1,0,0,0
+access_upgrade_rule_manager,upgrade.rule.manager,model_mdx_upgrade_rule,group_upgrade_manager,1,1,1,1
+access_upgrade_scan_user,upgrade.scan.user,model_mdx_upgrade_scan,group_upgrade_user,1,1,1,1
+access_upgrade_finding_user,upgrade.finding.user,model_mdx_upgrade_finding,group_upgrade_user,1,1,1,1

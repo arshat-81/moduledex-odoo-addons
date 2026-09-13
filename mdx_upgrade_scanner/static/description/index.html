@@ -1,0 +1,262 @@
+<section style="box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#475569; max-width:1100px; margin:0 auto; padding:0 16px 40px;">
+
+  <!-- ============ HERO ============ -->
+  <div style="border-radius:16px; overflow:hidden; margin-bottom:34px;">
+    <img src="banner.png" alt="Odoo 20 Upgrade Scanner" style="width:100%; display:block;"/>
+  </div>
+
+  <p style="font-size:19px; line-height:1.6; color:#1e293b; text-align:center; max-width:820px; margin:0 auto 14px;">
+    The upgrade does not break on the code you remember writing.
+    <b style="color:#111827;">It breaks on the code you forgot.</b>
+  </p>
+  <p style="font-size:17px; line-height:1.6; text-align:center; max-width:800px; margin:0 auto 40px;">
+    A method that quietly stopped being called two releases ago. A view attribute that is now a hard
+    error. An import that no longer exists. This reads your modules and tells you where they are,
+    with the file, the line, and what to write instead.
+  </p>
+
+  <!-- ============ THE EVIDENCE ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">&ldquo;Deprecated&rdquo; is not &ldquo;safe for now&rdquo;</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 18px;"></div>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:880px;">
+    It is tempting to treat a deprecation warning as a problem for another year. Odoo's own record
+    says otherwise. Here is what it marked, and when it actually deleted it &mdash; taken by
+    comparing the 17.0, 18.0 and 19.0 source trees:
+  </p>
+
+  <div style="overflow-x:auto; margin-bottom:18px;">
+    <table style="width:100%; border-collapse:collapse; font-size:14.5px; min-width:620px;">
+      <thead>
+        <tr style="background:#111827; color:#ffffff;">
+          <th style="text-align:left; padding:12px 16px; font-weight:600;">API</th>
+          <th style="text-align:left; padding:12px 16px; font-weight:600;">Marked</th>
+          <th style="text-align:left; padding:12px 16px; font-weight:600;">Deleted</th>
+          <th style="text-align:left; padding:12px 16px; font-weight:600;">Gap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #e2e8f0;">
+          <td style="padding:11px 16px; font-family:ui-monospace,monospace;">tools.ignore()</td>
+          <td style="padding:11px 16px;">16.0</td><td style="padding:11px 16px;">18.0</td>
+          <td style="padding:11px 16px; color:#b45309;">2 releases</td>
+        </tr>
+        <tr style="border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+          <td style="padding:11px 16px; font-family:ui-monospace,monospace;">get_resource_path()</td>
+          <td style="padding:11px 16px;">17.0</td><td style="padding:11px 16px;">19.0</td>
+          <td style="padding:11px 16px; color:#b45309;">2 releases</td>
+        </tr>
+        <tr style="border-bottom:1px solid #e2e8f0;">
+          <td style="padding:11px 16px; font-family:ui-monospace,monospace;">odoo.osv.osv</td>
+          <td style="padding:11px 16px;">17.0</td><td style="padding:11px 16px;">19.0</td>
+          <td style="padding:11px 16px; color:#b45309;">2 releases</td>
+        </tr>
+        <tr style="border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+          <td style="padding:11px 16px; font-family:ui-monospace,monospace;">_flush_search()</td>
+          <td style="padding:11px 16px;">18.0</td><td style="padding:11px 16px;">19.0</td>
+          <td style="padding:11px 16px; color:#b91c1c; font-weight:600;">1 release</td>
+        </tr>
+        <tr style="border-bottom:1px solid #e2e8f0;">
+          <td style="padding:11px 16px; font-family:ui-monospace,monospace;">check_access_rights()</td>
+          <td style="padding:11px 16px;">18.0</td>
+          <td style="padding:11px 16px; color:#b45309; font-weight:600;">still here in 19.0</td>
+          <td style="padding:11px 16px; color:#b45309; font-weight:600;">overdue</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="padding:11px 16px; font-family:ui-monospace,monospace;">group_operator=</td>
+          <td style="padding:11px 16px;">18.0</td>
+          <td style="padding:11px 16px; color:#b45309; font-weight:600;">still here in 19.0</td>
+          <td style="padding:11px 16px; color:#b45309; font-weight:600;">overdue</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 52px; max-width:880px;">
+    One to two releases, every time. Which means the interesting set is not what 19.0 just
+    deprecated &mdash; it is <b style="color:#111827;">everything 18.0 marked that is still
+    there</b>. That code has run out of road, and the scanner grades it accordingly.
+  </p>
+
+  <!-- ============ THE THREE ANSWERS ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">Three verdicts, not one list</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 22px;"></div>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:52px;">
+    <div style="flex:1 1 280px; background:#f8fafc; border:1px solid #e2e8f0; border-left:5px solid #dc2626; border-radius:0 12px 12px 0; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15.5px; margin-bottom:7px;">Already removed</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        Gone in the release you are running. This is not a warning about the future &mdash; the
+        module is broken now, and in the case of a view or a data file it will not even install.
+      </p>
+    </div>
+    <div style="flex:1 1 280px; background:#f8fafc; border:1px solid #e2e8f0; border-left:5px solid #d97706; border-radius:0 12px 12px 0; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15.5px; margin-bottom:7px;">Due for removal</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        Marked two or more releases ago and still present. On Odoo's own record that is exactly the
+        age at which things get deleted, so this is what the next upgrade is most likely to take.
+      </p>
+    </div>
+    <div style="flex:1 1 280px; background:#f8fafc; border:1px solid #e2e8f0; border-left:5px solid #3b82f6; border-radius:0 12px 12px 0; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15.5px; margin-bottom:7px;">Deprecated</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        Marked in the current release. It still works. It will not keep working, and now is the
+        cheap time to deal with it rather than during an upgrade weekend.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ THE REPORT ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">A report you can act on without hunting</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 22px;"></div>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:880px;">
+    Every finding carries the module, the file, the line number, the line itself, and the
+    replacement. One sentence at the top says what to do first.
+  </p>
+  <div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:26px;">
+    <img src="screenshot_scan.png" alt="A finished scan, with counts by severity and every finding" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#f8fafc; font-size:13.5px; color:#475569;">
+      <b style="color:#111827;">The verdict leads with what is already broken.</b>
+      Thirty-six calls that no longer exist outrank anything merely deprecated, so the reading order
+      matches the fixing order.
+    </p>
+  </div>
+  <div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_findings.png" alt="The findings list, coloured by severity" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#f8fafc; font-size:13.5px; color:#475569;">
+      <b style="color:#111827;">Filter and group by module, file, severity or rule.</b>
+      Hand one module's list to whoever owns it.
+    </p>
+  </div>
+
+  <!-- ============ PRECISION ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">It reads the code, it does not search the text</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 22px;"></div>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:880px;">
+    Python is parsed into its syntax tree; XML is parsed as XML. That is the difference between a
+    report somebody finishes reading and one they abandon on the second page, because a scanner
+    that cries wolf gets ignored exactly like a deprecation warning does.
+  </p>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:26px;">
+    <div style="flex:1 1 380px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15px; margin-bottom:7px;">A comment is not a call</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">check_access_rights</code>
+        in a docstring, a comment, an error message or a variable name is not a use of it. Searching
+        for text cannot tell; parsing it can.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15px; margin-bottom:7px;">The replacement is not the problem</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">Domain.AND()</code> is
+        what you migrate <i>to</i>; <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">expression.AND()</code>
+        is what you migrate from. Rules are pinned to the object, so code you have already fixed
+        stays quiet.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15px; margin-bottom:7px;">A route is read from the decorator</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">type='json'</code>
+        matters on <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">@route</code>
+        and nowhere else, so that is where it is looked for &mdash; not in a dictionary that happens
+        to contain the same words.
+      </p>
+    </div>
+    <div style="flex:1 1 380px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <div style="font-weight:700; color:#111827; font-size:15px; margin-bottom:7px;">Owl templates are not views</div>
+      <p style="margin:0; font-size:14.5px; line-height:1.6;">
+        An <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">attrs</code> on a
+        component under <code style="background:#eef2f7; padding:2px 6px; border-radius:4px;">static/</code>
+        has nothing to do with the one 17.0 removed from views, so that directory is left alone.
+      </p>
+    </div>
+  </div>
+  <div style="background:#111827; border-radius:12px; padding:22px 26px; margin-bottom:52px;">
+    <p style="margin:0; font-size:15px; line-height:1.65; color:#cbd5e1;">
+      <b style="color:#ffffff;">Held to its own standard:</b> pointed at a full Odoo 19 install
+      &mdash; 131 modules, 3,751 files &mdash; it reports
+      <b style="color:#ffffff;">five findings</b>, and all five are real deprecated calls in that
+      code. A scanner that returned three hundred would be telling you nothing.
+    </p>
+  </div>
+
+  <!-- ============ RULES ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">Thirty-six rules, none of them invented</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 22px;"></div>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 22px; max-width:880px;">
+    Every rule names the release that deprecated the API and the file and line in the Odoo source
+    where that is declared. You do not have to take any of it on trust &mdash; open the file and
+    look.
+  </p>
+  <div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:26px;">
+    <img src="screenshot_rules.png" alt="The rule catalogue, graded by severity" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#f8fafc; font-size:13.5px; color:#475569;">
+      <b style="color:#111827;">The whole catalogue, and what each one becomes.</b>
+      Add your own rules for your own conventions, or switch off the ones you do not want.
+    </p>
+  </div>
+  <div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:52px;">
+    <img src="screenshot_rule.png" alt="One rule, citing where Odoo declares the deprecation" style="width:100%; display:block;"/>
+    <p style="margin:0; padding:13px 18px; background:#f8fafc; font-size:13.5px; color:#475569;">
+      <b style="color:#111827;">Declared in Odoo at odoo/orm/models.py:4161.</b>
+      That is the whole argument for the severity, and it is checkable in thirty seconds.
+    </p>
+  </div>
+
+  <!-- ============ BEFORE YOU UPGRADE ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">Run it before the module installs, not after</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 22px;"></div>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 52px; max-width:880px;">
+    A module that will not install on the new version cannot be inspected as an installed module
+    &mdash; which is precisely when you need to know what is wrong with it. So the scanner reads
+    <b style="color:#111827;">whatever is in your addons path</b>, installed or not. Drop last
+    year's modules next to a fresh Odoo, scan, and get the list before you start.
+  </p>
+
+  <!-- ============ HONEST LIMITS ============ -->
+  <div style="background:#fffbeb; border-left:4px solid #b45309; border-radius:0 12px 12px 0; padding:20px 24px; margin-bottom:24px;">
+    <h3 style="margin:0 0 8px; font-size:17px; color:#111827;">Odoo 20 is not released yet</h3>
+    <p style="margin:0; font-size:15px; line-height:1.6;">
+      Nobody can hand you its removal list today, and any module claiming to would be guessing. What
+      this does is different and checkable: it finds what Odoo <b style="color:#111827;">has already
+      marked</b>, grades it by how long it has been marked, and cites the source for each. When 20.0
+      lands the rules get updated; the ones shipped today are useful now, because the code they
+      point at is already a problem.
+    </p>
+  </div>
+  <div style="border:1px solid #e2e8f0; border-radius:12px; padding:20px 24px; margin-bottom:52px;">
+    <h3 style="margin:0 0 8px; font-size:17px; color:#111827;">What this is not</h3>
+    <p style="margin:0; font-size:14.5px; line-height:1.6;">
+      It does not rewrite your code &mdash; it tells you where to, because a bad automatic fix costs
+      more than the finding saved. It reads Python and XML, not JavaScript. It cannot know your
+      business logic: a method that Odoo no longer calls is reported, but whether losing it matters
+      is your call. And a clean report means nothing deprecated was found, not that the upgrade will
+      be painless.
+    </p>
+  </div>
+
+  <!-- ============ REQUIREMENTS ============ -->
+  <h2 style="font-size:27px; margin:0 0 6px; color:#111827;">What it needs</h2>
+  <div style="height:2px; background:#e2e8f0; margin:0 0 22px;"></div>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
+    <div style="flex:1 1 280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#111827;">Odoo 19</h3>
+      <p style="margin:0; font-size:14.5px;">Community or Enterprise. Depends on <code>base</code> alone.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#111827;">Read access to your addons</h3>
+      <p style="margin:0; font-size:14.5px;">It reads files from the addons path. Nothing is sent anywhere, and nothing is modified.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#111827;">About a minute</h3>
+      <p style="margin:0; font-size:14.5px;">Install, press Run Scan. Three thousand files take a few seconds.</p>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="background:#111827; border-radius:15px; padding:32px; text-align:center;">
+    <div style="color:#ffffff; font-size:19px; font-weight:bold; letter-spacing:.03em; margin-bottom:6px;">ModuleDex</div>
+    <div style="color:#f59e0b; font-size:14.5px;">Odoo 20 Upgrade Scanner</div>
+    <div style="margin-top:10px;"><a href="mailto:moduledex@gmail.com" style="color:#f59e0b; text-decoration:none; font-size:14.5px;">moduledex@gmail.com</a></div>
+  </div>
+
+</section>

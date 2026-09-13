@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <menuitem id="menu_upgrade_root" name="Upgrade Scanner" web_icon="mdx_upgrade_scanner,static/description/icon.png"
+            sequence="96" groups="group_upgrade_user"/>
+  <menuitem id="menu_upgrade_scan" name="Scans" parent="menu_upgrade_root"
+            action="action_upgrade_scan" sequence="10"/>
+  <menuitem id="menu_upgrade_finding" name="Findings" parent="menu_upgrade_root"
+            action="action_upgrade_finding" sequence="20"/>
+  <menuitem id="menu_upgrade_rule" name="Rules" parent="menu_upgrade_root"
+            action="action_upgrade_rule" sequence="30" groups="group_upgrade_manager"/>
+</odoo>

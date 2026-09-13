@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_upgrade_finding_list" model="ir.ui.view">
+    <field name="name">mdx.upgrade.finding.list</field>
+    <field name="model">mdx.upgrade.finding</field>
+    <field name="arch" type="xml">
+      <list string="Findings" create="false" decoration-danger="severity == 'removed'"
+            decoration-warning="severity == 'due'" decoration-muted="severity == 'advisory'">
+        <!-- This list spans every scan ever run, so it has to say which one each
+             finding came from. Without it two scans of the same code read as
+             duplicate rows. -->
+        <field name="scan_id" string="Scan"/>
+        <field name="module_name"/>
+        <field name="file_path" string="File"/>
+        <field name="line"/>
+        <field name="severity"/>
+        <field name="rule_title" string="What it is"/>
+        <field name="snippet" string="The line"/>
+        <field name="replacement" string="Use instead"/>
+        <field name="since_version" optional="hide"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_upgrade_finding_form" model="ir.ui.view">
+    <field name="name">mdx.upgrade.finding.form</field>
+    <field name="model">mdx.upgrade.finding</field>
+    <field name="arch" type="xml">
+      <form string="Finding" create="false" edit="false">
+        <sheet>
+          <div class="oe_title">
+            <h1><field name="rule_title" readonly="1"/></h1>
+          </div>
+          <group>
+            <group string="Where">
+              <field name="module_name" readonly="1"/>
+              <field name="file_path" readonly="1"/>
+              <field name="line" readonly="1"/>
+            </group>
+            <group string="What to do">
+              <field name="severity" readonly="1"/>
+              <field name="since_version" readonly="1"/>
+              <field name="replacement" readonly="1"/>
+              <field name="source_ref" readonly="1"/>
+            </group>
+          </group>
+          <group string="The line as written">
+            <field name="snippet" nolabel="1" readonly="1"/>
+          </group>
+          <field name="rule_id" invisible="1"/>
+          <field name="scan_id" invisible="1"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_upgrade_finding_search" model="ir.ui.view">
+    <field name="name">mdx.upgrade.finding.search</field>
+    <field name="model">mdx.upgrade.finding</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="module_name"/>
+        <field name="file_path"/>
+        <field name="rule_title"/>
+        <field name="snippet"/>
+        <filter name="removed" string="Already removed" domain="[('severity','=','removed')]"/>
+        <filter name="due" string="Due for removal" domain="[('severity','=','due')]"/>
+        <filter name="deprecated" string="Deprecated" domain="[('severity','=','deprecated')]"/>
+        <separator/>
+        <filter name="blocking" string="Blocks the upgrade"
+                domain="[('severity','in',('removed','due'))]"/>
+        <separator/>
+        <field name="scan_id"/>
+        <group>
+          <filter name="group_by_module" string="Module" context="{'group_by': 'module_name'}"/>
+          <filter name="group_by_severity" string="Severity" context="{'group_by': 'severity'}"/>
+          <filter name="group_by_rule" string="Rule" context="{'group_by': 'rule_title'}"/>
+          <filter name="group_by_file" string="File" context="{'group_by': 'file_path'}"/>
+          <filter name="group_by_scan" string="Scan" context="{'group_by': 'scan_id'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_upgrade_finding" model="ir.actions.act_window">
+    <field name="name">Findings</field>
+    <field name="res_model">mdx.upgrade.finding</field>
+    <field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Nothing found yet</p>
+      <p>Run a scan and whatever it finds will appear here, with the file and the line.</p>
+    </field>
+  </record>
+</odoo>

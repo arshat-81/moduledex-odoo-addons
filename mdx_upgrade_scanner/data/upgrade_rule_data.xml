@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!--
+    Every rule below was taken from the Odoo source, and source_ref says exactly
+    where, so any of them can be checked rather than believed. Severity follows
+    Odoo's own record: an API marked deprecated is removed one to two releases
+    later, so "due" means marked two or more releases ago and still present -
+    the set whose removal window is now.
+
+    noupdate is deliberately off. A module update should bring new rules and
+    corrected ones with it; a rule someone has switched off stays off, because
+    active is not touched by an update once the record exists.
+  -->
+
+  <!-- ============================================================
+       ALREADY REMOVED - these do not work on the version you run
+       ============================================================ -->
+
+  <record id="rule_get_resource_path" model="mdx.upgrade.rule">
+    <field name="name">get_resource_path</field>
+    <field name="title">get_resource_path() no longer exists</field>
+    <field name="kind">call</field>
+    <field name="pattern">get_resource_path</field>
+    <field name="severity">removed</field>
+    <field name="since_version">17.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">odoo.tools.misc.file_path()</field>
+    <field name="source_ref">present in 18.0 odoo/modules/module.py, absent in 19.0</field>
+    <field name="explanation">Deprecated in 17.0 and deleted in 19.0. Code still calling it raises AttributeError at import time, so the module will not load at all.</field>
+  </record>
+
+  <record id="rule_flush_search" model="mdx.upgrade.rule">
+    <field name="name">_flush_search</field>
+    <field name="title">_flush_search() no longer exists</field>
+    <field name="kind">call</field>
+    <field name="pattern">_flush_search</field>
+    <field name="severity">removed</field>
+    <field name="since_version">18.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">Flushing is handled by the ORM; drop the call</field>
+    <field name="source_ref">present in 18.0 odoo/models.py, absent in 19.0</field>
+    <field name="explanation">Deprecated in 18.0 and gone one release later - the shortest gap Odoo has taken, and a good illustration of why "deprecated" is not "safe for another few years".</field>
+  </record>
+
+  <record id="rule_name_get" model="mdx.upgrade.rule">
+    <field name="name">name_get</field>
+    <field name="title">name_get() was replaced by display_name</field>
+    <field name="kind">call</field>
+    <field name="pattern">name_get</field>
+    <field name="severity">removed</field>
+    <field name="since_version">17.0</field>
+    <field name="removed_in">17.0</field>
+    <field name="replacement">_compute_display_name(), or read display_name</field>
+    <field name="source_ref">absent from Model in 18.0 and 19.0</field>
+    <field name="explanation">A method defined on your own model is simply never called any more, which is worse than an error: record names quietly fall back to the default and nobody notices for months.</field>
+  </record>
+
+  <record id="rule_fields_view_get" model="mdx.upgrade.rule">
+    <field name="name">fields_view_get</field>
+    <field name="title">fields_view_get() was replaced by get_view()</field>
+    <field name="kind">call</field>
+    <field name="pattern">fields_view_get</field>
+    <field name="severity">removed</field>
+    <field name="since_version">16.0</field>
+    <field name="removed_in">17.0</field>
+    <field name="replacement">get_view() / _get_view()</field>
+    <field name="source_ref">absent from Model in 18.0 and 19.0</field>
+    <field name="explanation">An override of this name is dead code: the ORM no longer calls it, so whatever view surgery it performed silently stops happening.</field>
+  </record>
+
+  <record id="rule_osv_osv" model="mdx.upgrade.rule">
+    <field name="name">odoo.osv.osv</field>
+    <field name="title">odoo.osv.osv has been deleted</field>
+    <field name="kind">import</field>
+    <field name="pattern">odoo.osv.osv</field>
+    <field name="severity">removed</field>
+    <field name="since_version">17.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">odoo.models / odoo.exceptions</field>
+    <field name="source_ref">absent in 19.0</field>
+    <field name="explanation">The compatibility shim for pre-8.0 imports is finally gone. An import of it fails immediately.</field>
+  </record>
+
+  <record id="rule_tools_ignore" model="mdx.upgrade.rule">
+    <field name="name">odoo.tools.ignore</field>
+    <field name="title">tools.ignore() has been deleted</field>
+    <field name="kind">call</field>
+    <field name="pattern">ignore</field>
+    <field name="severity">removed</field>
+    <field name="since_version">16.0</field>
+    <field name="removed_in">18.0</field>
+    <field name="replacement">contextlib.suppress()</field>
+    <field name="source_ref">present in 17.0, absent in 18.0</field>
+    <field name="explanation">Deprecated in 16.0, removed in 18.0. Note this rule matches any call named ignore, so switch it off if your code has one of its own.</field>
+    <field name="active" eval="False"/>
+  </record>
+
+  <record id="rule_xml_tree" model="mdx.upgrade.rule">
+    <field name="name">&lt;tree&gt;</field>
+    <field name="title">&lt;tree&gt; views are now &lt;list&gt;</field>
+    <field name="kind">xml_tag</field>
+    <field name="pattern">tree</field>
+    <field name="severity">removed</field>
+    <field name="since_version">17.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">&lt;list&gt;</field>
+    <field name="source_ref">odoo/addons/base/models/ir_ui_view.py:149 - the type selection offers list, not tree</field>
+    <field name="explanation">The view type no longer exists, so the view fails to load and takes the module install with it.</field>
+    <field name="applies_to_py" eval="False"/>
+    <field name="applies_to_xml" eval="True"/>
+  </record>
+
+  <record id="rule_xml_attrs" model="mdx.upgrade.rule">
+    <field name="name">attrs=</field>
+    <field name="title">attrs is no longer used</field>
+    <field name="kind">xml_attr</field>
+    <field name="pattern">attrs</field>
+    <field name="severity">removed</field>
+    <field name="since_version">17.0</field>
+    <field name="removed_in">17.0</field>
+    <field name="replacement">invisible="", readonly="", required="" with a plain expression</field>
+    <field name="source_ref">odoo/addons/base/models/ir_ui_view.py:493 - raises ValidationError</field>
+    <field name="explanation">Odoo raises a validation error naming the view, so this one stops the install outright rather than misbehaving quietly.</field>
+    <field name="applies_to_py" eval="False"/>
+    <field name="applies_to_xml" eval="True"/>
+  </record>
+
+  <record id="rule_xml_states" model="mdx.upgrade.rule">
+    <field name="name">states=</field>
+    <field name="title">states is no longer used</field>
+    <field name="kind">xml_attr</field>
+    <field name="pattern">states</field>
+    <field name="severity">removed</field>
+    <field name="since_version">17.0</field>
+    <field name="removed_in">17.0</field>
+    <field name="replacement">invisible="state not in ['a','b']"</field>
+    <field name="source_ref">odoo/addons/base/models/ir_ui_view.py:493 - raises ValidationError</field>
+    <field name="explanation">Rejected by the same check as attrs.</field>
+    <field name="applies_to_py" eval="False"/>
+    <field name="applies_to_xml" eval="True"/>
+  </record>
+
+  <!-- groups_id is split three ways rather than pattern-matched once. A raw
+       search for the word also hits every sentence that mentions it, which is
+       how a migration tool's own documentation ends up in your report. -->
+  <record id="rule_groups_id_attr" model="mdx.upgrade.rule">
+    <field name="name">.groups_id</field>
+    <field name="title">res.users.groups_id is now group_ids</field>
+    <field name="kind">attr</field>
+    <field name="pattern">groups_id</field>
+    <field name="severity">removed</field>
+    <field name="since_version">19.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">group_ids</field>
+    <field name="source_ref">odoo/addons/base/models/res_users.py:257</field>
+    <field name="explanation">Renamed on res.users in 19.0 with no alias left behind, so reading it raises immediately.</field>
+  </record>
+
+  <record id="rule_groups_id_str" model="mdx.upgrade.rule">
+    <field name="name">"groups_id"</field>
+    <field name="title">groups_id used as a field name</field>
+    <field name="kind">strkey</field>
+    <field name="pattern">groups_id</field>
+    <field name="severity">removed</field>
+    <field name="since_version">19.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">"group_ids"</field>
+    <field name="source_ref">odoo/addons/base/models/res_users.py:257</field>
+    <field name="explanation">In a create() dictionary, a write(), or a list of field names. Matches the exact string only, so a sentence mentioning groups_id is not a finding.</field>
+  </record>
+
+  <record id="rule_groups_id_xml" model="mdx.upgrade.rule">
+    <field name="name">&lt;field name="groups_id"&gt;</field>
+    <field name="title">groups_id in a data file or view</field>
+    <field name="kind">xml_field</field>
+    <field name="pattern">groups_id</field>
+    <field name="severity">removed</field>
+    <field name="since_version">19.0</field>
+    <field name="removed_in">19.0</field>
+    <field name="replacement">&lt;field name="group_ids"&gt;</field>
+    <field name="source_ref">odoo/addons/base/models/res_users.py:257</field>
+    <field name="explanation">A data file assigning groups to a user stops loading, which fails the whole module install.</field>
+    <field name="applies_to_py" eval="False"/>
+    <field name="applies_to_xml" eval="True"/>
+  </record>
+
+  <!-- ============================================================
+       DUE - marked two or more releases ago, still present.
+       This is the set the next upgrade is most likely to remove.
+       ============================================================ -->
+
+  <record id="rule_check_access_rights" model="mdx.upgrade.rule">
+    <field name="name">check_access_rights</field>
+    <field name="title">check_access_rights() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">check_access_rights</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">check_access(operation)</field>
+    <field name="source_ref">odoo/orm/models.py:4161</field>
+    <field name="explanation">Marked in 18.0 and still here in 19.0, which is exactly the age at which Odoo has removed things. The replacement also checks record rules, so the new call is stricter - test, do not just rename.</field>
+  </record>
+
+  <record id="rule_check_access_rule" model="mdx.upgrade.rule">
+    <field name="name">check_access_rule</field>
+    <field name="title">check_access_rule() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">check_access_rule</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">check_access(operation)</field>
+    <field name="source_ref">odoo/orm/models.py:4175</field>
+    <field name="explanation">The two old calls were merged into one that checks both model access and record rules.</field>
+  </record>
+
+  <record id="rule_filter_access_rules" model="mdx.upgrade.rule">
+    <field name="name">_filter_access_rules</field>
+    <field name="title">_filter_access_rules() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">_filter_access_rules</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">_filtered_access(operation)</field>
+    <field name="source_ref">odoo/orm/models.py:4185</field>
+  </record>
+
+  <record id="rule_filter_access_rules_python" model="mdx.upgrade.rule">
+    <field name="name">_filter_access_rules_python</field>
+    <field name="title">_filter_access_rules_python() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">_filter_access_rules_python</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">_filtered_access(operation)</field>
+    <field name="source_ref">odoo/orm/models.py:4190</field>
+  </record>
+
+  <record id="rule_check_recursion" model="mdx.upgrade.rule">
+    <field name="name">_check_recursion</field>
+    <field name="title">_check_recursion() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">_check_recursion</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">not self._has_cycle()</field>
+    <field name="source_ref">odoo/orm/models.py:5685</field>
+    <field name="explanation">Watch the polarity when you convert: the old call returned True when the hierarchy was fine, the new one returns True when there is a cycle.</field>
+  </record>
+
+  <record id="rule_check_m2m_recursion" model="mdx.upgrade.rule">
+    <field name="name">_check_m2m_recursion</field>
+    <field name="title">_check_m2m_recursion() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">_check_m2m_recursion</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">not self._has_cycle(field_name)</field>
+    <field name="source_ref">odoo/orm/models.py:5689</field>
+    <field name="explanation">Same inverted result as _check_recursion.</field>
+  </record>
+
+  <record id="rule_group_operator" model="mdx.upgrade.rule">
+    <field name="name">group_operator=</field>
+    <field name="title">group_operator= is now aggregator=</field>
+    <field name="kind">kwarg</field>
+    <field name="pattern">group_operator</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">aggregator="sum"</field>
+    <field name="source_ref">odoo/orm/fields.py:488</field>
+    <field name="explanation">On a field definition. When it goes, grouped views silently stop totalling the column rather than raising.</field>
+  </record>
+
+  <record id="rule_ustr" model="mdx.upgrade.rule">
+    <field name="name">ustr</field>
+    <field name="title">ustr() is on borrowed time</field>
+    <field name="kind">call</field>
+    <field name="pattern">ustr</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">str()</field>
+    <field name="source_ref">odoo/loglevels.py</field>
+    <field name="explanation">A Python 2 era helper. Odoo's own note calls it a garbage bag of fallbacks that mostly do not do anything useful.</field>
+  </record>
+
+  <record id="rule_tests_common_form" model="mdx.upgrade.rule">
+    <field name="name">odoo.tests.common.Form</field>
+    <field name="title">Form moved out of tests.common</field>
+    <field name="kind">import</field>
+    <field name="pattern">odoo.tests.common.Form</field>
+    <field name="severity">due</field>
+    <field name="since_version">18.0</field>
+    <field name="replacement">from odoo.tests import Form</field>
+    <field name="source_ref">odoo/tests/common.py:103</field>
+  </record>
+
+  <!-- ============================================================
+       DEPRECATED IN 19.0 - still works, will not keep working
+       ============================================================ -->
+
+  <record id="rule_osv_import" model="mdx.upgrade.rule">
+    <field name="name">odoo.osv</field>
+    <field name="title">odoo.osv is deprecated in favour of Domain</field>
+    <field name="kind">import</field>
+    <field name="pattern">odoo.osv</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">from odoo.fields import Domain</field>
+    <field name="source_ref">odoo/osv/__init__.py:4</field>
+    <field name="explanation">The single most common import in third-party code that 19.0 marked. The whole package is deprecated, not one function in it, so every "from odoo.osv import expression" is on the list.</field>
+  </record>
+
+  <record id="rule_expression_and" model="mdx.upgrade.rule">
+    <field name="name">expression.AND</field>
+    <field name="title">expression.AND() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">expression.AND</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">Domain.AND([...]), or the &amp; operator on Domain</field>
+    <field name="source_ref">odoo/osv/expression.py:240</field>
+    <field name="explanation">Pinned to the expression module on purpose: Domain.AND is the replacement, and matching the method name alone would report the correct new code as deprecated.</field>
+  </record>
+
+  <record id="rule_expression_or" model="mdx.upgrade.rule">
+    <field name="name">expression.OR</field>
+    <field name="title">expression.OR() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">expression.OR</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">Domain.OR([...]), or the | operator on Domain</field>
+    <field name="source_ref">odoo/osv/expression.py:246</field>
+  </record>
+
+  <record id="rule_read_group" model="mdx.upgrade.rule">
+    <field name="name">read_group</field>
+    <field name="title">read_group() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">read_group</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">_read_group() in server code, formatted_read_group() for a formatted result</field>
+    <field name="source_ref">odoo/orm/models.py:2748</field>
+    <field name="explanation">The replacements return different shapes, so this is a rewrite of the calling code rather than a rename.</field>
+  </record>
+
+  <record id="rule_toggle_active" model="mdx.upgrade.rule">
+    <field name="name">toggle_active</field>
+    <field name="title">toggle_active() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">toggle_active</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">action_archive() / action_unarchive()</field>
+    <field name="source_ref">odoo/orm/models.py:5787</field>
+  </record>
+
+  <record id="rule_self_cr" model="mdx.upgrade.rule">
+    <field name="name">self._cr</field>
+    <field name="title">self._cr is deprecated</field>
+    <field name="kind">attr</field>
+    <field name="pattern">_cr</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">self.env.cr</field>
+    <field name="source_ref">odoo/orm/models.py:5910</field>
+  </record>
+
+  <record id="rule_self_uid" model="mdx.upgrade.rule">
+    <field name="name">self._uid</field>
+    <field name="title">self._uid is deprecated</field>
+    <field name="kind">attr</field>
+    <field name="pattern">_uid</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">self.env.uid</field>
+    <field name="source_ref">odoo/orm/models.py:5915</field>
+  </record>
+
+  <record id="rule_self_context" model="mdx.upgrade.rule">
+    <field name="name">self._context</field>
+    <field name="title">self._context is deprecated</field>
+    <field name="kind">attr</field>
+    <field name="pattern">_context</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">self.env.context</field>
+    <field name="source_ref">odoo/orm/models.py:5920</field>
+  </record>
+
+  <record id="rule_check_field_access_rights" model="mdx.upgrade.rule">
+    <field name="name">check_field_access_rights</field>
+    <field name="title">check_field_access_rights() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">check_field_access_rights</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">_check_field_access()</field>
+    <field name="source_ref">odoo/orm/models.py:3436</field>
+  </record>
+
+  <record id="rule_force_company" model="mdx.upgrade.rule">
+    <field name="name">force_company</field>
+    <field name="title">The force_company context key is ignored</field>
+    <field name="kind">strkey</field>
+    <field name="pattern">force_company</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">with_company(company)</field>
+    <field name="source_ref">odoo/orm/models.py:6040</field>
+    <field name="explanation">No longer supported, and it fails in the dangerous direction: the key is ignored rather than refused, so multi-company records are read against the wrong company with no error. Matched as an exact string, because a context key is always written as one.</field>
+  </record>
+
+  <record id="rule_route_type_json" model="mdx.upgrade.rule">
+    <field name="name">@route(type='json')</field>
+    <field name="title">route type 'json' is now 'jsonrpc'</field>
+    <field name="kind">deco_kwarg</field>
+    <field name="pattern">route:type=json</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">type="jsonrpc"</field>
+    <field name="source_ref">odoo/http.py:765</field>
+    <field name="explanation">Still accepted as an alias in 19.0, which is how aliases usually spend their last release. Read from the decorator itself, so an unrelated type='json' elsewhere in the file is not reported.</field>
+  </record>
+
+  <record id="rule_ormcache_context" model="mdx.upgrade.rule">
+    <field name="name">ormcache_context</field>
+    <field name="title">ormcache_context is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">ormcache_context</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">ormcache(), reading context values with self.env.context.get</field>
+    <field name="source_ref">odoo/tools/cache.py:163</field>
+  </record>
+
+  <record id="rule_split_for_in_conditions" model="mdx.upgrade.rule">
+    <field name="name">split_for_in_conditions</field>
+    <field name="title">cr.split_for_in_conditions() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">split_for_in_conditions</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">split_every(cr.IN_MAX, ids)</field>
+    <field name="source_ref">odoo/sql_db.py:265</field>
+  </record>
+
+  <record id="rule_create_unique_index" model="mdx.upgrade.rule">
+    <field name="name">create_unique_index</field>
+    <field name="title">create_unique_index() is deprecated</field>
+    <field name="kind">call</field>
+    <field name="pattern">create_unique_index</field>
+    <field name="severity">deprecated</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">create_index(..., unique=True)</field>
+    <field name="source_ref">odoo/tools/sql.py:620</field>
+  </record>
+
+  <!-- ============================================================
+       ADVISORY
+       ============================================================ -->
+
+  <record id="rule_t_debug" model="mdx.upgrade.rule">
+    <field name="name">t-debug</field>
+    <field name="title">t-debug with an explicit debugger is deprecated</field>
+    <field name="kind">xml_attr</field>
+    <field name="pattern">t-debug</field>
+    <field name="severity">advisory</field>
+    <field name="since_version">17.0</field>
+    <field name="replacement">Leave the value empty</field>
+    <field name="source_ref">odoo/addons/base/models/ir_qweb.py:2692</field>
+    <field name="applies_to_py" eval="False"/>
+    <field name="applies_to_xml" eval="True"/>
+  </record>
+
+  <record id="rule_domain_operators" model="mdx.upgrade.rule">
+    <field name="name">&lt;&gt; and == in domains</field>
+    <field name="title">The '&lt;&gt;' and '==' domain operators are deprecated</field>
+    <field name="kind">regex</field>
+    <field name="pattern">['"]\s*,\s*['"](?:&lt;&gt;|==)['"]\s*,</field>
+    <field name="severity">advisory</field>
+    <field name="since_version">19.0</field>
+    <field name="replacement">'!=' and '='</field>
+    <field name="source_ref">odoo/fields/domain - deprecation on the operator</field>
+    <field name="explanation">Written to require a quoted field name immediately before the operator, so a domain triple matches but compile(source, '&lt;&gt;', 'exec') does not. Still the bluntest rule here - read each hit.</field>
+    <field name="applies_to_xml" eval="True"/>
+  </record>
+
+</odoo>
