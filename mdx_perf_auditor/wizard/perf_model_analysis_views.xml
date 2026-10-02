@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="perf_model_analysis_view_form" model="ir.ui.view">
+        <field name="name">perf.model.analysis.form</field>
+        <field name="model">perf.model.analysis</field>
+        <field name="arch" type="xml">
+            <form string="Model Deep Dive">
+                <group>
+                    <field name="model_id" options="{'no_create': True, 'no_open': True}"/>
+                </group>
+                <field name="report_html" nolabel="1" readonly="1"/>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_perf_model_analysis" model="ir.actions.act_window">
+        <field name="name">Model Deep Dive</field>
+        <field name="res_model">perf.model.analysis</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

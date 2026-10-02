@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="server_action_run_audit" model="ir.actions.server">
+        <field name="name">Run Audit Now</field>
+        <field name="model_id" ref="model_perf_audit_run"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_run_now()</field>
+    </record>
+
+    <menuitem id="menu_perf_root" name="Performance"
+              sequence="95"
+              groups="mdx_perf_auditor.group_perf_manager"/>
+
+    <menuitem id="menu_perf_dashboard" name="Dashboard"
+              parent="menu_perf_root" action="action_perf_dashboard" sequence="10"/>
+
+    <menuitem id="menu_perf_run_now" name="Run Audit Now"
+              parent="menu_perf_root" action="server_action_run_audit" sequence="15"/>
+
+    <record id="server_action_run_deep" model="ir.actions.server">
+        <field name="name">Deep Analysis</field>
+        <field name="model_id" ref="model_perf_audit_run"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_run_deep()</field>
+    </record>
+
+    <menuitem id="menu_perf_run_deep" name="Deep Analysis"
+              parent="menu_perf_root" action="server_action_run_deep" sequence="17"/>
+
+    <menuitem id="menu_perf_model_dive" name="Model Deep Dive"
+              parent="menu_perf_root" action="action_perf_model_analysis" sequence="45"/>
+
+    <menuitem id="menu_perf_findings" name="Findings"
+              parent="menu_perf_root" action="action_perf_audit_finding" sequence="20"/>
+
+    <menuitem id="menu_perf_runs" name="Audit Runs"
+              parent="menu_perf_root" action="action_perf_audit_run" sequence="30"/>
+
+    <menuitem id="menu_perf_detectors" name="Detectors"
+              parent="menu_perf_root" action="action_perf_detector" sequence="50"/>
+
+    <menuitem id="menu_perf_snapshots" name="Database Trend"
+              parent="menu_perf_root" action="action_perf_db_snapshot" sequence="40"/>
+</odoo>

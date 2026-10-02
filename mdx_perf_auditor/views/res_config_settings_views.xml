@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.perf</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Performance" string="Performance" name="mdx_perf_auditor"
+                     groups="mdx_perf_auditor.group_perf_manager">
+                    <block title="Alerting" name="perf_alert_block">
+                        <setting string="Email on new findings"
+                                 help="Sent after a scheduled audit, only when something new appears.">
+                            <field name="perf_alert_user_ids" widget="many2many_tags"/>
+                            <div class="mt8">
+                                <label for="perf_alert_severity" class="me-2"/>
+                                <field name="perf_alert_severity" class="oe_inline"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Data retention" name="perf_retention_block">
+                        <setting string="Database snapshots"
+                                 help="Feeds the growth projections; keep at least a few days.">
+                            <field name="perf_snapshot_retention_days"/> days
+                        </setting>
+                        <setting string="Scheduled-action timings">
+                            <field name="perf_cron_sample_retention_days"/> days
+                        </setting>
+                        <setting string="Time scheduled actions" help="Needed by detector D2.">
+                            <field name="perf_record_cron_runs"/>
+                        </setting>
+                    </block>
+                    <block title="Deep analysis" name="perf_deep_block">
+                        <setting string="Default capture length">
+                            <field name="perf_capture_default_minutes"/> minutes
+                        </setting>
+                        <setting string="Explain statements slower than">
+                            <field name="perf_g_min_ms"/> ms
+                        </setting>
+                    </block>
+                    <block title="Sensitivity" name="perf_threshold_block">
+                        <setting string="Ignore unindexed foreign keys on tables under"
+                                 help="Raise this if the findings list is noisy on a small database.">
+                            <field name="perf_a1_min_table_bytes"/> MB
+                        </setting>
+                        <setting string="Flag N+1 above">
+                            <field name="perf_c3_repeat"/> repeats per request
+                        </setting>
+                        <setting string="Flag table growth above">
+                            <field name="perf_h1_mb_per_day"/> MB/day
+                        </setting>
+                        <setting string="Every other threshold" help="Set as ir.config_parameter keys — the exact key for each check is listed on its row in Performance &gt; Detectors.">
+                            <button name="%(action_perf_detector)d" type="action"
+                                    string="Open detector catalog" class="btn-link"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

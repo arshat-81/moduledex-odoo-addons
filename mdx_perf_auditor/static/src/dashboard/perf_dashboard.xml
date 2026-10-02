@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="mdx_perf_auditor.PerfDashboard">
+        <div class="o_perf_dashboard o_action">
+
+            <!-- command bar -->
+            <div class="o_perf_bar">
+                <div class="o_perf_bar_title">
+                    <span class="o_perf_dot"/>
+                    <h2>Performance &amp; Health</h2>
+                    <span class="o_perf_stamp" t-if="this.hasRun">
+                        <t t-out="this.run.date"/> · <t t-out="this.run.detectors_run"/> detectors · <t t-out="this.run.duration"/>s
+                    </span>
+                </div>
+                <div class="o_perf_bar_actions">
+                    <button class="btn btn-sm btn-link" t-on-click="() => this.openHistory()">History</button>
+                    <button class="btn btn-sm btn-link" t-on-click="() => this.openList()" t-if="this.hasRun">Full list</button>
+                    <button class="btn btn-sm o_perf_deep" t-att-disabled="this.state.running"
+                            title="Explains real captured queries, measures bloat, projects growth"
+                            t-on-click="() => this.runAudit('deep')">
+                        <i class="fa" t-att-class="this.state.running === 'deep' ? 'fa-circle-o-notch fa-spin' : 'fa-flask'"/>
+                        <span t-out="this.state.running === 'deep' ? 'Analysing…' : 'Deep analysis'"/>
+                    </button>
+                    <button class="btn btn-sm o_perf_run" t-att-disabled="this.state.running"
+                            t-on-click="() => this.runAudit('quick')">
+                        <i class="fa" t-att-class="this.state.running === 'quick' ? 'fa-circle-o-notch fa-spin' : 'fa-play'"/>
+                        <span t-out="this.state.running === 'quick' ? 'Running…' : 'Run audit'"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- capture strip -->
+            <div class="o_perf_capture" t-att-class="{ 'is-live': this.capture.active }" t-if="!this.state.loading">
+                <div class="o_perf_capture_l">
+                    <span class="o_perf_capture_dot" t-if="this.capture.active"/>
+                    <i class="fa fa-crosshairs" t-else=""/>
+                    <t t-if="this.capture.active">
+                        <b>Capturing live traffic</b>
+                        <span class="o_perf_capture_meta">
+                            <t t-out="this.captureLeft"/> · <t t-out="this.capture.profiles"/> requests profiled
+                        </span>
+                    </t>
+                    <t t-else="">
+                        <span>Deep analysis explains <b>real</b> queries.</span>
+                        <span class="o_perf_capture_meta" t-if="this.capture.profiles">
+                            <t t-out="this.capture.profiles"/> requests already captured
+                        </span>
+                        <span class="o_perf_capture_meta" t-else="">
+                            Capture some traffic first, then run it.
+                        </span>
+                    </t>
+                </div>
+                <div class="o_perf_capture_r">
+                    <t t-if="this.capture.active">
+                        <button class="btn btn-sm btn-secondary" t-on-click="() => this.stopCapture()">Stop</button>
+                    </t>
+                    <t t-else="">
+                        <label>for</label>
+                        <input type="number" min="1" max="120" class="o_perf_min"
+                               t-att-value="this.state.captureMinutes"
+                               t-on-change="(ev) => this.setCaptureMinutes(ev)"/>
+                        <label>min</label>
+                        <button class="btn btn-sm o_perf_deep" t-on-click="() => this.startCapture()">
+                            Start capture
+                        </button>
+                    </t>
+                </div>
+            </div>
+
+            <div t-if="this.state.loading" class="o_perf_loading">Loading…</div>
+
+            <!-- empty state -->
+            <div t-elif="!this.hasRun" class="o_perf_empty">
+                <div class="o_perf_empty_card">
+                    <i class="fa fa-heartbeat"/>
+                    <h3>No audit yet</h3>
+                    <p>Run the first audit to see the health score, the ranked findings, and the database trend.</p>
+                    <button class="btn o_perf_run" t-on-click="() => this.runAudit()" t-att-disabled="this.state.running">
+                        <span t-out="this.state.running ? 'Running…' : 'Run first audit'"/>
+                    </button>
+                </div>
+            </div>
+
+            <t t-else="">
+                <!-- score + category rail -->
+                <div class="o_perf_head">
+                    <div class="o_perf_score" t-att-class="this.scoreClass(this.run.health_score)">
+                        <div class="o_perf_score_num">
+                            <span t-out="this.run.health_score"/><small>/100</small>
+                        </div>
+                        <div class="o_perf_score_label">Health score</div>
+                        <div class="o_perf_delta" t-att-class="this.deltaClass" t-if="this.deltaText">
+                            <t t-out="this.deltaText"/>
+                        </div>
+                        <svg class="o_perf_spark" viewBox="0 0 100 30" preserveAspectRatio="none" t-if="this.trendLine">
+                            <polygon t-att-points="this.trendArea" class="o_perf_spark_area"/>
+                            <polyline t-att-points="this.trendLine" class="o_perf_spark_line"/>
+                        </svg>
+                    </div>
+
+                    <div class="o_perf_rail">
+                        <div class="o_perf_rail_row" t-foreach="this.categories" t-as="cat" t-key="cat.code"
+                             t-att-class="{ 'is-active': this.state.category === cat.code, 'is-clean': !cat.total }"
+                             t-on-click="() => this.toggleCategory(cat.code)">
+                            <div class="o_perf_rail_name" t-out="cat.label"/>
+                            <div class="o_perf_rail_track">
+                                <div class="o_perf_rail_fill"
+                                     t-attf-style="width:{{ cat.score }}%;background:{{ this.scoreColor(cat.score) }}"/>
+                            </div>
+                            <div class="o_perf_rail_score" t-out="cat.score"/>
+                            <div class="o_perf_rail_badges">
+                                <span class="o_perf_chip is-crit" t-if="cat.critical" t-out="cat.critical"/>
+                                <span class="o_perf_chip is-warn" t-if="cat.warning" t-out="cat.warning"/>
+                                <span class="o_perf_chip is-info" t-if="cat.info" t-out="cat.info"/>
+                                <i class="fa fa-check o_perf_ok_tick" t-if="!cat.total"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- controls -->
+                <div class="o_perf_controls">
+                    <div class="o_perf_sev">
+                        <button class="o_perf_seg" t-att-class="{ active: this.state.severity === 'all' }"
+                                t-on-click="() => this.setSeverity('all')">
+                            All <b t-out="this.run.open_total"/>
+                        </button>
+                        <button class="o_perf_seg is-crit" t-att-class="{ active: this.state.severity === 'critical' }"
+                                t-on-click="() => this.setSeverity('critical')">
+                            Critical <b t-out="this.critCount"/>
+                        </button>
+                        <button class="o_perf_seg is-warn" t-att-class="{ active: this.state.severity === 'warning' }"
+                                t-on-click="() => this.setSeverity('warning')">
+                            Warning <b t-out="this.warnCount"/>
+                        </button>
+                        <button class="o_perf_seg is-info" t-att-class="{ active: this.state.severity === 'info' }"
+                                t-on-click="() => this.setSeverity('info')">
+                            Advisory <b t-out="this.infoCount"/>
+                        </button>
+                    </div>
+
+                    <div class="o_perf_ctl_right">
+                        <button class="o_perf_new" t-att-class="{ active: this.state.newOnly }"
+                                t-on-click="() => this.toggleNewOnly()" t-if="this.newCount">
+                            New only <b t-out="this.newCount"/>
+                        </button>
+                        <div class="o_perf_group">
+                            <span>Group</span>
+                            <button t-att-class="{ active: this.state.groupBy === 'category' }"
+                                    t-on-click="() => this.setGroupBy('category')">Category</button>
+                            <button t-att-class="{ active: this.state.groupBy === 'severity' }"
+                                    t-on-click="() => this.setGroupBy('severity')">Severity</button>
+                            <button t-att-class="{ active: this.state.groupBy === 'target_kind' }"
+                                    t-on-click="() => this.setGroupBy('target_kind')">Type</button>
+                        </div>
+                        <div class="o_perf_search">
+                            <i class="fa fa-search"/>
+                            <input type="text" placeholder="Filter findings…"
+                                   t-att-value="this.state.search" t-on-input="(ev) => this.onSearch(ev)"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- findings -->
+                <div class="o_perf_findings">
+                    <div t-if="!this.filteredFindings.length" class="o_perf_none">
+                        <t t-if="this.filterActive">
+                            No findings match this filter.
+                            <a href="#" t-on-click.prevent="() => this.clearFilters()">Clear</a>
+                        </t>
+                        <t t-else="">Nothing open. The instance is clean.</t>
+                    </div>
+
+                    <div class="o_perf_group_block" t-foreach="this.groups" t-as="grp" t-key="grp.key">
+                        <div class="o_perf_group_head" t-on-click="() => this.toggleGroup(grp.key)">
+                            <i class="fa" t-att-class="this.state.collapsed[grp.key] ? 'fa-caret-right' : 'fa-caret-down'"/>
+                            <span class="o_perf_group_label" t-out="grp.label"/>
+                            <span class="o_perf_group_count" t-out="grp.items.length"/>
+                        </div>
+
+                        <div class="o_perf_rows" t-if="!this.state.collapsed[grp.key]">
+                            <div class="o_perf_row" t-foreach="grp.items" t-as="f" t-key="f.id"
+                                 t-att-class="'sev-' + f.severity + (this.state.expanded[f.id] ? ' is-open' : '')">
+                                <div class="o_perf_row_main" t-on-click="() => this.toggleExpand(f.id)">
+                                    <span class="o_perf_sevdot" t-att-class="'sev-' + f.severity"
+                                          t-out="this.sevLetter(f.severity)" t-att-title="this.sevLabel(f.severity)"/>
+                                    <span class="o_perf_code" t-out="f.detector_code"/>
+                                    <div class="o_perf_row_body">
+                                        <div class="o_perf_row_name">
+                                            <t t-out="f.name"/>
+                                            <span class="o_perf_newtag" t-if="f.is_new">new</span>
+                                            <span class="o_perf_deeptag" t-if="f.depth === 'deep'">deep</span>
+                                        </div>
+                                        <div class="o_perf_row_meta">
+                                            <span class="o_perf_target" t-if="f.target_ref" t-out="f.target_ref"/>
+                                            <span class="o_perf_metric" t-if="f.metric" t-out="f.metric"/>
+                                        </div>
+                                    </div>
+                                    <button class="o_perf_fixbtn" t-if="f.fixable"
+                                            t-on-click.stop="() => this.findingAction(f.id, 'action_apply_fix')">
+                                        <i class="fa fa-wrench"/> <t t-out="this.fixVerb(f.fix_kind)"/>
+                                    </button>
+                                    <i class="fa o_perf_row_chev"
+                                       t-att-class="this.state.expanded[f.id] ? 'fa-angle-up' : 'fa-angle-down'"/>
+                                </div>
+
+                                <div class="o_perf_row_detail" t-if="this.state.expanded[f.id]">
+                                    <div class="o_perf_detail_grid">
+                                        <div>
+                                            <label>Measured</label>
+                                            <div t-out="f.metric || '—'"/>
+                                        </div>
+                                        <div>
+                                            <label>Threshold</label>
+                                            <div t-out="f.threshold || '—'"/>
+                                        </div>
+                                        <div>
+                                            <label>Seen</label>
+                                            <div><t t-out="f.occurrence_count"/>× · since <t t-out="f.first_seen || '—'"/></div>
+                                        </div>
+                                    </div>
+                                    <p class="o_perf_reco" t-out="f.recommendation"/>
+                                    <pre class="o_perf_sql" t-if="f.fix_sql" t-out="f.fix_sql"/>
+                                    <details class="o_perf_evidence" t-if="f.evidence">
+                                        <summary>Evidence</summary>
+                                        <pre t-out="f.evidence"/>
+                                    </details>
+                                    <div class="o_perf_row_actions">
+                                        <button class="btn btn-sm o_perf_run" t-if="f.fixable"
+                                                t-on-click="() => this.findingAction(f.id, 'action_apply_fix')">
+                                            <i class="fa fa-wrench"/> <t t-out="this.fixVerb(f.fix_kind)"/>
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" t-if="f.status === 'open'"
+                                                t-on-click="() => this.findingAction(f.id, 'action_acknowledge')">Acknowledge</button>
+                                        <button class="btn btn-sm btn-secondary"
+                                                t-on-click="() => this.findingAction(f.id, 'action_snooze_30d')">Snooze 30d</button>
+                                        <button class="btn btn-sm btn-link text-danger"
+                                                t-on-click="() => this.findingAction(f.id, 'action_ignore')">Ignore</button>
+                                        <button class="btn btn-sm btn-link" t-on-click="() => this.openFinding(f.id)">Open ↗</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- footer strips -->
+                <div class="o_perf_foot">
+                    <div class="o_perf_foot_card">
+                        <div class="o_perf_foot_head">Since last audit</div>
+                        <div class="o_perf_changed">
+                            <span class="o_perf_pill perf-up" t-if="this.newCount">+<t t-out="this.newCount"/> new</span>
+                            <span class="o_perf_pill perf-down" t-if="this.resolvedRecent.length">
+                                ✓ <t t-out="this.resolvedRecent.length"/> resolved</span>
+                            <span class="text-muted" t-if="!this.newCount &amp;&amp; !this.resolvedRecent.length">No change</span>
+                        </div>
+                        <ul class="o_perf_resolved" t-if="this.resolvedRecent.length">
+                            <li t-foreach="this.resolvedRecent.slice(0,6)" t-as="rf" t-key="rf.id" t-out="rf.name"/>
+                        </ul>
+                    </div>
+
+                    <div class="o_perf_foot_card">
+                        <div class="o_perf_foot_head">
+                            Largest tables <span class="text-muted" t-if="this.run &amp;&amp; this.state.data.db_size">· db <t t-out="this.state.data.db_size"/></span>
+                        </div>
+                        <div class="o_perf_tbl" t-foreach="this.tables" t-as="tbl" t-key="tbl.name">
+                            <span class="o_perf_tbl_name" t-out="tbl.name"/>
+                            <span class="o_perf_tbl_bar"><span t-attf-style="width:{{ tbl.pct }}%"/></span>
+                            <span class="o_perf_tbl_size" t-out="tbl.human"/>
+                        </div>
+                        <div class="text-muted small" t-if="!this.tables.length">
+                            The hourly snapshot cron fills this after its first run.
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

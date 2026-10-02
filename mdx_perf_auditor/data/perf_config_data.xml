@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Retention and behaviour. Detector thresholds are read from
+             ir.config_parameter keys "mdx_perf_auditor.threshold.<key>" and fall
+             back to the defaults in the detector code, so they are only set here
+             when a site wants to override them. -->
+        <record id="cp_record_cron_runs" model="ir.config_parameter">
+            <field name="key">mdx_perf_auditor.record_cron_runs</field>
+            <field name="value">1</field>
+        </record>
+        <record id="cp_snapshot_retention" model="ir.config_parameter">
+            <field name="key">mdx_perf_auditor.snapshot_retention_days</field>
+            <field name="value">90</field>
+        </record>
+        <record id="cp_cron_sample_retention" model="ir.config_parameter">
+            <field name="key">mdx_perf_auditor.cron_sample_retention_days</field>
+            <field name="value">60</field>
+        </record>
+    </data>
+</odoo>

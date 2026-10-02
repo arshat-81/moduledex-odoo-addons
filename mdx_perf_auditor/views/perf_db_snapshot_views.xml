@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="perf_db_snapshot_view_list" model="ir.ui.view">
+        <field name="name">perf.db.snapshot.list</field>
+        <field name="model">perf.db.snapshot</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="db_size_human" string="Database size"/>
+                <field name="dead_tuples_total" string="Dead rows" widget="float" digits="[16,0]"/>
+                <field name="live_tuples_total" string="Live rows" widget="float" digits="[16,0]"/>
+                <field name="seq_scans_total" string="Seq scans" widget="float" digits="[16,0]"/>
+                <field name="idx_scans_total" string="Index scans" widget="float" digits="[16,0]"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="perf_db_snapshot_view_form" model="ir.ui.view">
+        <field name="name">perf.db.snapshot.form</field>
+        <field name="model">perf.db.snapshot</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="date" readonly="1"/>
+                        <field name="db_size_human" readonly="1"/>
+                        <field name="dead_tuples_total" readonly="1"/>
+                        <field name="live_tuples_total" readonly="1"/>
+                        <field name="seq_scans_total" readonly="1"/>
+                        <field name="idx_scans_total" readonly="1"/>
+                    </group>
+                    <separator string="Largest tables at this point"/>
+                    <field name="table_json" widget="text" readonly="1" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="perf_db_snapshot_view_graph" model="ir.ui.view">
+        <field name="name">perf.db.snapshot.graph</field>
+        <field name="model">perf.db.snapshot</field>
+        <field name="arch" type="xml">
+            <graph type="line" sample="1">
+                <field name="date" interval="day"/>
+                <field name="db_size_bytes" type="measure"/>
+                <field name="dead_tuples_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_perf_db_snapshot" model="ir.actions.act_window">
+        <field name="name">Database Snapshots</field>
+        <field name="res_model">perf.db.snapshot</field>
+        <field name="view_mode">graph,list,form</field>
+    </record>
+</odoo>

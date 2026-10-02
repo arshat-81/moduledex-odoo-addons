@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="perf_audit_finding_view_search" model="ir.ui.view">
+        <field name="name">perf.audit.finding.search</field>
+        <field name="model">perf.audit.finding</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Finding"/>
+                <field name="target_ref"/>
+                <field name="detector_code"/>
+                <filter name="open" string="Open" domain="[('status','in',['open','acknowledged'])]"/>
+                <filter name="critical" string="Critical" domain="[('severity','=','critical')]"/>
+                <filter name="warning" string="Warning" domain="[('severity','=','warning')]"/>
+                <filter name="fixable" string="Has safe fix" domain="[('fixable','=',True)]"/>
+                <filter name="deep" string="From deep analysis" domain="[('depth','=','deep')]"/>
+                <filter name="planner_ok" string="Planner-confirmed index"
+                        domain="[('planner_verdict','=','used')]"/>
+                <separator/>
+                <filter name="resolved" string="Resolved" domain="[('status','=','resolved')]"/>
+                <filter name="ignored" string="Ignored" domain="[('status','=','ignored')]"/>
+                <group>
+                    <filter name="g_category" string="Category" context="{'group_by':'category'}"/>
+                    <filter name="g_severity" string="Severity" context="{'group_by':'severity'}"/>
+                    <filter name="g_status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="g_kind" string="Target type" context="{'group_by':'target_kind'}"/>
+                    <filter name="g_depth" string="Depth" context="{'group_by':'depth'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="perf_audit_finding_view_list" model="ir.ui.view">
+        <field name="name">perf.audit.finding.list</field>
+        <field name="model">perf.audit.finding</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="severity == 'critical'"
+                  decoration-warning="severity == 'warning'"
+                  decoration-muted="status in ('resolved','ignored')"
+                  default_order="severity_order,category">
+                <field name="severity" widget="badge"
+                       decoration-danger="severity == 'critical'"
+                       decoration-warning="severity == 'warning'"/>
+                <field name="category"/>
+                <field name="name"/>
+                <field name="target_ref" optional="show"/>
+                <field name="metric" optional="show"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'resolved'"
+                       decoration-info="status == 'open'"/>
+                <field name="detector_code" optional="show"/>
+                <field name="depth" optional="show" widget="badge"/>
+                <field name="occurrence_count" optional="hide"/>
+                <field name="last_seen" optional="hide"/>
+                <field name="fixable" column_invisible="1"/>
+                <button name="action_apply_fix" type="object" string="Apply safe fix"
+                        icon="fa-wrench" invisible="not fixable or status == 'resolved'"
+                        confirm="Run this maintenance statement against the live database now?"/>
+                <button name="action_acknowledge" type="object" string="Acknowledge"
+                        icon="fa-check" invisible="status != 'open'"/>
+                <button name="action_ignore" type="object" string="Ignore"
+                        icon="fa-ban" invisible="status in ('ignored','resolved')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="perf_audit_finding_view_form" model="ir.ui.view">
+        <field name="name">perf.audit.finding.form</field>
+        <field name="model">perf.audit.finding</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_apply_fix" type="object" string="Apply Safe Fix"
+                            class="btn-primary" invisible="not fixable or status == 'resolved'"
+                            confirm="This runs the maintenance statement below against the live database. Continue?"/>
+                    <button name="action_acknowledge" type="object" string="Acknowledge"
+                            invisible="status != 'open'"/>
+                    <button name="action_snooze_30d" type="object" string="Snooze 30 days"
+                            invisible="status in ('snoozed','resolved','ignored')"/>
+                    <button name="action_ignore" type="object" string="Ignore"
+                            invisible="status in ('ignored','resolved')"/>
+                    <button name="action_reopen" type="object" string="Reopen"
+                            invisible="status not in ('ignored','snoozed','resolved')"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="open,acknowledged,resolved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="detector_code" readonly="1"/>
+                            <field name="category" readonly="1"/>
+                            <field name="severity" readonly="1"/>
+                            <field name="target_kind" readonly="1"/>
+                            <field name="target_ref" readonly="1"/>
+                            <field name="depth" readonly="1"/>
+                            <field name="planner_verdict" readonly="1"
+                                   invisible="planner_verdict == 'untested'"/>
+                        </group>
+                        <group>
+                            <field name="metric" readonly="1"/>
+                            <field name="threshold" readonly="1"/>
+                            <field name="occurrence_count" readonly="1"/>
+                            <field name="first_seen" readonly="1"/>
+                            <field name="last_seen" readonly="1"/>
+                            <field name="fix_applied_on" readonly="1"
+                                   invisible="not fix_applied_on"/>
+                        </group>
+                    </group>
+                    <separator string="What to do"/>
+                    <field name="recommendation" readonly="1"/>
+                    <separator string="Fix statement" invisible="fix_kind == 'none'"/>
+                    <field name="fix_kind" invisible="1"/>
+                    <field name="fixable" invisible="1"/>
+                    <field name="fix_sql" readonly="1" invisible="not fix_sql" nolabel="1"/>
+                    <separator string="Evidence" invisible="not evidence"/>
+                    <field name="evidence" readonly="1" invisible="not evidence" nolabel="1"/>
+                    <div class="text-muted" invisible="fix_kind == 'none' or fixable">
+                        This change is not applied automatically — run it yourself after review.
+                    </div>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_perf_audit_finding" model="ir.actions.act_window">
+        <field name="name">Findings</field>
+        <field name="res_model">perf.audit.finding</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_open': 1, 'search_default_g_category': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No findings yet</p>
+            <p>Run an audit from the Dashboard to populate this list.</p>
+        </field>
+    </record>
+</odoo>
