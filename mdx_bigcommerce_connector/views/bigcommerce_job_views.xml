@@ -21,11 +21,11 @@
                        decoration-danger="state == 'failed'"
                        decoration-warning="state == 'running'"/>
                 <button name="action_run_now" type="object" string="Run now"
-                        icon="fa-play" invisible="state not in ('pending','failed')"/>
+                        icon="play_arrow" invisible="state not in ('pending','failed')"/>
                 <button name="action_requeue" type="object" string="Retry"
-                        icon="fa-refresh" invisible="state not in ('failed','cancelled')"/>
+                        icon="refresh" invisible="state not in ('failed','cancelled')"/>
                 <button name="action_cancel" type="object" string="Cancel"
-                        icon="fa-times" invisible="state not in ('pending','failed')"/>
+                        icon="close" invisible="state not in ('pending','failed')"/>
             </list>
         </field>
     </record>

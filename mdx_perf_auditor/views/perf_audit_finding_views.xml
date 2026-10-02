@@ -53,12 +53,12 @@
                 <field name="last_seen" optional="hide"/>
                 <field name="fixable" column_invisible="1"/>
                 <button name="action_apply_fix" type="object" string="Apply safe fix"
-                        icon="fa-wrench" invisible="not fixable or status == 'resolved'"
+                        icon="build" invisible="not fixable or status == 'resolved'"
                         confirm="Run this maintenance statement against the live database now?"/>
                 <button name="action_acknowledge" type="object" string="Acknowledge"
-                        icon="fa-check" invisible="status != 'open'"/>
+                        icon="check" invisible="status != 'open'"/>
                 <button name="action_ignore" type="object" string="Ignore"
-                        icon="fa-ban" invisible="status in ('ignored','resolved')"/>
+                        icon="block" invisible="status in ('ignored','resolved')"/>
             </list>
         </field>
     </record>

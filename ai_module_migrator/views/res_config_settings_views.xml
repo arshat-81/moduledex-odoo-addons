@@ -184,7 +184,7 @@
                                     </div>
                                     <div class="mt16">
                                         <div class="text-muted">
-                                            <i class="fa fa-info-circle"/>
+                                            <i class="oi" data-icon="info"/>
                                             Ollama Cloud does not expose real usage/quota through its API. These bars are
                                             a local estimate based on calls made through this module — set the capacity
                                             fields above to match what you see on ollama.com/settings.
@@ -212,7 +212,7 @@
                                         <button name="action_ai_module_migrator_test_connection"
                                                 type="object"
                                                 string="Test Connection"
-                                                icon="fa-plug"
+                                                icon="power"
                                                 class="btn btn-secondary"/>
                                     </div>
                                 </div>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_element_picker_form" model="ir.ui.view">
+        <field name="name">mdx.access.element.picker.form</field>
+        <field name="model">mdx.access.element.picker</field>
+        <field name="arch" type="xml">
+            <form string="Pick Buttons, Tabs, Reports">
+                <group>
+                    <field name="profile_id" readonly="1"/>
+                    <field name="model_id" options="{'no_create': True}"/>
+                    <field name="scanned" invisible="1"/>
+                </group>
+                <div class="alert alert-info" role="alert" invisible="scanned">
+                    Choose a model, then Scan Views. Everything the model's forms, lists and
+                    kanbans contain - and its Print and Action menus - is listed for you to tick.
+                </div>
+                <field name="line_ids" nolabel="1" invisible="not scanned">
+                    <list editable="bottom" create="0" delete="0"
+                          decoration-muted="already_hidden">
+                        <field name="selected" readonly="already_hidden"/>
+                        <field name="kind"/>
+                        <field name="label"/>
+                        <field name="name"/>
+                        <field name="already_hidden" string="Hidden"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_scan" type="object" string="Scan Views"
+                            class="btn-primary" invisible="scanned"/>
+                    <button name="action_add" type="object" string="Hide Selected"
+                            class="btn-primary" invisible="not scanned"/>
+                    <button name="action_scan" type="object" string="Scan Again"
+                            invisible="not scanned"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

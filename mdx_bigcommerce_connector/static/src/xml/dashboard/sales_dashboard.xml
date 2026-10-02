@@ -6,7 +6,7 @@
             <div class="bc_dashboard">
                 <div class="bc_dashboard_toolbar">
                     <h2 class="bc_dashboard_title">
-                        <i class="fa fa-shopping-cart" role="img" aria-hidden="true"/> Sales Dashboard
+                        <i class="oi" data-icon="shopping_cart" role="img" aria-hidden="true"/> Sales Dashboard
                     </h2>
                     <select class="bc_store_select" t-on-change="this.onConfigChange">
                         <option value="">All Stores</option>
@@ -24,31 +24,31 @@
                             label="'Today'"
                             value="this.formatMoney(this.state.data.today.revenue)"
                             sublabel="`${this.state.data.today.orders} orders`"
-                            icon="'fa-calendar-o'" accent="'primary'"/>
+                            icon="'calendar_today'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'Last 7 Days'"
                             value="this.formatMoney(this.state.data.last_7_days.revenue)"
                             sublabel="`${this.state.data.last_7_days.orders} orders`"
-                            icon="'fa-line-chart'" accent="'primary'"/>
+                            icon="'show_chart'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'Last 30 Days'"
                             value="this.formatMoney(this.state.data.last_30_days.revenue)"
                             sublabel="`${this.state.data.last_30_days.orders} orders`"
-                            icon="'fa-bar-chart'" accent="'primary'"/>
+                            icon="'bar_chart'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'All Time'"
                             value="this.formatMoney(this.state.data.all_time.revenue)"
                             sublabel="`${this.state.data.all_time.orders} orders`"
-                            icon="'fa-globe'" accent="'primary'"/>
+                            icon="'public'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'Cart Recovery'"
                             value="`${this.state.data.carts_recovery_rate}%`"
                             sublabel="`${this.state.data.carts_converted} of ${this.state.data.carts_abandoned + this.state.data.carts_converted} recovered`"
-                            icon="'fa-shopping-basket'" accent="'success'"/>
+                            icon="'shopping_basket'" accent="'success'"/>
                         <BigcommerceKpiCard
                             label="'Products Synced'"
                             value="`${this.state.data.product_count}`"
-                            icon="'fa-cubes'" accent="'warning'"/>
+                            icon="'inventory_2'" accent="'warning'"/>
                     </div>
 
                     <div class="bc_chart_row">

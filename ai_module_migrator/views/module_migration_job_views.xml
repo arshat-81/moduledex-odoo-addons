@@ -27,15 +27,15 @@
         <field name="arch" type="xml">
             <form string="AI Module Migration Job">
                 <header>
-                    <button name="action_load_source" type="object" string="Load Source" icon="fa-upload" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
-                    <button name="action_run_code_migration" type="object" string="Queue Code Migration" icon="fa-cogs" class="oe_highlight" invisible="state in ('archived', 'migrating', 'generating')"/>
-                    <button name="action_retry_skipped_files" type="object" string="Retry Skipped/Error" icon="fa-refresh" class="btn-secondary" invisible="not skipped_file_count or state in ('archived', 'migrating', 'generating')"/>
-                    <button name="action_download_migrated_zip" type="object" string="Download Zip" icon="fa-download" class="btn-primary" invisible="not output_zip_attachment_id"/>
-                    <button name="action_generate_migration_plan" type="object" string="Generate AI Plan" icon="fa-magic" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
-                    <button name="action_generate_static_report" type="object" string="Static Report" icon="fa-file-text-o" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
-                    <button name="action_export_report" type="object" string="Export Report" icon="fa-file-o" class="btn-secondary" invisible="not migration_report"/>
-                    <button name="action_reset_to_draft" type="object" string="Reset" icon="fa-undo" invisible="state in ('draft', 'migrating', 'generating')"/>
-                    <button name="action_archive" type="object" string="Archive" icon="fa-archive" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_load_source" type="object" string="Load Source" icon="upload" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_run_code_migration" type="object" string="Queue Code Migration" icon="settings" class="oe_highlight" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_retry_skipped_files" type="object" string="Retry Skipped/Error" icon="refresh" class="btn-secondary" invisible="not skipped_file_count or state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_download_migrated_zip" type="object" string="Download Zip" icon="download" class="btn-primary" invisible="not output_zip_attachment_id"/>
+                    <button name="action_generate_migration_plan" type="object" string="Generate AI Plan" icon="wand_stars" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_generate_static_report" type="object" string="Static Report" icon="article" class="btn-secondary" invisible="state in ('archived', 'migrating', 'generating')"/>
+                    <button name="action_export_report" type="object" string="Export Report" icon="description" class="btn-secondary" invisible="not migration_report"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset" icon="undo" invisible="state in ('draft', 'migrating', 'generating')"/>
+                    <button name="action_archive" type="object" string="Archive" icon="archive" invisible="state in ('archived', 'migrating', 'generating')"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,scanned,generating,generated,migrating,migrated"/>
                     <field name="ai_module_migrator_live_refresh_ping" widget="ai_migrator_auto_refresh"
                            invisible="1" options="{'interval': 6}"/>
@@ -45,19 +45,19 @@
                     <field name="active" invisible="1"/>
                     <field name="report_attachment_id" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_scan_source" type="object" class="oe_stat_button" icon="fa-files-o">
+                        <button name="action_scan_source" type="object" class="oe_stat_button" icon="content_copy">
                             <field name="file_count" widget="statinfo" string="Files"/>
                         </button>
-                        <button name="action_generate_static_report" type="object" class="oe_stat_button" icon="fa-code">
+                        <button name="action_generate_static_report" type="object" class="oe_stat_button" icon="code">
                             <field name="python_file_count" widget="statinfo" string="Python"/>
                         </button>
-                        <button name="action_download_migrated_zip" type="object" class="oe_stat_button" icon="fa-check-circle" invisible="state != 'migrated'">
+                        <button name="action_download_migrated_zip" type="object" class="oe_stat_button" icon="check_circle" invisible="state != 'migrated'">
                             <field name="migrated_file_count" widget="statinfo" string="Migrated"/>
                         </button>
-                        <button type="object" name="action_download_migrated_zip" class="oe_stat_button" icon="fa-exclamation-triangle" invisible="not skipped_file_count">
+                        <button type="object" name="action_download_migrated_zip" class="oe_stat_button" icon="warning" invisible="not skipped_file_count">
                             <field name="skipped_file_count" widget="statinfo" string="Skipped"/>
                         </button>
-                        <button type="object" name="action_download_migrated_zip" class="oe_stat_button" icon="fa-eye" invisible="not review_file_count">
+                        <button type="object" name="action_download_migrated_zip" class="oe_stat_button" icon="visibility" invisible="not review_file_count">
                             <field name="review_file_count" widget="statinfo" string="Needs Review"/>
                         </button>
                     </div>

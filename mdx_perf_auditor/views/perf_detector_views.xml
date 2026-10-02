@@ -18,7 +18,7 @@
                 <field name="threshold_keys" readonly="1" optional="hide"/>
                 <field name="active" widget="boolean_toggle"/>
                 <button name="action_view_findings" type="object" string="Findings"
-                        icon="fa-list" invisible="open_finding_count == 0"/>
+                        icon="format_list_bulleted" invisible="open_finding_count == 0"/>
             </list>
         </field>
     </record>

@@ -8,7 +8,7 @@
                 <page string="BigCommerce" invisible="not bigcommerce_order_id">
                     <button name="action_bigcommerce_resync" type="object"
                             string="Sync Now from BigCommerce" class="btn-secondary mb-3"
-                            icon="fa-refresh"/>
+                            icon="refresh"/>
                     <group>
                         <group>
                             <field name="bigcommerce_config_id" readonly="1"/>

@@ -13,9 +13,9 @@
                 <field name="last_counted_at" optional="show"/>
                 <field name="active" column_invisible="1"/>
                 <button name="action_encrypt_existing" type="object" string="Encrypt Existing"
-                        icon="fa-lock" class="btn-link" invisible="plaintext_count == 0"/>
+                        icon="lock" class="btn-link" invisible="plaintext_count == 0"/>
                 <button name="action_count" type="object" string="Recount"
-                        icon="fa-refresh" class="btn-link"/>
+                        icon="refresh" class="btn-link"/>
             </list>
         </field>
     </record>

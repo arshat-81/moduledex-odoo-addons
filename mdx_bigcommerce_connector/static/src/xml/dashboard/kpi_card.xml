@@ -4,7 +4,7 @@
     <t t-name="mdx_bigcommerce_connector.KpiCard">
         <div t-attf-class="bc_kpi_card bc_kpi_card--{{this.props.accent}}">
             <div class="bc_kpi_card_icon">
-                <i t-attf-class="fa {{this.props.icon}}" role="img" aria-hidden="true"/>
+                <i class="oi" t-att-data-icon="this.props.icon" role="img" aria-hidden="true"/>
             </div>
             <div class="bc_kpi_card_body">
                 <div class="bc_kpi_card_label"><t t-out="this.props.label"/></div>

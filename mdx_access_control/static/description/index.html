@@ -1,0 +1,138 @@
+<section style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1f1a33; max-width:980px; margin:0 auto; padding:24px 16px;">
+
+  <h1 style="font-size:38px; line-height:1.15; margin:0 0 14px; text-align:center;">Decide what each user can see and do. Without code.</h1>
+  <p style="font-size:17px; line-height:1.6; color:#5b5476; text-align:center; max-width:760px; margin:0 auto 40px;">
+    Hide menus, fields, buttons and tabs. Make fields read-only. Block create, edit and delete.
+    Limit which records a role can reach. Preview the result for a real user before anyone is
+    affected &mdash; and see afterwards exactly what was blocked.
+  </p>
+
+  <h2 style="font-size:27px; margin:0 0 18px; border-left:5px solid #6c4fd3; padding-left:16px;">The same quotation, two users</h2>
+  <figure style="margin:0 0 30px;">
+    <img src="10_sales_order_administrator.png" alt="A quotation as an unrestricted user sees it" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Without a profile: Cancel button, Other Info tab, editable payment terms.</figcaption>
+  </figure>
+  <figure style="margin:0 0 46px;">
+    <img src="11_sales_order_restricted_user.png" alt="The same quotation for a user under a profile" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Under the profile &ldquo;Sales - own documents only&rdquo;: no Cancel button, no Other Info tab, payment terms read-only, Reporting and Configuration menus gone.</figcaption>
+  </figure>
+
+  <h2 style="font-size:27px; margin:0 0 14px; border-left:5px solid #6c4fd3; padding-left:16px;">Built on Odoo 20's own access rules</h2>
+  <p style="font-size:15.5px; line-height:1.65; margin:0 0 18px; color:#3c3470; max-width:860px;">
+    Odoo 20 replaced access controls and record rules with a single model. A rule with a group
+    grants; a rule without one restricts everybody it applies to. This app writes its model and
+    record restrictions as exactly those native rules.
+  </p>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Enforced by the server</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">The web client, the API, exports and scheduled actions all pass through the same check. There is no back door, because nothing was bolted on beside the front one.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Visible in Odoo's own Access screen</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Every restriction a profile generates is listed where Odoo lists its own, with its domain. You can read exactly what was created.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Removed cleanly</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Suspend a profile and its restrictions are gone. Uninstall the app and they go with it.</p>
+    </div>
+  </div>
+
+  <figure style="margin:0 0 46px;">
+    <img src="09_native_odoo_restrictions.png" alt="The restrictions a profile generated, in Odoo's Access list" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">One profile, five native restrictions. Each is an ordinary Odoo 20 access rule that applies only to the profile's users.</figcaption>
+  </figure>
+
+  <h2 style="font-size:27px; margin:0 0 18px; border-left:5px solid #6c4fd3; padding-left:16px;">What a profile can restrict</h2>
+  <table style="width:100%; border-collapse:collapse; font-size:14.5px; line-height:1.5; margin-bottom:46px;">
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; width:26%; font-weight:600;">Models</td><td style="padding:12px 0;">Block create, edit or delete on any model. The Create, Edit and Delete controls disappear by themselves, because Odoo draws them from the same rule.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Records</td><td style="padding:12px 0;">Limit which records can be read, edited or deleted with an ordinary domain, such as <code>[('user_id', '=', user.id)]</code>.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Fields</td><td style="padding:12px 0;">Hidden, read-only or required, in every view of the model including lists embedded in other forms. A hidden field also leaves filters, grouping, sorting and the export list. Optionally reject writes on the server.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Buttons and tabs</td><td style="padding:12px 0;">Chosen from a list read out of the model's own views, so you tick names instead of looking them up.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Reports and actions</td><td style="padding:12px 0;">Remove entries from the Print and Action menus.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Chatter</td><td style="padding:12px 0;">Remove the messages and activities panel from a model's form.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Menus</td><td style="padding:12px 0;">Hide a menu and everything under it.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">Read-only access</td><td style="padding:12px 0;">One switch: the profile's users can look at everything they are allowed to see and change none of it. Their own preferences and saved filters keep working.</td></tr>
+    <tr style="border-bottom:1px solid #e6e2f5;"><td style="padding:12px 14px 12px 0; font-weight:600;">API access</td><td style="padding:12px 0;">Refuse XML-RPC, JSON-RPC and API keys for the profile's users at authentication. The browser login is untouched.</td></tr>
+    <tr><td style="padding:12px 14px 12px 0; font-weight:600;">Export and import</td><td style="padding:12px 0;">Refused by the server, and the Export button is withdrawn.</td></tr>
+  </table>
+
+  <h2 style="font-size:27px; margin:0 0 18px; border-left:5px solid #6c4fd3; padding-left:16px;">Setting one up</h2>
+  <figure style="margin:0 0 30px;">
+    <img src="02_profile_models_and_records.png" alt="A profile's model and record rules" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Who it applies to at the top; one line per model below. Tick what to block, or give a domain for the records they may read or edit.</figcaption>
+  </figure>
+  <figure style="margin:0 0 30px;">
+    <img src="03_profile_fields.png" alt="Field rules" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Fields: hidden, read-only or required, with the option to reject writes on the server.</figcaption>
+  </figure>
+  <figure style="margin:0 0 30px;">
+    <img src="06_pick_elements_from_views.png" alt="Picking buttons and tabs from a list" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Buttons, tabs and reports are read out of the model's own views. Tick the ones to hide.</figcaption>
+  </figure>
+  <figure style="margin:0 0 46px;">
+    <img src="07_read_only_auditor_profile.png" alt="A read-only profile for an external auditor" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Policies: read-only access, no API and no export, ending by itself on the date set.</figcaption>
+  </figure>
+
+  <h2 style="font-size:27px; margin:0 0 18px; border-left:5px solid #6c4fd3; padding-left:16px;">What makes it different</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px; margin-bottom:46px;">
+    <div style="flex:1 1 300px; border:1px solid #e6e2f5; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Preview before you enforce</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">A profile starts as a draft. Pick a user and see what they would lose: which menus, which operations, and how many of the records they see today would remain. Nothing applies until you enforce it.</p>
+    </div>
+    <div style="flex:1 1 300px; border:1px solid #e6e2f5; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">A log of what was blocked</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Every refusal caused by a profile is recorded: who, which operation, which model, which profile. The user's own error message names the profile too, so they know whom to ask instead of filing a bug.</p>
+    </div>
+    <div style="flex:1 1 300px; border:1px solid #e6e2f5; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Profiles, not per-user rules</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Assign a profile to users, to groups, or to a whole Odoo 20 role &mdash; every Light user, every regular User. New people are covered the day they join.</p>
+    </div>
+    <div style="flex:1 1 300px; border:1px solid #e6e2f5; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">You cannot lock yourself out</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Administrators are left out of every profile unless you explicitly include them, and the access configuration itself can never be restricted.</p>
+    </div>
+    <div style="flex:1 1 300px; border:1px solid #e6e2f5; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Restrictions with an end date</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Give a profile a start and an end. A freeze for the audit, a notice period, a trial &mdash; it starts and stops on its own, and says so in its history.</p>
+    </div>
+    <div style="flex:1 1 300px; border:1px solid #e6e2f5; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px;">Changes apply at once</h3>
+      <p style="margin:0; font-size:14.5px; line-height:1.55;">Edit a rule or add a user and it is in force on their next click. No logout, no restart, no cache to clear.</p>
+    </div>
+  </div>
+
+  <figure style="margin:0 0 30px;">
+    <img src="05_preview_before_enforcing.png" alt="Preview of a draft profile for one user" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Preview for a real user while the profile is still a draft: 6 of the 22 orders they see today would remain.</figcaption>
+  </figure>
+  <figure style="margin:0 0 30px;">
+    <img src="13_refusal_names_the_profile.png" alt="The error a restricted user gets" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">When something is refused, the message names the profile responsible.</figcaption>
+  </figure>
+  <figure style="margin:0 0 46px;">
+    <img src="08_blocked_attempts.png" alt="The log of blocked attempts" style="width:100%; border:1px solid #e6e2f5; border-radius:10px; box-shadow:0 6px 22px rgba(60,52,112,.10);"/>
+    <figcaption style="font-size:14px; line-height:1.55; color:#5b5476; margin-top:10px; text-align:center;">Blocked Attempts: who tried what, on which model, and which profile stopped it &mdash; including API logins and exports.</figcaption>
+  </figure>
+
+  <h2 style="font-size:27px; margin:0 0 14px; border-left:5px solid #6c4fd3; padding-left:16px;">What it does not do</h2>
+  <p style="font-size:14.5px; line-height:1.65; margin:0 0 46px; color:#3c3470; max-width:860px;">
+    Hiding a field, a button or a menu changes the interface. On its own it does not stop a
+    determined user from reaching the same data through the API. Model and record restrictions
+    do, because the server enforces them, and so do the read-only, API, export and import
+    policies. Use those for anything that has to hold; use hiding to keep screens simple.
+  </p>
+
+  <h2 style="font-size:27px; margin:0 0 18px; border-left:5px solid #6c4fd3; padding-left:16px;">What it needs</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:18px;">
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Odoo 20</h3>
+      <p style="margin:0; font-size:14.5px;">Community or Enterprise. Built on Odoo 20's unified access rules, so it does not exist for earlier versions.</p>
+    </div>
+    <div style="flex:1 1 280px; background:#f6f4fd; border-radius:12px; padding:20px 22px;">
+      <h3 style="margin:0 0 8px; font-size:16px; color:#3c3470;">Nothing else</h3>
+      <p style="margin:0; font-size:14.5px;">No extra Python packages, no other apps to buy, no server configuration.</p>
+    </div>
+  </div>
+</section>

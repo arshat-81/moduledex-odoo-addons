@@ -15,7 +15,7 @@
                 <field name="last_status"/>
                 <field name="is_stale" string="Stale"/>
                 <button name="action_backup_now" type="object" string="Back Up Now"
-                        icon="fa-play" class="btn-link"/>
+                        icon="play_arrow" class="btn-link"/>
             </list>
         </field>
     </record>
@@ -33,7 +33,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_runs" type="object" class="oe_stat_button"
-                                icon="fa-history">
+                                icon="history">
                             <field name="run_count" widget="statinfo" string="Backups"/>
                         </button>
                     </div>

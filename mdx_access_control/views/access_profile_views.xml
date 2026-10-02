@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_access_profile_list" model="ir.ui.view">
+        <field name="name">mdx.access.profile.list</field>
+        <field name="model">mdx.access.profile</field>
+        <field name="arch" type="xml">
+            <list string="Access Profiles" decoration-success="enforced"
+                  decoration-muted="not enforced">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="member_count"/>
+                <field name="enforced"/>
+                <field name="access_count" optional="show"/>
+                <field name="note" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_access_profile_form" model="ir.ui.view">
+        <field name="name">mdx.access.profile.form</field>
+        <field name="model">mdx.access.profile</field>
+        <field name="arch" type="xml">
+            <form string="Access Profile">
+                <header>
+                    <button name="action_preview" type="object" string="Preview"
+                            class="btn-primary" invisible="enforced"/>
+                    <button name="action_enforce" type="object" string="Enforce"
+                            invisible="enforced"
+                            confirm="The restrictions in this profile start applying to its users immediately. Continue?"/>
+                    <button name="action_preview" type="object" string="Preview"
+                            invisible="not enforced"/>
+                    <button name="action_suspend" type="object" string="Suspend"
+                            invisible="not enforced and not scheduled"/>
+                    <button name="action_schedule" type="object" string="Enforce on Schedule"
+                            invisible="enforced or scheduled or not valid_from"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_members" type="object" class="oe_stat_button"
+                                icon="group">
+                            <field name="member_count" widget="statinfo" string="Restricted Users"/>
+                        </button>
+                        <button name="action_view_access" type="object" class="oe_stat_button"
+                                icon="security">
+                            <field name="access_count" widget="statinfo"
+                                   string="Native Restrictions"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Enforced" bg_color="text-bg-success"
+                            invisible="not enforced"/>
+                    <widget name="web_ribbon" title="Scheduled" bg_color="text-bg-info"
+                            invisible="enforced or not scheduled"/>
+                    <widget name="web_ribbon" title="Draft" bg_color="text-bg-secondary"
+                            invisible="enforced or scheduled"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Sales - own documents only"/></h1>
+                    </div>
+                    <group>
+                        <group string="Who">
+                            <field name="user_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="group_ids" widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="role_scope"/>
+                            <field name="include_admins"/>
+                        </group>
+                        <group string="About">
+                            <field name="note" placeholder="What this profile is for"/>
+                            <field name="enforced"/>
+                            <field name="scheduled" invisible="not scheduled"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Models and Records" name="models">
+                            <p class="text-muted">
+                                Enforced by the server on every path: the web client, the API,
+                                exports and scheduled actions. Written as native Odoo access
+                                restrictions you can inspect from the button above.
+                            </p>
+                            <field name="model_rule_ids">
+                                <list editable="bottom">
+                                    <field name="model_id" options="{'no_create': True}"/>
+                                    <field name="no_create" string="No Create"/>
+                                    <field name="no_write" string="No Edit"/>
+                                    <field name="no_unlink" string="No Delete"/>
+                                    <field name="read_domain"
+                                           placeholder="[('user_id', '=', user.id)]"/>
+                                    <field name="write_domain" optional="show"/>
+                                    <field name="unlink_domain" optional="hide"/>
+                                    <field name="hide_chatter" string="No Chatter" optional="show"/>
+                                    <field name="summary" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Fields" name="fields">
+                            <p class="text-muted">
+                                Applied in every view of the model, including lists embedded in
+                                other forms. A hidden field also leaves filters, grouping, sorting
+                                and the export list.
+                            </p>
+                            <field name="field_rule_ids">
+                                <list editable="bottom">
+                                    <field name="model_id" options="{'no_create': True}"/>
+                                    <field name="field_id" options="{'no_create': True}"/>
+                                    <field name="invisible"/>
+                                    <field name="readonly"/>
+                                    <field name="required"/>
+                                    <field name="strict" string="Reject Writes" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Buttons, Tabs, Reports" name="elements">
+                            <div class="mb-2">
+                                <button name="action_pick_elements" type="object"
+                                        string="Pick from Views" class="btn-secondary"
+                                        icon="search"/>
+                            </div>
+                            <field name="element_rule_ids">
+                                <list editable="bottom">
+                                    <field name="model_id" options="{'no_create': True}"/>
+                                    <field name="kind"/>
+                                    <field name="label"/>
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Policies" name="policies">
+                            <group>
+                                <group string="What members may do at all">
+                                    <field name="read_only"/>
+                                    <field name="block_api"/>
+                                    <field name="block_export"/>
+                                    <field name="block_import"/>
+                                </group>
+                                <group string="Validity">
+                                    <field name="valid_from"/>
+                                    <field name="valid_until"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Menus" name="menus">
+                            <p class="text-muted">
+                                Hiding a menu hides everything under it. It removes the way in,
+                                not the data: block the model as well if the records themselves
+                                must be out of reach.
+                            </p>
+                            <field name="menu_ids" options="{'no_create': True}">
+                                <list>
+                                    <field name="complete_name" string="Menu"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_access_profile_search" model="ir.ui.view">
+        <field name="name">mdx.access.profile.search</field>
+        <field name="model">mdx.access.profile</field>
+        <field name="arch" type="xml">
+            <search string="Access Profiles">
+                <field name="name"/>
+                <field name="user_ids"/>
+                <field name="group_ids"/>
+                <filter name="enforced" string="Enforced" domain="[('enforced', '=', True)]"/>
+                <filter name="draft" string="Draft" domain="[('enforced', '=', False)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_access_profile" model="ir.actions.act_window">
+        <field name="name">Access Profiles</field>
+        <field name="res_model">mdx.access.profile</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create an access profile</p>
+            <p>A profile collects what a role may not see or do - menus, models, records,
+               fields, buttons. Build it, preview what a user would lose, then enforce it.</p>
+        </field>
+    </record>
+</odoo>

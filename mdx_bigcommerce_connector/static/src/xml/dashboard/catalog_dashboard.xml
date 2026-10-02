@@ -6,7 +6,7 @@
             <div class="bc_dashboard">
                 <div class="bc_dashboard_toolbar">
                     <h2 class="bc_dashboard_title">
-                        <i class="fa fa-cubes" role="img" aria-hidden="true"/> Catalog Dashboard
+                        <i class="oi" data-icon="inventory_2" role="img" aria-hidden="true"/> Catalog Dashboard
                     </h2>
                     <select class="bc_store_select" t-on-change="this.onConfigChange">
                         <option value="">All Stores</option>
@@ -24,22 +24,22 @@
                             label="'Total Products'"
                             value="`${this.state.data.total_products}`"
                             sublabel="`${this.state.data.visible_count} visible / ${this.state.data.hidden_count} hidden`"
-                            icon="'fa-cubes'" accent="'primary'"/>
+                            icon="'inventory_2'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'Total Variants'"
                             value="`${this.state.data.total_variants}`"
                             sublabel="`${this.state.data.total_stock} units in stock`"
-                            icon="'fa-th-large'" accent="'primary'"/>
+                            icon="'view_module'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'Average Price'"
                             value="this.state.data.avg_price.toFixed(2)"
-                            icon="'fa-tag'" accent="'primary'"/>
+                            icon="'sell'" accent="'primary'"/>
                         <BigcommerceKpiCard
                             label="'Sync Errors'"
                             value="`${this.state.data.error_count}`"
                             sublabel="`${this.state.data.synced_count} synced OK`"
                             accent="this.state.data.error_count > 0 ? 'danger' : 'success'"
-                            icon="'fa-exclamation-triangle'"/>
+                            icon="'warning'"/>
                     </div>
 
                     <div class="bc_chart_row">

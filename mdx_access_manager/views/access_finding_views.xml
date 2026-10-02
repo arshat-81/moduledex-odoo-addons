@@ -16,9 +16,9 @@
                 <field name="status"/>
                 <field name="detected_at" optional="hide"/>
                 <button name="action_acknowledge" type="object" string="Acknowledge"
-                        icon="fa-check" class="btn-link" invisible="status != 'open'"/>
+                        icon="check" class="btn-link" invisible="status != 'open'"/>
                 <button name="action_open_target" type="object" string="Open"
-                        icon="fa-external-link" class="btn-link"/>
+                        icon="open_in_new" class="btn-link"/>
             </list>
         </field>
     </record>

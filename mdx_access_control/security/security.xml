@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="module_category_access_control" model="ir.module.category">
+        <field name="name">User Access Control</field>
+        <field name="sequence">31</field>
+    </record>
+
+    <record id="privilege_access_control" model="res.groups.privilege">
+        <field name="name">User Access Control</field>
+        <field name="sequence">31</field>
+        <field name="category_id" ref="mdx_access_control.module_category_access_control"/>
+    </record>
+
+    <!-- One group. Whoever writes a profile decides what other people may see
+         and do, which is an administrative act with no meaningful junior tier. -->
+    <record id="group_access_control_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="mdx_access_control.privilege_access_control"/>
+        <field name="comment">Create access profiles, preview them and enforce them.</field>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('mdx_access_control.group_access_control_manager'))]"/>
+    </record>
+</odoo>

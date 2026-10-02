@@ -45,7 +45,7 @@
                                     <field name="can_unlink" widget="boolean_toggle" readonly="1"/>
                                     <field name="rule_note" optional="show"/>
                                     <button name="action_explain" type="object" string="Why?"
-                                            icon="fa-question-circle" class="btn-link"/>
+                                            icon="help" class="btn-link"/>
                                 </list>
                             </field>
                         </page>

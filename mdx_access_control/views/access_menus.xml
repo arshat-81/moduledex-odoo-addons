@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_access_control_root" name="Access Control"
+              web_icon="mdx_access_control,static/description/icon.png"
+              sequence="98" groups="mdx_access_control.group_access_control_manager"/>
+    <menuitem id="menu_access_profile" name="Profiles"
+              parent="menu_access_control_root" action="action_access_profile" sequence="10"/>
+    <menuitem id="menu_access_denial" name="Blocked Attempts"
+              parent="menu_access_control_root" action="action_access_denial" sequence="20"/>
+</odoo>

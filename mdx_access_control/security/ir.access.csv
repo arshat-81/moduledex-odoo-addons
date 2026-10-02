@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_profile_manager,mdx.access.profile manager,mdx.access.profile,mdx_access_control.group_access_control_manager,crud,
+access_model_rule_manager,mdx.access.model.rule manager,mdx.access.model.rule,mdx_access_control.group_access_control_manager,crud,
+access_field_rule_manager,mdx.access.field.rule manager,mdx.access.field.rule,mdx_access_control.group_access_control_manager,crud,
+access_element_rule_manager,mdx.access.element.rule manager,mdx.access.element.rule,mdx_access_control.group_access_control_manager,crud,
+access_denial_manager,mdx.access.denial manager,mdx.access.denial,mdx_access_control.group_access_control_manager,rd,
+access_preview_manager,mdx.access.preview manager,mdx.access.preview,mdx_access_control.group_access_control_manager,crud,
+access_element_picker_manager,mdx.access.element.picker manager,mdx.access.element.picker,mdx_access_control.group_access_control_manager,crud,
+access_element_picker_line_manager,mdx.access.element.picker.line manager,mdx.access.element.picker.line,mdx_access_control.group_access_control_manager,crud,

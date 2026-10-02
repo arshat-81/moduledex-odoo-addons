@@ -18,12 +18,12 @@
                     <button class="btn btn-sm o_perf_deep" t-att-disabled="this.state.running"
                             title="Explains real captured queries, measures bloat, projects growth"
                             t-on-click="() => this.runAudit('deep')">
-                        <i class="fa" t-att-class="this.state.running === 'deep' ? 'fa-circle-o-notch fa-spin' : 'fa-flask'"/>
+                        <i class="oi" t-att-class="{ 'oi-spin': this.state.running === 'deep' }" t-att-data-icon="this.state.running === 'deep' ? 'progress_activity' : 'science'"/>
                         <span t-out="this.state.running === 'deep' ? 'Analysing…' : 'Deep analysis'"/>
                     </button>
                     <button class="btn btn-sm o_perf_run" t-att-disabled="this.state.running"
                             t-on-click="() => this.runAudit('quick')">
-                        <i class="fa" t-att-class="this.state.running === 'quick' ? 'fa-circle-o-notch fa-spin' : 'fa-play'"/>
+                        <i class="oi" t-att-class="{ 'oi-spin': this.state.running === 'quick' }" t-att-data-icon="this.state.running === 'quick' ? 'progress_activity' : 'play_arrow'"/>
                         <span t-out="this.state.running === 'quick' ? 'Running…' : 'Run audit'"/>
                     </button>
                 </div>
@@ -33,7 +33,7 @@
             <div class="o_perf_capture" t-att-class="{ 'is-live': this.capture.active }" t-if="!this.state.loading">
                 <div class="o_perf_capture_l">
                     <span class="o_perf_capture_dot" t-if="this.capture.active"/>
-                    <i class="fa fa-crosshairs" t-else=""/>
+                    <i class="oi" data-icon="my_location" t-else=""/>
                     <t t-if="this.capture.active">
                         <b>Capturing live traffic</b>
                         <span class="o_perf_capture_meta">
@@ -72,7 +72,7 @@
             <!-- empty state -->
             <div t-elif="!this.hasRun" class="o_perf_empty">
                 <div class="o_perf_empty_card">
-                    <i class="fa fa-heartbeat"/>
+                    <i class="oi" data-icon="speed"/>
                     <h3>No audit yet</h3>
                     <p>Run the first audit to see the health score, the ranked findings, and the database trend.</p>
                     <button class="btn o_perf_run" t-on-click="() => this.runAudit()" t-att-disabled="this.state.running">
@@ -112,7 +112,7 @@
                                 <span class="o_perf_chip is-crit" t-if="cat.critical" t-out="cat.critical"/>
                                 <span class="o_perf_chip is-warn" t-if="cat.warning" t-out="cat.warning"/>
                                 <span class="o_perf_chip is-info" t-if="cat.info" t-out="cat.info"/>
-                                <i class="fa fa-check o_perf_ok_tick" t-if="!cat.total"/>
+                                <i class="oi o_perf_ok_tick" data-icon="check" t-if="!cat.total"/>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                                     t-on-click="() => this.setGroupBy('target_kind')">Type</button>
                         </div>
                         <div class="o_perf_search">
-                            <i class="fa fa-search"/>
+                            <i class="oi" data-icon="search"/>
                             <input type="text" placeholder="Filter findings…"
                                    t-att-value="this.state.search" t-on-input="(ev) => this.onSearch(ev)"/>
                         </div>
@@ -173,7 +173,7 @@
 
                     <div class="o_perf_group_block" t-foreach="this.groups" t-as="grp" t-key="grp.key">
                         <div class="o_perf_group_head" t-on-click="() => this.toggleGroup(grp.key)">
-                            <i class="fa" t-att-class="this.state.collapsed[grp.key] ? 'fa-caret-right' : 'fa-caret-down'"/>
+                            <i class="oi" t-att-data-icon="this.state.collapsed[grp.key] ? 'arrow_right' : 'arrow_drop_down'"/>
                             <span class="o_perf_group_label" t-out="grp.label"/>
                             <span class="o_perf_group_count" t-out="grp.items.length"/>
                         </div>
@@ -198,10 +198,10 @@
                                     </div>
                                     <button class="o_perf_fixbtn" t-if="f.fixable"
                                             t-on-click.stop="() => this.findingAction(f.id, 'action_apply_fix')">
-                                        <i class="fa fa-wrench"/> <t t-out="this.fixVerb(f.fix_kind)"/>
+                                        <i class="oi" data-icon="build"/> <t t-out="this.fixVerb(f.fix_kind)"/>
                                     </button>
-                                    <i class="fa o_perf_row_chev"
-                                       t-att-class="this.state.expanded[f.id] ? 'fa-angle-up' : 'fa-angle-down'"/>
+                                    <i class="oi o_perf_row_chev"
+                                       t-att-data-icon="this.state.expanded[f.id] ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"/>
                                 </div>
 
                                 <div class="o_perf_row_detail" t-if="this.state.expanded[f.id]">
@@ -228,7 +228,7 @@
                                     <div class="o_perf_row_actions">
                                         <button class="btn btn-sm o_perf_run" t-if="f.fixable"
                                                 t-on-click="() => this.findingAction(f.id, 'action_apply_fix')">
-                                            <i class="fa fa-wrench"/> <t t-out="this.fixVerb(f.fix_kind)"/>
+                                            <i class="oi" data-icon="build"/> <t t-out="this.fixVerb(f.fix_kind)"/>
                                         </button>
                                         <button class="btn btn-sm btn-secondary" t-if="f.status === 'open'"
                                                 t-on-click="() => this.findingAction(f.id, 'action_acknowledge')">Acknowledge</button>

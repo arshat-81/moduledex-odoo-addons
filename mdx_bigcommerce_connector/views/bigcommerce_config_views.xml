@@ -30,21 +30,21 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_orders" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                        <button name="action_view_orders" type="object" class="oe_stat_button" icon="shopping_cart">
                             <field name="order_count" widget="statinfo" string="Orders"/>
                         </button>
-                        <button name="action_view_products" type="object" class="oe_stat_button" icon="fa-cubes">
+                        <button name="action_view_products" type="object" class="oe_stat_button" icon="inventory_2">
                             <field name="product_count" widget="statinfo" string="Products"/>
                         </button>
-                        <button name="action_view_carts" type="object" class="oe_stat_button" icon="fa-shopping-basket">
+                        <button name="action_view_carts" type="object" class="oe_stat_button" icon="shopping_basket">
                             <field name="cart_count" widget="statinfo" string="Carts"/>
                         </button>
                         <button name="action_view_jobs" type="object" class="oe_stat_button"
-                                icon="fa-tasks" invisible="not use_job_queue"
+                                icon="checklist" invisible="not use_job_queue"
                                 groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
                             <field name="job_pending_count" widget="statinfo" string="Queued"/>
                         </button>
-                        <button name="action_sync_channels" type="object" class="oe_stat_button" icon="fa-sitemap" groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
+                        <button name="action_sync_channels" type="object" class="oe_stat_button" icon="account_tree" groups="mdx_bigcommerce_connector.group_bigcommerce_manager">
                             <field name="channel_count" widget="statinfo" string="Storefronts"/>
                         </button>
                     </div>
