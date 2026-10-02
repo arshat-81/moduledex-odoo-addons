@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_perf_audit_run,perf.audit.run manager,perf.audit.run,mdx_perf_auditor.group_perf_manager,crud,
+access_perf_audit_finding,perf.audit.finding manager,perf.audit.finding,mdx_perf_auditor.group_perf_manager,crud,
+access_perf_db_snapshot,perf.db.snapshot manager,perf.db.snapshot,mdx_perf_auditor.group_perf_manager,crud,
+access_perf_cron_run,perf.cron.run manager,perf.cron.run,mdx_perf_auditor.group_perf_manager,rd,
+access_perf_model_analysis,perf.model.analysis manager,perf.model.analysis,mdx_perf_auditor.group_perf_manager,crud,
+access_perf_detector,perf.detector manager,perf.detector,mdx_perf_auditor.group_perf_manager,crud,
