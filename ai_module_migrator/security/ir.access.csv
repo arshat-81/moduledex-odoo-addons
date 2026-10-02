@@ -1,0 +1,14 @@
+id,name,model_id,group_id/id,operation,domain
+access_ai_module_migration_job_user,ai.module.migration.job user,ai.module.migration.job,ai_module_migrator.group_ai_module_migrator_user,cru,
+access_ai_module_migration_job_manager,ai.module.migration.job manager,ai.module.migration.job,ai_module_migrator.group_ai_module_migrator_manager,crud,
+access_ai_module_migration_file_user,ai.module.migration.file user,ai.module.migration.file,ai_module_migrator.group_ai_module_migrator_user,r,
+access_ai_module_migration_file_manager,ai.module.migration.file manager,ai.module.migration.file,ai_module_migrator.group_ai_module_migrator_manager,crud,
+access_ai_module_migration_log_user,ai.module.migration.log user,ai.module.migration.log,ai_module_migrator.group_ai_module_migrator_user,r,
+access_ai_module_migration_log_manager,ai.module.migration.log manager,ai.module.migration.log,ai_module_migrator.group_ai_module_migrator_manager,crud,
+access_ai_module_migrator_usage_log_user,ai.module.migrator.usage.log user,ai.module.migrator.usage.log,ai_module_migrator.group_ai_module_migrator_user,r,
+access_ai_module_migrator_usage_log_manager,ai.module.migrator.usage.log manager,ai.module.migrator.usage.log,ai_module_migrator.group_ai_module_migrator_manager,crud,
+access_ai_module_migration_queue_user,ai.module.migration.queue user,ai.module.migration.queue,ai_module_migrator.group_ai_module_migrator_user,r,
+access_ai_module_migration_queue_manager,ai.module.migration.queue manager,ai.module.migration.queue,ai_module_migrator.group_ai_module_migrator_manager,crud,
+ai_module_migration_job_company_rule,AI migration jobs multi-company,ai.module.migration.job,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+ai_module_migration_file_company_rule,AI migration files multi-company,ai.module.migration.file,,crud,"['|', ('job_id.company_id', '=', False), ('job_id.company_id', 'in', company_ids)]"
+ai_module_migration_log_company_rule,AI migration logs multi-company,ai.module.migration.log,,crud,"['|', ('job_id.company_id', '=', False), ('job_id.company_id', 'in', company_ids)]"

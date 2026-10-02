@@ -1,0 +1,25 @@
+<odoo noupdate="1">
+    <!-- The migrator's own job runner. This is what replaces OCA queue_job:
+         a plain scheduled action needs no server_wide_modules entry and no
+         [queue_job] section in odoo.conf, so the module works unchanged on
+         Odoo.sh and other hosting where queue_job's runner cannot start. -->
+    <record id="ir_cron_ai_module_migrator_run_jobs" model="ir.cron">
+        <field name="name">AI Migrator: Run queued tasks</field>
+        <field name="model_id" ref="model_ai_module_migration_queue"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_run_jobs()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="ir_cron_ai_module_migrator_vacuum_jobs" model="ir.cron">
+        <field name="name">AI Migrator: Clean up finished tasks</field>
+        <field name="model_id" ref="model_ai_module_migration_queue"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_vacuum(days=7)</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
