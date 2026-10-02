@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_mdx_security_simulator,access.mdx.security.simulator,mdx.security.simulator,base.group_system,crud,
+access_mdx_security_simulator_operation_line,access.mdx.security.simulator.operation.line,mdx.security.simulator.operation.line,base.group_system,crud,
+access_mdx_security_simulator_access_line,access.mdx.security.simulator.access.line,mdx.security.simulator.access.line,base.group_system,crud,
+access_mdx_security_simulator_rule_line,access.mdx.security.simulator.rule.line,mdx.security.simulator.rule.line,base.group_system,crud,
+access_mdx_security_simulator_group_line,access.mdx.security.simulator.group.line,mdx.security.simulator.group.line,base.group_system,crud,
+access_mdx_security_simulator_field_line,access.mdx.security.simulator.field.line,mdx.security.simulator.field.line,base.group_system,crud,
+access_mdx_security_simulator_action_line,access.mdx.security.simulator.action.line,mdx.security.simulator.action.line,base.group_system,crud,
