@@ -1,0 +1,38 @@
+<odoo>
+    <record id="view_bigcommerce_import_wizard_form" model="ir.ui.view">
+        <field name="name">bigcommerce.import.wizard.form</field>
+        <field name="model">bigcommerce.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import from BigCommerce">
+                <group>
+                    <field name="config_id"/>
+                    <field name="entity"/>
+                    <field name="mode" widget="radio"/>
+                </group>
+                <group invisible="mode != 'specific'">
+                    <field name="specific_ids" placeholder="e.g. 77, 80, 88"
+                           required="mode == 'specific'"/>
+                </group>
+                <group invisible="mode != 'range'" col="4">
+                    <field name="bc_id_from"/>
+                    <field name="bc_id_to"/>
+                </group>
+                <div class="alert alert-info" role="alert" invisible="entity not in ('category', 'price_list')">
+                    Categories and price lists are always imported in full — BigCommerce
+                    doesn't offer a useful per-id filter for them.
+                </div>
+                <footer>
+                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import from BigCommerce</field>
+        <field name="res_model">bigcommerce.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { Component, onMounted, onWillUnmount } from "@odoo/owl";
+import { Component, onMounted, onWillUnmount, t, useProps } from "@odoo/owl";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
 
 /**
@@ -31,10 +31,12 @@ import { standardFieldProps } from "@web/views/fields/standard_field_props";
  */
 export class AiMigratorAutoRefresh extends Component {
     static template = "ai_module_migrator.AutoRefreshWidget";
-    static props = {
+    // Owl 3 (Odoo 20) ignores a static props schema and Odoo refuses to
+    // create a component that still declares one.
+    props = useProps({
         ...standardFieldProps,
-        interval: { type: Number, optional: true },
-    };
+        interval: t.number().optional(),
+    });
 
     setup() {
         this.timer = null;

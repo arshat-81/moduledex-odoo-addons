@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_bigcommerce_price_list_list" model="ir.ui.view">
+        <field name="name">bigcommerce.price.list.list</field>
+        <field name="model">bigcommerce.price.list</field>
+        <field name="arch" type="xml">
+            <list string="Price Lists">
+                <field name="config_id"/>
+                <field name="name"/>
+                <field name="pricelist_id"/>
+                <field name="record_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_price_list_form" model="ir.ui.view">
+        <field name="name">bigcommerce.price.list.form</field>
+        <field name="model">bigcommerce.price.list</field>
+        <field name="arch" type="xml">
+            <form string="Price List">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="config_id"/>
+                        <field name="pricelist_id"/>
+                        <field name="channel_ids" widget="many2many_tags"/>
+                        <field name="customer_group_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Records">
+                            <field name="record_count" invisible="1"/>
+                            <button name="sync_records" type="object" string="Refresh Records" class="btn-secondary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_price_list" model="ir.actions.act_window">
+        <field name="name">Price Lists</field>
+        <field name="res_model">bigcommerce.price.list</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

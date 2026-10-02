@@ -1,0 +1,126 @@
+<odoo>
+    <record id="view_bigcommerce_product_list" model="ir.ui.view">
+        <field name="name">bigcommerce.product.list</field>
+        <field name="model">bigcommerce.product</field>
+        <field name="arch" type="xml">
+            <list string="Products" decoration-danger="sync_state == 'error'" decoration-muted="sync_state == 'pending'">
+                <field name="config_id"/>
+                <field name="name"/>
+                <field name="sku"/>
+                <field name="brand_name"/>
+                <field name="variant_count"/>
+                <field name="is_visible"/>
+                <field name="sync_state" widget="badge"/>
+                <field name="last_synced"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_product_form" model="ir.ui.view">
+        <field name="name">bigcommerce.product.form</field>
+        <field name="model">bigcommerce.product</field>
+        <field name="arch" type="xml">
+            <form string="Product">
+                <header>
+                    <button name="action_resync" type="object" string="Sync Now"
+                            class="btn-primary" icon="fa-refresh"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sku"/>
+                            <field name="brand_name"/>
+                            <field name="category_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="config_id"/>
+                            <field name="inventory_tracking"/>
+                            <field name="is_visible"/>
+                            <field name="sync_state" readonly="1"/>
+                            <field name="last_synced" readonly="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-danger" role="alert" invisible="sync_state != 'error'">
+                        <field name="sync_error" readonly="1"/>
+                    </div>
+                    <notebook>
+                        <page string="Variants">
+                            <field name="variant_ids">
+                                <list editable="bottom">
+                                    <field name="sku"/>
+                                    <field name="option_summary"/>
+                                    <field name="product_id"/>
+                                    <field name="price"/>
+                                    <field name="sale_price"/>
+                                    <field name="inventory_level"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Modifiers">
+                            <field name="modifier_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="modifier_type"/>
+                                    <field name="required"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Images">
+                            <field name="image_ids">
+                                <list>
+                                    <field name="image_data" widget="image"
+                                           options="{'size': [80, 80]}" string="Image"/>
+                                    <field name="image_url" widget="url"/>
+                                    <field name="is_thumbnail"/>
+                                    <field name="sort_order"/>
+                                    <button name="fetch_image_data" type="object"
+                                            icon="fa-download" title="Download image now"/>
+                                </list>
+                                <form string="Image">
+                                    <sheet>
+                                        <field name="image_data" widget="image" class="oe_avatar"
+                                               options="{'size': [256, 256]}"/>
+                                        <group>
+                                            <field name="image_url" widget="url"/>
+                                            <field name="is_thumbnail"/>
+                                            <field name="sort_order"/>
+                                            <field name="fetched_url" readonly="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_product_variant_list" model="ir.ui.view">
+        <field name="name">bigcommerce.product.variant.list</field>
+        <field name="model">bigcommerce.product.variant</field>
+        <field name="arch" type="xml">
+            <list string="Variants">
+                <field name="bigcommerce_product_id"/>
+                <field name="sku"/>
+                <field name="option_summary"/>
+                <field name="product_id"/>
+                <field name="price"/>
+                <field name="inventory_level"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_product" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="res_model">bigcommerce.product</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_bigcommerce_product_variant" model="ir.actions.act_window">
+        <field name="name">Variants</field>
+        <field name="res_model">bigcommerce.product.variant</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

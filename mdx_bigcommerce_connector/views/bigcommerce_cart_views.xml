@@ -1,0 +1,78 @@
+<odoo>
+    <record id="view_bigcommerce_cart_list" model="ir.ui.view">
+        <field name="name">bigcommerce.cart.list</field>
+        <field name="model">bigcommerce.cart</field>
+        <field name="arch" type="xml">
+            <list string="Carts" decoration-warning="state == 'abandoned'" decoration-success="state == 'converted'">
+                <field name="config_id"/>
+                <field name="bc_cart_id"/>
+                <field name="email"/>
+                <field name="partner_id"/>
+                <field name="subtotal"/>
+                <field name="line_count"/>
+                <field name="state"/>
+                <field name="updated_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_cart_form" model="ir.ui.view">
+        <field name="name">bigcommerce.cart.form</field>
+        <field name="model">bigcommerce.cart</field>
+        <field name="arch" type="xml">
+            <form string="Cart">
+                <header>
+                    <button name="action_convert_to_lead" type="object" string="Convert to CRM Lead"
+                            class="btn-primary" invisible="lead_id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="config_id"/>
+                            <field name="channel_id"/>
+                            <field name="email"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="subtotal"/>
+                            <field name="lead_id"/>
+                            <field name="updated_at"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list>
+                            <field name="name"/>
+                            <field name="sku"/>
+                            <field name="quantity"/>
+                            <field name="list_price"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_cart_search" model="ir.ui.view">
+        <field name="name">bigcommerce.cart.search</field>
+        <field name="model">bigcommerce.cart</field>
+        <field name="arch" type="xml">
+            <search string="Carts">
+                <field name="email"/>
+                <field name="partner_id"/>
+                <filter name="abandoned" string="Abandoned" domain="[('state', '=', 'abandoned')]"/>
+                <filter name="converted" string="Converted" domain="[('state', '=', 'converted')]"/>
+                <group>
+                    <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_cart" model="ir.actions.act_window">
+        <field name="name">Carts</field>
+        <field name="res_model">bigcommerce.cart</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_abandoned': 1}</field>
+    </record>
+</odoo>

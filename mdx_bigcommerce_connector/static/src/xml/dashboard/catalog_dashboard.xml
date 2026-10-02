@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mdx_bigcommerce_connector.CatalogDashboard">
+        <Layout display="this.display">
+            <div class="bc_dashboard">
+                <div class="bc_dashboard_toolbar">
+                    <h2 class="bc_dashboard_title">
+                        <i class="fa fa-cubes" role="img" aria-hidden="true"/> Catalog Dashboard
+                    </h2>
+                    <select class="bc_store_select" t-on-change="this.onConfigChange">
+                        <option value="">All Stores</option>
+                        <t t-foreach="this.state.configs" t-as="config" t-key="config.id">
+                            <option t-att-value="config.id" t-att-selected="config.id === this.state.configId">
+                                <t t-out="config.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <t t-if="this.state.data">
+                    <div class="bc_kpi_row">
+                        <BigcommerceKpiCard
+                            label="'Total Products'"
+                            value="`${this.state.data.total_products}`"
+                            sublabel="`${this.state.data.visible_count} visible / ${this.state.data.hidden_count} hidden`"
+                            icon="'fa-cubes'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'Total Variants'"
+                            value="`${this.state.data.total_variants}`"
+                            sublabel="`${this.state.data.total_stock} units in stock`"
+                            icon="'fa-th-large'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'Average Price'"
+                            value="this.state.data.avg_price.toFixed(2)"
+                            icon="'fa-tag'" accent="'primary'"/>
+                        <BigcommerceKpiCard
+                            label="'Sync Errors'"
+                            value="`${this.state.data.error_count}`"
+                            sublabel="`${this.state.data.synced_count} synced OK`"
+                            accent="this.state.data.error_count > 0 ? 'danger' : 'success'"
+                            icon="'fa-exclamation-triangle'"/>
+                    </div>
+
+                    <div class="bc_chart_row">
+                        <div class="bc_chart_card">
+                            <div class="bc_chart_card_title">Sync Health</div>
+                            <div class="bc_chart_card_canvas">
+                                <canvas t-ref="this.syncChart.ref"/>
+                            </div>
+                        </div>
+                        <div class="bc_chart_card">
+                            <div class="bc_chart_card_title">Stock Health</div>
+                            <div class="bc_chart_card_canvas">
+                                <canvas t-ref="this.stockChart.ref"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bc_chart_row">
+                        <div class="bc_chart_card bc_chart_card--wide">
+                            <div class="bc_chart_card_title">Top Brands</div>
+                            <div class="bc_chart_card_canvas">
+                                <canvas t-ref="this.brandChart.ref"/>
+                            </div>
+                        </div>
+                        <div class="bc_chart_card bc_chart_card--wide">
+                            <div class="bc_chart_card_title">Top Categories</div>
+                            <div class="bc_chart_card_canvas">
+                                <canvas t-ref="this.categoryChart.ref"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </Layout>
+    </t>
+
+</templates>

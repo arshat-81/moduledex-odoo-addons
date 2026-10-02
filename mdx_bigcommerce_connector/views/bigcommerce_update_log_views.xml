@@ -1,0 +1,44 @@
+<odoo>
+    <record id="view_bigcommerce_update_log_list" model="ir.ui.view">
+        <field name="name">bigcommerce.update.log.list</field>
+        <field name="model">bigcommerce.update.log</field>
+        <field name="arch" type="xml">
+            <list string="Sync Log" decoration-danger="status == 'error'" decoration-warning="status == 'warning'">
+                <field name="create_date"/>
+                <field name="config_id"/>
+                <field name="operation"/>
+                <field name="run_id" optional="hide"/>
+                <field name="field_updated" optional="hide"/>
+                <field name="variant_id" optional="hide"/>
+                <field name="old_value" optional="hide"/>
+                <field name="new_value" optional="hide"/>
+                <field name="status"/>
+                <field name="record_count"/>
+                <field name="message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bigcommerce_update_log_search" model="ir.ui.view">
+        <field name="name">bigcommerce.update.log.search</field>
+        <field name="model">bigcommerce.update.log</field>
+        <field name="arch" type="xml">
+            <search string="Sync Log">
+                <field name="operation"/>
+                <field name="run_id"/>
+                <field name="variant_id"/>
+                <filter name="errors" string="Errors" domain="[('status', '=', 'error')]"/>
+                <group>
+                    <filter name="group_by_run" string="Run" context="{'group_by': 'run_id'}"/>
+                    <filter name="group_by_operation" string="Operation" context="{'group_by': 'operation'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_update_log" model="ir.actions.act_window">
+        <field name="name">Sync Log</field>
+        <field name="res_model">bigcommerce.update.log</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

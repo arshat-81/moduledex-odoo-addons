@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_bigcommerce_channel_list" model="ir.ui.view">
+        <field name="name">bigcommerce.channel.list</field>
+        <field name="model">bigcommerce.channel</field>
+        <field name="arch" type="xml">
+            <list string="Storefronts">
+                <field name="config_id"/>
+                <field name="name"/>
+                <field name="platform"/>
+                <field name="channel_type"/>
+                <field name="pricelist_id"/>
+                <field name="is_default"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_bigcommerce_channel" model="ir.actions.act_window">
+        <field name="name">Storefronts</field>
+        <field name="res_model">bigcommerce.channel</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>
