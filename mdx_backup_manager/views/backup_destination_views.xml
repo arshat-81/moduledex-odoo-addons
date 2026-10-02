@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_backup_destination_list" model="ir.ui.view">
+        <field name="name">mdx.backup.destination.list</field>
+        <field name="model">mdx.backup.destination</field>
+        <field name="arch" type="xml">
+            <list string="Destinations" decoration-danger="last_status == 'failed' or is_stale"
+                  decoration-warning="last_status == 'unverified'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="destination_type"/>
+                <field name="db_name"/>
+                <field name="interval_hours"/>
+                <field name="last_success"/>
+                <field name="last_status"/>
+                <field name="is_stale" string="Stale"/>
+                <button name="action_backup_now" type="object" string="Back Up Now"
+                        icon="fa-play" class="btn-link"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_backup_destination_form" model="ir.ui.view">
+        <field name="name">mdx.backup.destination.form</field>
+        <field name="model">mdx.backup.destination</field>
+        <field name="arch" type="xml">
+            <form string="Backup Destination">
+                <header>
+                    <button name="action_test_connection" type="object" string="Test Connection"/>
+                    <button name="action_backup_now" type="object" string="Back Up Now"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_runs" type="object" class="oe_stat_button"
+                                icon="fa-history">
+                            <field name="run_count" widget="statinfo" string="Backups"/>
+                        </button>
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="not is_stale">
+                        No verified backup within the warning window. If this destination is
+                        supposed to be running, it has stopped.
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Nightly off-site"/></h1>
+                    </div>
+                    <group>
+                        <group string="What">
+                            <field name="db_name"/>
+                            <field name="with_filestore"/>
+                            <field name="destination_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="When">
+                            <field name="interval_hours"/>
+                            <field name="last_success"/>
+                            <field name="last_status"/>
+                            <field name="is_stale" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Where">
+                        <group invisible="destination_type != 'local'">
+                            <field name="local_path" placeholder="/var/backups/odoo"
+                                   required="destination_type == 'local'"/>
+                        </group>
+                        <group invisible="destination_type == 'local'">
+                            <field name="host" required="destination_type != 'local'"/>
+                            <field name="port" placeholder="21 for FTP, 22 for SFTP"/>
+                            <field name="username"/>
+                            <field name="password" password="True"/>
+                            <field name="remote_path"/>
+                            <field name="use_tls" invisible="destination_type != 'ftp'"/>
+                            <field name="timeout"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Retention">
+                            <field name="keep_count"/>
+                            <field name="keep_days"/>
+                        </group>
+                        <group string="Alerting">
+                            <field name="alert_user_ids" widget="many2many_tags"/>
+                            <field name="stale_after_hours"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="History" name="history">
+                            <field name="run_ids" readonly="1">
+                                <list decoration-success="state == 'success'"
+                                      decoration-warning="state == 'unverified'"
+                                      decoration-danger="state == 'failed'"
+                                      decoration-muted="pruned">
+                                    <field name="started_at"/>
+                                    <field name="filename"/>
+                                    <field name="size_human"/>
+                                    <field name="duration_s"/>
+                                    <field name="state"/>
+                                    <field name="pruned"/>
+                                    <field name="message" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_backup_destination" model="ir.actions.act_window">
+        <field name="name">Destinations</field>
+        <field name="res_model">mdx.backup.destination</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a backup destination</p>
+            <p>Every backup is read back from the destination and checked before it counts as
+               done, and you are told when a destination goes quiet.</p>
+        </field>
+    </record>
+</odoo>

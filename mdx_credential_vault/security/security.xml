@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="module_category_credential_vault" model="ir.module.category">
+        <field name="name">Credential Encryption</field>
+        <field name="sequence">35</field>
+    </record>
+
+    <record id="privilege_credential_vault" model="res.groups.privilege">
+        <field name="name">Credential Encryption</field>
+        <field name="sequence">35</field>
+        <field name="category_id" ref="mdx_credential_vault.module_category_credential_vault"/>
+    </record>
+
+    <!-- Deliberately one group. Choosing which columns get encrypted, and
+         running the migration that rewrites them, is a single administrative
+         act; there is no meaningful read-only tier below it. -->
+    <record id="group_credential_vault_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="mdx_credential_vault.privilege_credential_vault"/>
+        <field name="comment">Choose which fields are encrypted and run the migration. Does not grant access to the credentials themselves - that stays with each field's own access rules.</field>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('mdx_credential_vault.group_credential_vault_manager'))]"/>
+    </record>
+</odoo>

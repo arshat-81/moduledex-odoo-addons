@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_backup_root" name="Backups"
+              web_icon="mdx_backup_manager,static/description/icon.png"
+              sequence="97" groups="mdx_backup_manager.group_backup_manager"/>
+    <menuitem id="menu_backup_destination" name="Destinations"
+              parent="menu_backup_root" action="action_backup_destination" sequence="10"/>
+    <menuitem id="menu_backup_run" name="History"
+              parent="menu_backup_root" action="action_backup_run" sequence="20"/>
+</odoo>
