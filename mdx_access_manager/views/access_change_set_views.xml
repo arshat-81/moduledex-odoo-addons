@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_access_change_set_form" model="ir.ui.view">
+        <field name="name">mdx.access.change.set.form</field>
+        <field name="model">mdx.access.change.set</field>
+        <field name="arch" type="xml">
+            <form string="Staged Access Change">
+                <header>
+                    <button name="action_preview" type="object" string="Preview Impact"
+                            class="btn-primary" invisible="state in ('applied', 'discarded')"/>
+                    <button name="action_apply" type="object" string="Apply"
+                            class="btn-primary" invisible="state != 'previewed'"
+                            confirm="This writes the group change to the user and records it in the audit log. Continue?"/>
+                    <button name="action_discard" type="object" string="Discard"
+                            invisible="state in ('applied', 'discarded')"/>
+                    <button name="action_reset" type="object" string="Reopen"
+                            invisible="state != 'discarded'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,previewed,applied"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <div class="alert alert-warning" role="alert" invisible="not warning">
+                        <field name="warning" readonly="1" nolabel="1"/>
+                    </div>
+                    <group>
+                        <group string="Change">
+                            <field name="user_id" options="{'no_create': True}"
+                                   readonly="state != 'draft'"/>
+                            <field name="add_group_ids" widget="many2many_tags"
+                                   readonly="state != 'draft'"/>
+                            <field name="remove_group_ids" widget="many2many_tags"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                        <group string="Impact">
+                            <field name="gained_count"/>
+                            <field name="lost_count"/>
+                            <field name="previewed_at"/>
+                            <field name="applied_at"/>
+                            <field name="applied_by_id"/>
+                        </group>
+                    </group>
+                    <separator string="What would change"/>
+                    <field name="line_ids" readonly="1" nolabel="1">
+                        <list string="Impact" decoration-success="change == 'gained'"
+                              decoration-danger="change == 'lost'" decoration-warning="change == 'both'">
+                            <field name="model_name"/>
+                            <field name="change"/>
+                            <field name="gained_modes"/>
+                            <field name="lost_modes"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_access_change_set_list" model="ir.ui.view">
+        <field name="name">mdx.access.change.set.list</field>
+        <field name="model">mdx.access.change.set</field>
+        <field name="arch" type="xml">
+            <list string="Staged Changes" decoration-muted="state == 'discarded'"
+                  decoration-bf="state == 'previewed'">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="gained_count"/>
+                <field name="lost_count"/>
+                <field name="state"/>
+                <field name="applied_at"/>
+                <field name="applied_by_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_access_change_set" model="ir.actions.act_window">
+        <field name="name">Staged Changes</field>
+        <field name="res_model">mdx.access.change.set</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Prove a permission change before you make it</p>
+            <p>Stage the groups you intend to add or remove, preview exactly which permissions the
+               user would gain and lose, then apply it or throw it away. The preview writes nothing.</p>
+        </field>
+    </record>
+</odoo>

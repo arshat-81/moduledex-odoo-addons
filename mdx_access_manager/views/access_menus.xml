@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_access_root" name="Access Rights"
+              web_icon="mdx_access_manager,static/description/icon.png"
+              sequence="95" groups="mdx_access_manager.group_access_auditor"/>
+
+    <menuitem id="menu_access_matrix" name="Effective Rights"
+              parent="menu_access_root" action="action_access_matrix" sequence="10"
+              groups="mdx_access_manager.group_access_manager"/>
+
+    <menuitem id="menu_access_compare" name="Compare"
+              parent="menu_access_root" action="action_access_compare" sequence="20"
+              groups="mdx_access_manager.group_access_manager"/>
+
+    <menuitem id="menu_access_change_set" name="Staged Changes"
+              parent="menu_access_root" action="action_access_change_set" sequence="30"
+              groups="mdx_access_manager.group_access_manager"/>
+
+    <menuitem id="menu_access_review" name="Review" parent="menu_access_root" sequence="40"/>
+
+    <menuitem id="menu_access_finding" name="Findings"
+              parent="menu_access_review" action="action_access_finding" sequence="10"/>
+
+    <menuitem id="menu_access_finding_scan" name="Scan Now"
+              parent="menu_access_review" action="action_access_finding_scan" sequence="20"
+              groups="mdx_access_manager.group_access_manager"/>
+
+    <menuitem id="menu_access_change_log" name="Change Log"
+              parent="menu_access_review" action="action_access_change_log" sequence="30"/>
+</odoo>
